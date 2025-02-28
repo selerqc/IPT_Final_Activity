@@ -1,0 +1,30 @@
+.side {
+  height: 100%;
+  width: 300px;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: #292828;
+  overflow-x: hidden;
+  padding-top: 350px;
+}
+
+.side p {
+  display: flex;
+  flex-direction: row;
+  color: white;
+  font-size: large;
+  font-weight: 500;
+  margin-left: 15px;
+  justify-content: left;
+  padding: 10px;
+}
+
+.side p:hover {
+  background-color: #3d3d3d;
+  cursor: pointer;
+}
+a {
+  text-decoration: none;
+}
