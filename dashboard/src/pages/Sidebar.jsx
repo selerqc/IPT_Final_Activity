@@ -4,33 +4,25 @@ import "../styles/Sidebar.css";
 import { Outlet, Link } from "react-router-dom";
 
 function Sidebar() {
+  const links = [
+    { to: "/", label: "HOME", icon: <HomeIcon /> },
+    { to: "/AddStudent", label: "ADD STUDENT", icon: <InfoIcon /> },
+    { to: "/TaskTracker", label: "TASK TRACKER", icon: <InfoIcon /> },
+    { to: "/Information", label: "STUDENT INFO", icon: <InfoIcon /> },
+  ];
   return (
     <div>
       <div className="side">
-        <Link to="/">
-          <p>
-            <HomeIcon style={{ paddingRight: "10px" }} />
-            HOME
-          </p>
-        </Link>
-        <Link to="/AddStudent">
-          <p>
-            <InfoIcon style={{ marginRight: "10px" }} />
-            ADD STUDENT
-          </p>
-        </Link>
-        <Link to="/TaskTracker">
-          <p>
-            <InfoIcon style={{ marginRight: "10px" }} />
-            TASK TRACKER
-          </p>
-        </Link>
-        <Link to="/Information">
-          <p>
-            <InfoIcon style={{ marginRight: "10px" }} />
-            Student Info
-          </p>
-        </Link>
+        {links.map((link, index) => (
+          <Link to={link.to} key={index} className="link">
+            <p>
+              <div style={{ display: "flex", alignItems: "center" }}>
+                {link.icon}
+                <span style={{ marginLeft: "10px" }}>{link.label}</span>
+              </div>
+            </p>
+          </Link>
+        ))}
       </div>
     </div>
   );

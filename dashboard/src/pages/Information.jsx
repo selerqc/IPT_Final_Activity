@@ -3,68 +3,110 @@ import Sidebar from "./Sidebar";
 import axios from "axios";
 import "../styles/Information.css";
 import DeleteIcon from "@mui/icons-material/DeleteOutlineOutlined";
-import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
+import { ToastContainer, toast } from "react-toastify";
+import { motion, AnimatePresence } from "framer-motion";
+
 function Information() {
   const [data, setData] = useState([]);
+
+  const handleSuccessToast = (message) => {
+    toast.success(message, {
+      position: "top-right",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: false,
+      pauseOnHover: false,
+      draggable: false,
+      progress: undefined,
+      theme: "colored",
+    });
+  };
+
+  const handleErrorToast = (message) => {
+    toast.error(message, {
+      position: "top-right",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: false,
+      pauseOnHover: false,
+      draggable: false,
+      progress: undefined,
+      theme: "colored",
+    });
+  };
+
   useEffect(() => {
     async function fetchData() {
-      await axios
-        .get("http://localhost:1337/api/students")
-        .then((response) => {
-          setData(response.data.data);
-        })
-        .catch(() => {
-          console.log("failed");
-        });
+      try {
+        const response = await axios.get("http://localhost:1337/api/students");
+        setData(response.data.data);
+      } catch {
+        handleErrorToast("An error occurred while fetching data");
+      }
     }
     fetchData();
-  }, [data]);
+  }, []);
+
   const deleteStudent = async (idNumber) => {
-    await axios
-      .delete(`http://localhost:1337/api/deleteStudents/${idNumber}`)
-      .then((response) => {
-        setData((prevData) =>
-          prevData.filter((student) => student.idNumber !== idNumber)
-        );
-        alert(response.data.message);
-      })
-      .catch((err) => {
-        console.log(err.message);
-      });
+    try {
+      const response = await axios.delete(
+        `http://localhost:1337/api/deleteStudents/${idNumber}`
+      );
+      setData((prevData) =>
+        prevData.filter((student) => student.idNumber !== idNumber)
+      );
+      handleSuccessToast(response.data.message);
+    } catch (err) {
+      handleErrorToast(err.response.data.message);
+    }
   };
+
   return (
     <>
-      <h1 className="title">Student Information</h1>
+      <motion.h1
+        className="title"
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}>
+        Student Information
+      </motion.h1>
+      {data.length === 0 && <p>No data available</p>}
       <div className="infoContainer">
-        {data.map((student, index) => (
-          <div key={index} className="student-info">
-            <span id="delete" onClick={() => deleteStudent(student.idNumber)}>
-              <DeleteIcon style={{ color: "red" }} />
-            </span>
-            <span id="delete" onClick={() => deleteStudent(student.idNumber)}>
-              <EditOutlinedIcon style={{ color: "green" }} />
-            </span>
+        <ToastContainer />
+        <AnimatePresence>
+          {data.map((student, index) => (
+            <motion.div
+              key={student.idNumber}
+              className="student-info"
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: 20 }}
+              transition={{ duration: 0.3 }}>
+              <span id="delete" onClick={() => deleteStudent(student.idNumber)}>
+                <DeleteIcon style={{ color: "red" }} />
+              </span>
 
-            <div className="info-row">
-              <strong>Id Number:</strong> <span>{student.idNumber}</span>
-            </div>
-            <div className="info-row">
-              <strong>First Name:</strong> <span>{student.Firstname}</span>
-            </div>
-            <div className="info-row">
-              <strong>Middle Name:</strong> <span>{student.Middlename}</span>
-            </div>
-            <div className="info-row">
-              <strong>Last Name:</strong> <span>{student.Lastname}</span>
-            </div>
-            <div className="info-row">
-              <strong>Course:</strong> <span>{student.course}</span>
-            </div>
-            <div className="info-row">
-              <strong>Year:</strong> <span>{student.year}</span>
-            </div>
-          </div>
-        ))}
+              <div className="info-row">
+                <strong>Id Number:</strong> <span>{student.idNumber}</span>
+              </div>
+              <div className="info-row">
+                <strong>First Name:</strong> <span>{student.Firstname}</span>
+              </div>
+              <div className="info-row">
+                <strong>Middle Name:</strong> <span>{student.Middlename}</span>
+              </div>
+              <div className="info-row">
+                <strong>Last Name:</strong> <span>{student.Lastname}</span>
+              </div>
+              <div className="info-row">
+                <strong>Course:</strong> <span>{student.course}</span>
+              </div>
+              <div className="info-row">
+                <strong>Year:</strong> <span>{student.year}</span>
+              </div>
+            </motion.div>
+          ))}
+        </AnimatePresence>
       </div>
 
       <Sidebar />

@@ -1,20 +1,21 @@
 const mongoose = require("mongoose");
 const deleteStudents = async (req, res) => {
   const studentModel = mongoose.model("students");
-  const id_number = req.params.id_number;
+  const idNumber = req.params.idNumber;
 
   const getIdNumber = await studentModel.findOne({
-    id_number: id_number,
+    idNumber: idNumber,
   });
 
   if (!getIdNumber) throw "Student does not Exists";
 
   await studentModel.deleteOne({
-    id_number: id_number,
+    idNumber: idNumber,
   });
   res.status(201).json({
     status: "Delete Student",
     message: "Student deleted success",
+    data: idNumber,
   });
 };
 

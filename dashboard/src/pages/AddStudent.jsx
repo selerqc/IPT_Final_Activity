@@ -17,12 +17,35 @@ function AddStudent() {
     course: "",
     year: "",
   });
-  const [errorMessage, setErrorMessage] = useState("");
+
   // Handle Form Changes
   const handleChange = (e) => {
     setData({ ...data, [e.target.name]: e.target.value });
   };
-
+  const handleSuccesToast = (message) => {
+    toast.success(message, {
+      position: "top-right",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: false,
+      pauseOnHover: false,
+      draggable: false,
+      progress: undefined,
+      theme: "colored",
+    });
+  };
+  const handleErrorToast = (message) => {
+    toast.error(message, {
+      position: "top-right",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: false,
+      pauseOnHover: false,
+      draggable: false,
+      progress: undefined,
+      theme: "colored",
+    });
+  };
   // Handle Form Submit
   const submit = async () => {
     if (
@@ -33,36 +56,39 @@ function AddStudent() {
       data.course === "" ||
       data.year === ""
     ) {
-      return setErrorMessage("Please fill up all fields");
+      return handleErrorToast("All fields are required");
+    } else if (isNaN(data.idNumber) || isNaN(data.year)) {
+      return handleErrorToast("Id Number and Year must be a number");
+    } else {
+      console.log("Submitting data:", data);
+      postStudent();
+      setData({
+        idNumber: "",
+        Firstname: "",
+        Lastname: "",
+        Middlename: "",
+        course: "",
+        year: "",
+      });
     }
-    postStudent();
-    setData({
-      idNumber: "",
-      Firstname: "",
-      Lastname: "",
-      Middlename: "",
-      course: "",
-      year: "",
-    });
   };
   const postStudent = async () => {
     await axios
-      .post("http://localhost:1337/api/addStudents", data)
+      .post("http://localhost:1337/api/addStudents", {
+        idNumber: data.idNumber,
+        Firstname: data.Firstname,
+        Lastname: data.Lastname,
+        Middlename: data.Middlename,
+        course: data.course,
+        year: data.year,
+      })
       .then((res) => {
-        toast.success(res.data.message, {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: false,
-          pauseOnHover: false,
-          draggable: false,
-          progress: undefined,
-          theme: "colored",
-        });
+        handleSuccesToast(res.data.message);
+        window.location.href = "/Information";
       })
 
       .catch((err) => {
-        console.log(err.message);
+        handleErrorToast(err.response.data.message);
       });
   };
   return (
@@ -114,7 +140,6 @@ function AddStudent() {
             onChange={handleChange}
           />
 
-          {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
           <Button variant="contained" onClick={submit}>
             Add Student
           </Button>
@@ -131,17 +156,6 @@ function AddStudent() {
             theme="colored"
           />
         </div>
-
-        {/* 
-        <div className="info">
-          <p id="header">Student Information</p>
-          <p>Id Number: {data.idNumber}</p>
-          <p>First Name: {data.Firstname}</p>
-          <p>Middle Name: {data.Middlename}</p>
-          <p>Last Name: {data.Lastname}</p>
-          <p>Course: {data.course}</p>
-          <p>Year: {data.year}</p>
-        </div> */}
       </div>
 
       <Sidebar />

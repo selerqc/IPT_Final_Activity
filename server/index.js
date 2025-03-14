@@ -7,6 +7,10 @@ const getStudents = require("./controllers/getStudents");
 const mongoose = require("mongoose");
 const addStudents = require("./controllers/addStudents");
 const deleteStudents = require("./controllers/deleteStudents");
+const updateStudent = require("./controllers/updateStudent");
+const addTask = require("./controllers/addTask");
+const getTask = require("./controllers/getTask");
+const deleteTask = require("./controllers/deleteTask");
 const app = express();
 
 app.use(cors());
@@ -14,20 +18,24 @@ app.use(express.json());
 mongoose
   .connect(process.env.MONGO_URI, {})
   .then(() => {
-    console.log("connection to the database");
+    console.log("connection to the student database");
   })
   .catch((err) => {
     console.log("error", err);
   });
 
 require("./model/students.model");
-
-app.delete("/api/deleteStudents/:id_number", deleteStudents);
-
-app.post("/api/addStudents", addStudents);
-
+require("./model/task.model");
+//students
 app.get("/api/students", getStudents);
+app.post("/api/addStudents", addStudents);
+app.patch("/api/updateStudent/:idNumber", updateStudent);
+app.delete("/api/deleteStudents/:idNumber", deleteStudents);
 
+//tasks
+app.get("/api/getTask", getTask);
+app.post("/api/addTask", addTask);
+app.delete("/api/deleteTask/:taskId", deleteTask);
 app.use(errorHandler);
 
 const port = process.env.PORT || 1337;

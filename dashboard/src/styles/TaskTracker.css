@@ -20,7 +20,7 @@
   border-radius: 4px;
 }
 
-.input-container button {
+.input-container #add {
   width: 150px;
   padding: 10px 20px;
   font-size: 1rem;
@@ -47,7 +47,7 @@ li {
   margin-bottom: 10px;
 }
 
-.task-tracker span {
+span {
   max-width: 200px;
   overflow-wrap: break-word;
 }
