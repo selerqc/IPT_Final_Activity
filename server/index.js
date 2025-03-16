@@ -5,7 +5,7 @@ const express = require("express");
 const errorHandler = require("./handlers/errorHandler");
 const cors = require("cors");
 
-let app = express();
+const app = express();
 
 app.use(cors());
 app.use(express.json());
@@ -31,7 +31,7 @@ app.post("/api/addStudents", (req, res) => {
   if (validator.isEmpty(Middlename)) throw "Please fill in the fields";
   if (validator.isEmpty(course)) throw "Please fill in the fields";
   if (validator.isEmpty(year)) throw "Please fill in the fields";
-  if (idNumber.length !== 8) throw "ID Number must be 8 digits";
+  if (idNumber.length <= 8) throw "ID Number must be atleast 8 digits";
   if (existingStudent) throw "Student already exists";
 
   students.push({
