@@ -46,7 +46,7 @@ function AddStudent() {
         setStudents(res.data.students);
       })
       .catch((error) => {
-        console.log(error.response.data.message);
+        alert(error.message);
       });
   };
 
