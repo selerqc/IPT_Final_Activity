@@ -92,7 +92,7 @@ function AddStudent() {
         });
       })
       .catch((error) => {
-        alert(error.response.data.message);
+        alert(error);
       });
   };
 
@@ -106,7 +106,7 @@ function AddStudent() {
     await axios
       .patch(`http://localhost:1337/api/updateStudent/${data.idNumber}`, data)
       .then((res) => {
-        alert(res.message);
+        alert(res.data.message);
         setEditOpen(false);
         fetchStudents();
       })

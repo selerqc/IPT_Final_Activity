@@ -76,7 +76,7 @@ app.delete("/api/deleteStudents/:idNumber", (req, res) => {
 
 app.use(errorHandler);
 
-const port = process.env.PORT;
+const port = 1337;
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
