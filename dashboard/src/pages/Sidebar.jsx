@@ -8,7 +8,6 @@ function Sidebar() {
     { to: "/", label: "HOME", icon: <HomeIcon /> },
     { to: "/AddStudent", label: "ADD STUDENT", icon: <InfoIcon /> },
     { to: "/TaskTracker", label: "TASK TRACKER", icon: <InfoIcon /> },
-    { to: "/Information", label: "STUDENT INFO", icon: <InfoIcon /> },
   ];
   return (
     <div>

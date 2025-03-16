@@ -1,14 +1,30 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import TextField from "@mui/material/TextField";
-
 import Button from "@mui/material/Button";
-import { ToastContainer, toast } from "react-toastify";
-import "../styles/AddStudent.css";
+import Modal from "@mui/material/Modal";
+import Box from "@mui/material/Box";
 import axios from "axios";
 import Sidebar from "./Sidebar";
+import "../styles/AddStudent.css";
+
+// Table components
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
+
+// Icons
+import DeleteIcon from "@mui/icons-material/DeleteOutlineOutlined";
+import EditIcon from "@mui/icons-material/Edit";
 
 function AddStudent() {
-  // Controlled Input State
+  const [students, setStudents] = useState([]);
+  const [open, setOpen] = useState(false);
+  const [editOpen, setEditOpen] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
   const [data, setData] = useState({
     idNumber: "",
     Firstname: "",
@@ -18,61 +34,41 @@ function AddStudent() {
     year: "",
   });
 
-  // Handle Form Changes
+  useEffect(() => {
+    fetchStudents();
+  }, []);
+
+  const fetchStudents = async () => {
+    await axios
+      .get("http://localhost:1337/api/getStudents")
+      .then((res) => {
+        console.table(res.data.students);
+        setStudents(res.data.students);
+      })
+      .catch((error) => {
+        console.log(error.response.data.message);
+      });
+  };
+
+  const deleteStudent = async (idNumber) => {
+    if (confirm("Are you sure you want to delete this student?")) {
+      await axios
+        .delete(`http://localhost:1337/api/deleteStudents/${idNumber}`)
+        .then((res) => {
+          console.log(res);
+          fetchStudents();
+        })
+        .catch((error) => {
+          alert(error.response.data.message);
+        });
+    }
+  };
+
   const handleChange = (e) => {
     setData({ ...data, [e.target.name]: e.target.value });
   };
-  const handleSuccesToast = (message) => {
-    toast.success(message, {
-      position: "top-right",
-      autoClose: 3000,
-      hideProgressBar: false,
-      closeOnClick: false,
-      pauseOnHover: false,
-      draggable: false,
-      progress: undefined,
-      theme: "colored",
-    });
-  };
-  const handleErrorToast = (message) => {
-    toast.error(message, {
-      position: "top-right",
-      autoClose: 3000,
-      hideProgressBar: false,
-      closeOnClick: false,
-      pauseOnHover: false,
-      draggable: false,
-      progress: undefined,
-      theme: "colored",
-    });
-  };
-  // Handle Form Submit
-  const submit = async () => {
-    if (
-      data.idNumber === "" ||
-      data.Firstname === "" ||
-      data.Lastname === "" ||
-      data.Middlename === "" ||
-      data.course === "" ||
-      data.year === ""
-    ) {
-      return handleErrorToast("All fields are required");
-    } else if (isNaN(data.idNumber) || isNaN(data.year)) {
-      return handleErrorToast("Id Number and Year must be a number");
-    } else {
-      console.log("Submitting data:", data);
-      postStudent();
-      setData({
-        idNumber: "",
-        Firstname: "",
-        Lastname: "",
-        Middlename: "",
-        course: "",
-        year: "",
-      });
-    }
-  };
-  const postStudent = async () => {
+
+  const handleSubmit = async () => {
     await axios
       .post("http://localhost:1337/api/addStudents", {
         idNumber: data.idNumber,
@@ -83,80 +79,175 @@ function AddStudent() {
         year: data.year,
       })
       .then((res) => {
-        handleSuccesToast(res.data.message);
-        window.location.href = "/Information";
+        alert(res.data.message);
+        setOpen(false);
+        fetchStudents();
+        setData({
+          idNumber: "",
+          Firstname: "",
+          Lastname: "",
+          Middlename: "",
+          course: "",
+          year: "",
+        });
       })
-
-      .catch((err) => {
-        handleErrorToast(err.response.data.message);
+      .catch((error) => {
+        alert(error.response.data.message);
       });
   };
+
+  const handleEditClick = (student) => {
+    setData(student);
+    setIsEditing(true);
+    setEditOpen(true);
+  };
+
+  const handleEditSubmit = async () => {
+    await axios
+      .patch(`http://localhost:1337/api/updateStudent/${data.idNumber}`, data)
+      .then((res) => {
+        alert(res.message);
+        setEditOpen(false);
+        fetchStudents();
+      })
+      .catch((error) => {
+        console.log(error.response.data.message);
+      });
+  };
+
   return (
     <>
-      <div className="container">
-        <div className="addStudent">
-          <h1>ADD STUDENT</h1>
-
-          <TextField
-            label="Id Number:"
-            margin="normal"
-            name="idNumber"
-            value={data.idNumber}
-            onChange={handleChange}
-          />
-          <TextField
-            label=" Firstname:"
-            margin="normal"
-            name="Firstname"
-            value={data.Firstname}
-            onChange={handleChange}
-          />
-          <TextField
-            label=" Lastname:"
-            margin="normal"
-            name="Lastname"
-            value={data.Lastname}
-            onChange={handleChange}
-          />
-          <TextField
-            label=" Middlename:"
-            margin="normal"
-            name="Middlename"
-            value={data.Middlename}
-            onChange={handleChange}
-          />
-          <TextField
-            label="Course:"
-            margin="normal"
-            name="course"
-            value={data.course}
-            onChange={handleChange}
-          />
-          <TextField
-            label="Year:"
-            margin="normal"
-            name="year"
-            value={data.year}
-            onChange={handleChange}
-          />
-
-          <Button variant="contained" onClick={submit}>
-            Add Student
+      <Modal open={open} onClose={() => setOpen(false)}>
+        <Box className="modal-box">
+          <h2 className="modal-header">Add Student</h2>
+          {[
+            "idNumber",
+            "Firstname",
+            "Lastname",
+            "Middlename",
+            "course",
+            "year",
+          ].map((field) => (
+            <TextField
+              key={field}
+              className="text-field"
+              label={field}
+              name={field}
+              value={data[field]}
+              onChange={handleChange}
+              fullWidth
+              margin="normal"
+            />
+          ))}
+          <Button
+            variant="contained"
+            className="submit-button"
+            onClick={handleSubmit}>
+            Submit
           </Button>
-          <ToastContainer
-            position="top-right"
-            autoClose={3000}
-            hideProgressBar={false}
-            newestOnTop
-            closeOnClick={false}
-            rtl={false}
-            pauseOnFocusLoss={false}
-            draggable={false}
-            pauseOnHover={false}
-            theme="colored"
-          />
-        </div>
-      </div>
+        </Box>
+      </Modal>
+
+      <Modal open={editOpen} onClose={() => setEditOpen(false)}>
+        <Box className="modal-box">
+          <h2 className="modal-header">Edit Student</h2>
+          {["Firstname", "Lastname", "Middlename", "course", "year"].map(
+            (field) => (
+              <TextField
+                key={field}
+                className="text-field"
+                label={field}
+                name={field}
+                value={data[field]}
+                onChange={handleChange}
+                fullWidth
+                margin="normal"
+              />
+            )
+          )}
+          <Button
+            variant="contained"
+            className="submit-button"
+            onClick={handleEditSubmit}>
+            Update
+          </Button>
+        </Box>
+      </Modal>
+
+      <Button
+        variant="contained"
+        onClick={() => setOpen(true)}
+        style={{ justifyContent: "center" }}>
+        Add Student
+      </Button>
+
+      <h1>Student Management</h1>
+
+      <TableContainer className="table-container" component={Paper}>
+        <Table sx={{ minWidth: 1200 }} size="small" aria-label="a dense table">
+          <TableHead className="table-head">
+            <TableRow>
+              <TableCell className="table-cell">Id Number</TableCell>
+              <TableCell className="table-cell" align="right">
+                First Name
+              </TableCell>
+              <TableCell className="table-cell" align="right">
+                Middle Name
+              </TableCell>
+              <TableCell className="table-cell" align="right">
+                Last Name
+              </TableCell>
+              <TableCell className="table-cell" align="right">
+                Course
+              </TableCell>
+              <TableCell className="table-cell" align="right">
+                Year
+              </TableCell>
+              <TableCell className="table-cell" align="right">
+                Actions
+              </TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {students.map((student) => (
+              <TableRow className="table-row" key={student.idNumber}>
+                <TableCell className="table-cell" component="th" scope="row">
+                  {student.idNumber}
+                </TableCell>
+                <TableCell className="table-cell" align="right">
+                  {student.Firstname}
+                </TableCell>
+                <TableCell className="table-cell" align="right">
+                  {student.Middlename}
+                </TableCell>
+                <TableCell className="table-cell" align="right">
+                  {student.Lastname}
+                </TableCell>
+                <TableCell className="table-cell" align="right">
+                  {student.course}
+                </TableCell>
+                <TableCell className="table-cell" align="right">
+                  {student.year}
+                </TableCell>
+                <TableCell className="table-cell" align="right">
+                  <DeleteIcon
+                    className="icon"
+                    onClick={() => deleteStudent(student.idNumber)}
+                    style={{
+                      marginRight: "10px",
+                      color: "red",
+                    }}
+                  />
+                  <EditIcon
+                    className="icon"
+                    onClick={() => handleEditClick(student)}
+                  />
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
 
       <Sidebar />
     </>
