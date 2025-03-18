@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Modal from "@mui/material/Modal";
@@ -42,7 +42,6 @@ function AddStudent() {
     await axios
       .get("http://localhost:1337/api/getStudents")
       .then((res) => {
-        console.table(res.data.students);
         setStudents(res.data.students);
       })
       .catch((error) => {
@@ -70,14 +69,7 @@ function AddStudent() {
 
   const handleSubmit = async () => {
     await axios
-      .post("http://localhost:1337/api/addStudents", {
-        idNumber: data.idNumber,
-        Firstname: data.Firstname,
-        Lastname: data.Lastname,
-        Middlename: data.Middlename,
-        course: data.course,
-        year: data.year,
-      })
+      .post("http://localhost:1337/api/addStudents", data)
       .then((res) => {
         alert(res.data.message);
         setOpen(false);
@@ -92,7 +84,7 @@ function AddStudent() {
         });
       })
       .catch((error) => {
-        alert(error);
+        alert(error.response.data.message);
       });
   };
 
@@ -109,6 +101,7 @@ function AddStudent() {
         alert(res.data.message);
         setEditOpen(false);
         fetchStudents();
+        console.table(res.data.students);
       })
       .catch((error) => {
         console.log(error.response.data.message);
@@ -174,80 +167,84 @@ function AddStudent() {
         </Box>
       </Modal>
 
-      <Button
-        variant="contained"
-        onClick={() => setOpen(true)}
-        style={{ justifyContent: "center" }}>
-        Add Student
-      </Button>
+      <div className="addStudentDashboard">
+        <Button
+          variant="contained"
+          onClick={() => setOpen(true)}
+          style={{ justifyContent: "center" }}>
+          Add Student
+        </Button>
+        <h1>Student Management</h1>
 
-      <h1>Student Management</h1>
-
-      <TableContainer className="table-container" component={Paper}>
-        <Table sx={{ minWidth: 1200 }} size="small" aria-label="a dense table">
-          <TableHead className="table-head">
-            <TableRow>
-              <TableCell className="table-cell">Id Number</TableCell>
-              <TableCell className="table-cell" align="right">
-                First Name
-              </TableCell>
-              <TableCell className="table-cell" align="right">
-                Middle Name
-              </TableCell>
-              <TableCell className="table-cell" align="right">
-                Last Name
-              </TableCell>
-              <TableCell className="table-cell" align="right">
-                Course
-              </TableCell>
-              <TableCell className="table-cell" align="right">
-                Year
-              </TableCell>
-              <TableCell className="table-cell" align="right">
-                Actions
-              </TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {students.map((student) => (
-              <TableRow className="table-row" key={student.idNumber}>
-                <TableCell className="table-cell" component="th" scope="row">
-                  {student.idNumber}
+        <TableContainer className="table-container" component={Paper}>
+          <Table
+            sx={{ minWidth: 1000 }}
+            size="small"
+            aria-label="a dense table">
+            <TableHead className="table-head">
+              <TableRow>
+                <TableCell className="table-cell">Id Number</TableCell>
+                <TableCell className="table-cell" align="right">
+                  First Name
                 </TableCell>
                 <TableCell className="table-cell" align="right">
-                  {student.Firstname}
+                  Middle Name
                 </TableCell>
                 <TableCell className="table-cell" align="right">
-                  {student.Middlename}
+                  Last Name
                 </TableCell>
                 <TableCell className="table-cell" align="right">
-                  {student.Lastname}
+                  Course
                 </TableCell>
                 <TableCell className="table-cell" align="right">
-                  {student.course}
+                  Year
                 </TableCell>
                 <TableCell className="table-cell" align="right">
-                  {student.year}
-                </TableCell>
-                <TableCell className="table-cell" align="right">
-                  <DeleteIcon
-                    className="icon"
-                    onClick={() => deleteStudent(student.idNumber)}
-                    style={{
-                      marginRight: "10px",
-                      color: "red",
-                    }}
-                  />
-                  <EditIcon
-                    className="icon"
-                    onClick={() => handleEditClick(student)}
-                  />
+                  Actions
                 </TableCell>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+            </TableHead>
+            <TableBody>
+              {students.map((student) => (
+                <TableRow className="table-row" key={student.idNumber}>
+                  <TableCell className="table-cell" component="th" scope="row">
+                    {student.idNumber}
+                  </TableCell>
+                  <TableCell className="table-cell" align="right">
+                    {student.Firstname}
+                  </TableCell>
+                  <TableCell className="table-cell" align="right">
+                    {student.Middlename}
+                  </TableCell>
+                  <TableCell className="table-cell" align="right">
+                    {student.Lastname}
+                  </TableCell>
+                  <TableCell className="table-cell" align="right">
+                    {student.course}
+                  </TableCell>
+                  <TableCell className="table-cell" align="right">
+                    {student.year}
+                  </TableCell>
+                  <TableCell className="table-cell" align="right">
+                    <DeleteIcon
+                      className="icon"
+                      onClick={() => deleteStudent(student.idNumber)}
+                      style={{
+                        marginRight: "10px",
+                        color: "red",
+                      }}
+                    />
+                    <EditIcon
+                      className="icon"
+                      onClick={() => handleEditClick(student)}
+                    />
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </div>
 
       <Sidebar />
     </>
