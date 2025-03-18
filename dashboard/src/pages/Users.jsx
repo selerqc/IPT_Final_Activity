@@ -21,10 +21,10 @@ import DeleteIcon from "@mui/icons-material/DeleteOutlineOutlined";
 import EditIcon from "@mui/icons-material/Edit";
 
 function Users() {
-  const [students, setStudents] = useState([]);
+  const [user, setUser] = useState([]);
   const [open, setOpen] = useState(false);
   const [editOpen, setEditOpen] = useState(false);
-  const [isEditing, setIsEditing] = useState(false);
+
   const [data, setData] = useState({
     UserId: "",
     Firstname: "",
@@ -42,24 +42,24 @@ function Users() {
     await axios
       .get("http://localhost:1337/api/getUsers")
       .then((res) => {
-        setStudents(res.data.users);
-        console.log(res.data.users);
+        setUser(res.data.users);
+        console.table(res.data.users);
       })
       .catch((error) => {
         alert(error.message);
       });
   };
 
-  const deleteStudent = async (UserId) => {
-    if (confirm("Are you sure you want to delete this student?")) {
+  const deleteUser = async (UserId) => {
+    if (confirm("Are you sure you want to delete this User?")) {
       await axios
-        .delete(`http://localhost:1337/api/deleteUsers/${UserId}`)
+        .delete(`http://localhost:1337/api/deleteUser/${UserId}`)
         .then((res) => {
           console.log(res);
           fetchUsers();
         })
         .catch((error) => {
-          alert(error.response.data.message);
+          console.log(error);
         });
     }
   };
@@ -89,23 +89,23 @@ function Users() {
       });
   };
 
-  const handleEditClick = (student) => {
-    setData(student);
-    setIsEditing(true);
+  const handleEditClick = (user) => {
+    setData(user);
+
     setEditOpen(true);
   };
 
   const handleEditSubmit = async () => {
     await axios
-      .patch(`http://localhost:1337/api/updateUsers/${data.UserId}`, data)
+      .patch(`http://localhost:1337/api/updateUser/${data.UserId}`, data)
       .then((res) => {
         alert(res.data.message);
         setEditOpen(false);
         fetchUsers();
-        console.table(res.data.students);
+        console.table(res.data.user);
       })
       .catch((error) => {
-        console.log(error.response.data.message);
+        console.log(error);
       });
   };
 
@@ -113,7 +113,7 @@ function Users() {
     <>
       <Modal open={open} onClose={() => setOpen(false)}>
         <Box className="modal-box">
-          <h2 className="modal-header">Add Student</h2>
+          <h2 className="modal-header">Add User</h2>
           {["UserId", "Firstname", "Lastname", "Middlename", "Username"].map(
             (field) => (
               <TextField
@@ -139,7 +139,7 @@ function Users() {
 
       <Modal open={editOpen} onClose={() => setEditOpen(false)}>
         <Box className="modal-box">
-          <h2 className="modal-header">Edit Student</h2>
+          <h2 className="modal-header">Edit User</h2>
           {["Firstname", "Lastname", "Middlename", "Username"].map((field) => (
             <TextField
               key={field}
@@ -166,9 +166,9 @@ function Users() {
           variant="contained"
           onClick={() => setOpen(true)}
           style={{ justifyContent: "center" }}>
-          Add Student
+          Add New User
         </Button>
-        <h1>Student Management</h1>
+        <h1>User Management</h1>
 
         <TableContainer className="table-container" component={Paper}>
           <Table
@@ -197,28 +197,28 @@ function Users() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {students.map((student) => (
-                <TableRow className="table-row" key={student.UserId}>
+              {user.map((user) => (
+                <TableRow className="table-row" key={user.UserId}>
                   <TableCell className="table-cell" component="th" scope="row">
-                    {student.UserId}
+                    {user.UserId}
                   </TableCell>
                   <TableCell className="table-cell" align="right">
-                    {student.Firstname}
+                    {user.Firstname}
                   </TableCell>
                   <TableCell className="table-cell" align="right">
-                    {student.Middlename}
+                    {user.Middlename}
                   </TableCell>
                   <TableCell className="table-cell" align="right">
-                    {student.Lastname}
+                    {user.Lastname}
                   </TableCell>
                   <TableCell className="table-cell" align="right">
-                    {student.Username}
+                    {user.Username}
                   </TableCell>
 
                   <TableCell className="table-cell" align="right">
                     <DeleteIcon
                       className="icon"
-                      onClick={() => deleteStudent(student.UserId)}
+                      onClick={() => deleteUser(user.UserId)}
                       style={{
                         marginRight: "10px",
                         color: "red",
@@ -226,7 +226,7 @@ function Users() {
                     />
                     <EditIcon
                       className="icon"
-                      onClick={() => handleEditClick(student)}
+                      onClick={() => handleEditClick(user)}
                     />
                   </TableCell>
                 </TableRow>

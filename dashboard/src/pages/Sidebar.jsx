@@ -5,7 +5,7 @@ import { Outlet, Link } from "react-router-dom";
 
 function Sidebar() {
   const links = [
-    { to: "/", label: "HOME", icon: <HomeIcon /> },
+    { to: "/Dashboard", label: "HOME", icon: <HomeIcon /> },
     { to: "/AddStudent", label: "ADD STUDENT", icon: <InfoIcon /> },
     { to: "/TaskTracker", label: "TASK TRACKER", icon: <InfoIcon /> },
     { to: "/Users", label: "USERS", icon: <InfoIcon /> },

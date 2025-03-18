@@ -1,14 +1,17 @@
 require("express-async-errors");
 require("dotenv").config();
-const validator = require("validator");
+
 const express = require("express");
 const errorHandler = require("./handlers/errorHandler");
 const cors = require("cors");
 
 const app = express();
 const fs = require("fs");
-const path = require("path");
-const usersFile = path.join(__dirname, "Users.json");
+
+const getUsers = require("./usercontrollers/getUsers");
+const addUser = require("./usercontrollers/addUsers");
+const updateUser = require("./usercontrollers/updateUser");
+const deleteUser = require("./usercontrollers/deleteUser");
 app.use(cors());
 app.use(express.json());
 let students = [];
@@ -21,17 +24,10 @@ app.get("/api/getStudents", (req, res) => {
 });
 
 app.post("/api/addStudents", (req, res) => {
-  const { idNumber, Firstname, Lastname, Middlename, course, year } = req.body;
+  const student = req.body;
 
-  students.push({
-    idNumber: idNumber,
-    Firstname: Firstname,
-    Lastname: Lastname,
-    Middlename: Middlename,
-    course: course,
-    year: year,
-  });
-  console.log(students)
+  students.push(student);
+  console.log(students);
   res.status(201).json({
     message: "Student added successfully",
     students,
@@ -53,7 +49,7 @@ app.patch("/api/updateStudent/:idNumber", (req, res) => {
 
 app.delete("/api/deleteStudents/:idNumber", (req, res) => {
   const { idNumber } = req.params;
- 
+
   students = students.filter(
     (student) => student.idNumber.toString() !== idNumber.toString()
   );
@@ -64,53 +60,13 @@ app.delete("/api/deleteStudents/:idNumber", (req, res) => {
   });
 });
 
-function addRecord(file, newRecord) {
-  var records = readData(file);
-  records.push(newRecord);
-  writeData(file, records);
-  return newRecord;
-}
+app.get("/api/getUsers", getUsers);
 
-function updateRecord(file, id, updatedRecord, idField) {
-  var records = readData(file);
-  var index = records.findIndex(function(record) {
-      return record[idField] === id;
-  });
+app.post("/api/addUser", addUser);
 
-  if (index === -1) return null;
-  records[index] = updatedRecord;
-  writeData(file, records);
-  return updatedRecord;
-}
+app.patch("/api/updateUser/:UserId", updateUser);
 
-function readData(file) {
-  if (!fs.existsSync(file)) return [];
-  return JSON.parse(fs.readFileSync(file));
-}
-
-function writeData(file, data) {
-  fs.writeFileSync(file, JSON.stringify(data, null, 2));
-}
-app.get("/api/getUsers", function(req, res) {
-  res.json(readData(usersFile));
-});
-
-app.post("/api/addUser", function(req, res) {
-  res.status(201).json(addRecord(usersFile, req.body));
-});
-
-app.put("/updateUsers/:id", function(req, res) {
-  var updated = updateRecord(usersFile, req.params.id, req.body, "userId");
-  if (updated) res.json(updated);
-  else res.status(404).json({ message: "User not found" });
-});
-
-  
-
-
-
-
-
+app.delete("/api/deleteUser/:UserId", deleteUser);
 
 app.use(errorHandler);
 
