@@ -1,17 +1,69 @@
-import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
+import React, { useRef, useState } from "react";
+import "../styles/Login.css";
 import { useNavigate } from "react-router-dom";
+import validator from "validator";
+function Login() {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
-export default function Login() {
   const navigate = useNavigate();
 
-  return (
-    <div className="login">
-      <h1>Login</h1>
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
 
-      <TextField type="text" placeholder="Username" />
-      <TextField type="password" placeholder="Password" />
-      <Button onClick={() => navigate("/Dashboard")}>Login</Button>
+  const handleLogin = () => {
+    if (validator.isEmpty(username) || validator.isEmpty(password)) {
+      alert("Fill up all fields");
+      return;
+    }
+    navigate("/Dashboard");
+  };
+
+  return (
+    <div className="login-container">
+      <div className="login-box">
+        <h1 className="login-title">Login</h1>
+
+        <div className="input-group">
+          <input
+            id="username"
+            type="text"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            placeholder="Username"
+            className="input-field"
+          />
+        </div>
+
+        <div className="input-group">
+          <div className="password-container">
+            <input
+              id="password"
+              type={showPassword ? "text" : "password"}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Password"
+              className="input-field"
+            />
+            <button
+              type="button"
+              className="toggle-password"
+              onClick={togglePasswordVisibility}>
+              {showPassword ? "Hide" : "Show"}
+            </button>
+          </div>
+        </div>
+
+        <div className="button-group">
+          <button className="login-button" onClick={handleLogin}>
+            Login
+          </button>
+        </div>
+      </div>
     </div>
   );
 }
+
+export default Login;
