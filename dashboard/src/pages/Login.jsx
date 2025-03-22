@@ -1,7 +1,7 @@
 import React, { useRef, useState } from "react";
 import "../styles/Login.css";
 import { useNavigate } from "react-router-dom";
-import validator from "validator";
+
 function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -14,10 +14,6 @@ function Login() {
   };
 
   const handleLogin = () => {
-    if (validator.isEmpty(username) || validator.isEmpty(password)) {
-      alert("Fill up all fields");
-      return;
-    }
     navigate("/Dashboard");
   };
 

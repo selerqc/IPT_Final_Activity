@@ -25,7 +25,10 @@ app.get("/api/getStudents", (req, res) => {
 
 app.post("/api/addStudents", (req, res) => {
   const student = req.body;
+  const StudentId = students.map((student) => student.idNumber);
+  const StudentIndex = StudentId.indexOf(student.idNumber);
 
+  if (StudentIndex > -1) throw "Student Already Exists";
   students.push(student);
   console.log(students);
   res.status(201).json({

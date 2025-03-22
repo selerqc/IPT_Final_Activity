@@ -24,7 +24,7 @@ function AddStudent() {
   const [students, setStudents] = useState([]);
   const [open, setOpen] = useState(false);
   const [editOpen, setEditOpen] = useState(false);
-  const [isEditing, setIsEditing] = useState(false);
+
   const [data, setData] = useState({
     idNumber: "",
     Firstname: "",
@@ -71,7 +71,8 @@ function AddStudent() {
     await axios
       .post("http://localhost:1337/api/addStudents", data)
       .then((res) => {
-        alert(res.data.message);
+        alert("New Student Added");
+        console.log(res.data.message);
         setOpen(false);
         fetchStudents();
         setData({
@@ -90,7 +91,6 @@ function AddStudent() {
 
   const handleEditClick = (student) => {
     setData(student);
-    setIsEditing(true);
     setEditOpen(true);
   };
 
@@ -98,7 +98,7 @@ function AddStudent() {
     await axios
       .patch(`http://localhost:1337/api/updateStudent/${data.idNumber}`, data)
       .then((res) => {
-        alert(res.data.message);
+        alert("Student Updated");
         setEditOpen(false);
         fetchStudents();
         console.table(res.data.students);
