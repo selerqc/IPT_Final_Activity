@@ -1,14 +1,17 @@
 import HomeIcon from "@mui/icons-material/Home";
 import InfoIcon from "@mui/icons-material/Info";
+import AccessibilityIcon from "@mui/icons-material/Accessibility";
+import TaskIcon from "@mui/icons-material/Task";
+import PeopleIcon from "@mui/icons-material/People";
 import "../styles/Sidebar.css";
 import { Outlet, Link } from "react-router-dom";
 
 function Sidebar() {
   const links = [
     { to: "/Dashboard", label: "HOME", icon: <HomeIcon /> },
-    { to: "/AddStudent", label: "ADD STUDENT", icon: <InfoIcon /> },
-    { to: "/TaskTracker", label: "TASK TRACKER", icon: <InfoIcon /> },
-    { to: "/Users", label: "USERS", icon: <InfoIcon /> },
+    { to: "/AddStudent", label: "STUDENTS", icon: <AccessibilityIcon /> },
+    { to: "/TaskTracker", label: "TASK TRACKER", icon: <TaskIcon /> },
+    { to: "/Users", label: "USERS", icon: <PeopleIcon /> },
   ];
   return (
     <div>
