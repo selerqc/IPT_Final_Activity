@@ -6,62 +6,25 @@ const errorHandler = require("./handlers/errorHandler");
 const cors = require("cors");
 
 const app = express();
-const fs = require("fs");
 
 const getUsers = require("./usercontrollers/getUsers");
 const addUser = require("./usercontrollers/addUsers");
 const updateUser = require("./usercontrollers/updateUser");
 const deleteUser = require("./usercontrollers/deleteUser");
+const addStudent = require("./studentscontrollers/addStudent");
+const getStudents = require("./studentscontrollers/getStudents");
+const updateStudent = require("./studentscontrollers/updateStudent");
+const deleteStudent = require("./studentscontrollers/deleteStudent");
 app.use(cors());
 app.use(express.json());
-let students = [];
 
-app.get("/api/getStudents", (req, res) => {
-  res.status(200).json({
-    message: "Students Data",
-    students,
-  });
-});
+app.get("/api/getStudents", getStudents);
 
-app.post("/api/addStudents", (req, res) => {
-  const student = req.body;
-  const StudentId = students.map((student) => student.idNumber);
-  const StudentIndex = StudentId.indexOf(student.idNumber);
+app.post("/api/addStudents", addStudent);
 
-  if (StudentIndex > -1) throw "Student Already Exists";
-  students.push(student);
-  console.log(students);
-  res.status(201).json({
-    message: "Student added successfully",
-    students,
-  });
-});
-app.patch("/api/updateStudent/:idNumber", (req, res) => {
-  const { idNumber } = req.params;
-  const student = req.body;
-  const index = students.findIndex(
-    (student) => student.idNumber.toString() === idNumber.toString()
-  );
+app.patch("/api/updateStudent/:idNumber", updateStudent);
 
-  students[index] = student;
-  res.status(200).json({
-    message: "Student updated successfully",
-    students,
-  });
-});
-
-app.delete("/api/deleteStudents/:idNumber", (req, res) => {
-  const { idNumber } = req.params;
-
-  students = students.filter(
-    (student) => student.idNumber.toString() !== idNumber.toString()
-  );
-
-  res.status(200).json({
-    message: "Student deleted successfully",
-    students,
-  });
-});
+app.delete("/api/deleteStudents/:idNumber", deleteStudent);
 
 app.get("/api/getUsers", getUsers);
 
