@@ -1,10 +1,15 @@
-import React, { useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import "../styles/Login.css";
 import { useNavigate } from "react-router-dom";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 
 function Login() {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [LoginData, setLoginData] = useState({
+    username: "",
+    password: "",
+  });
+
   const [showPassword, setShowPassword] = useState(false);
 
   const navigate = useNavigate();
@@ -26,8 +31,10 @@ function Login() {
           <input
             id="username"
             type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            value={LoginData.username}
+            onChange={(e) =>
+              setLoginData({ ...LoginData, username: e.target.value })
+            }
             placeholder="Username"
             className="input-field"
           />
@@ -38,8 +45,10 @@ function Login() {
             <input
               id="password"
               type={showPassword ? "text" : "password"}
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              value={LoginData.password}
+              onChange={(e) =>
+                setLoginData({ ...LoginData, password: e.target.value })
+              }
               placeholder="Password"
               className="input-field"
             />
@@ -47,7 +56,7 @@ function Login() {
               type="button"
               className="toggle-password"
               onClick={togglePasswordVisibility}>
-              {showPassword ? "Hide" : "Show"}
+              {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
             </button>
           </div>
         </div>

@@ -85,7 +85,8 @@ function AddStudent() {
         });
       })
       .catch((error) => {
-        alert(error.response.data.message);
+        alert("Student Already Exists");
+        console.log(error);
       });
   };
 
@@ -168,10 +169,7 @@ function AddStudent() {
       </Modal>
 
       <div className="addStudentDashboard">
-        <Button
-          variant="contained"
-          onClick={() => setOpen(true)}
-          style={{ justifyContent: "center" }}>
+        <Button variant="contained" onClick={() => setOpen(true)}>
           Add Student
         </Button>
         <h1>Student Management</h1>
