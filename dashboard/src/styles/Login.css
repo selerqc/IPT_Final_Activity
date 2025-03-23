@@ -1,7 +1,7 @@
 .login-container {
   display: flex;
   min-height: 100vh;
-  min-width: 10vw;
+  min-width: 20vw;
   /* background-color: #f9fafb; */
   justify-content: center;
   align-items: center;
@@ -19,17 +19,19 @@
 
 .login-title {
   font-size: 1.5rem;
-  font-weight: 600;
+  font-weight: 700;
   color: #333;
   margin-bottom: 20px;
 }
 
 .input-group {
   margin-top: 15px;
+
+  width: 100%;
 }
 
 .input-field {
-  width: 90%;
+  width: 95%;
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
