@@ -7,8 +7,7 @@ This project is a Student Management Dashboard built with React for the frontend
 - [Installation](#installation)
 - [Usage](#usage)
 - [API Endpoints](#api-endpoints)
-- [Contributing](#contributing)
-- [License](#license)
+
 
 ## Installation
 
