@@ -6,7 +6,7 @@ const addStudent = (req, res) => {
   const StudentIndex = id.indexOf(Student.idNumber);
 
   if (StudentIndex > -1) throw "Student Already Exists";
-
+if(!Student.idNumber || !Student.Firstname || !Student.Lastname || !Student.Middlename || !Student.course || !Student.year) throw "Please fill up all fields";
   data.push(Student);
 
   fs.writeFileSync("./db/Student.json", JSON.stringify(data, null, 2));

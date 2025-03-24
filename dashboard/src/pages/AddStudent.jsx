@@ -205,7 +205,7 @@ function AddStudent() {
             <TableBody>
               {students.map((student) => (
                 <TableRow className="table-row" key={student.idNumber}>
-                  <TableCell className="table-cell" component="th" scope="row">
+                  <TableCell className="table-cell" scope="row">
                     {student.idNumber}
                   </TableCell>
                   <TableCell className="table-cell" align="right">

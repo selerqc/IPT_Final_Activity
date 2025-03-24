@@ -199,7 +199,7 @@ function Users() {
             <TableBody>
               {user.map((user) => (
                 <TableRow className="table-row" key={user.UserId}>
-                  <TableCell className="table-cell" component="th" scope="row">
+                  <TableCell className="table-cell" scope="row">
                     {user.UserId}
                   </TableCell>
                   <TableCell className="table-cell" align="right">

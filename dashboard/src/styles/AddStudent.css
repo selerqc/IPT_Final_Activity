@@ -41,11 +41,17 @@
 }
 
 .add-student-button:hover {
-  background-color: #1565c0;
+  background-color: #1771d8;
 }
 
 .table-container {
   margin-top: 20px;
+  
+}
+
+.table-container th{
+  background-color: #2589fc;
+  word-wrap: break-word;
 }
 
 .table-cell {

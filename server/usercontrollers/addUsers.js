@@ -6,7 +6,7 @@ const addUser = (req, res) => {
   const UserIndex = UserId.indexOf(User.UserId);
 
   if (UserIndex > -1) throw "User Already Exists";
-
+  if(!User.UserId || !User.Firstname || !User.Lastname || !User.Middlename || !User.Username || !User.Password) throw "Please fill up all fields";
   data.push(User);
 
   fs.writeFileSync("./db/Users.json", JSON.stringify(data, null, 2));
