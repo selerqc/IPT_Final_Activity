@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Modal from "@mui/material/Modal";
@@ -114,20 +114,25 @@ function Users() {
       <Modal open={open} onClose={() => setOpen(false)}>
         <Box className="modal-box">
           <h2 className="modal-header">Add User</h2>
-          {["UserId", "Firstname", "Lastname", "Middlename", "Username"].map(
-            (field) => (
-              <TextField
-                key={field}
-                className="text-field"
-                label={field}
-                name={field}
-                value={data[field]}
-                onChange={handleChange}
-                fullWidth
-                margin="normal"
-              />
-            )
-          )}
+          {[
+            "UserId",
+            "Firstname",
+            "Lastname",
+            "Middlename",
+            "Username",
+            "Password",
+          ].map((field) => (
+            <TextField
+              key={field}
+              className="text-field"
+              label={field}
+              name={field}
+              value={data[field]}
+              onChange={handleChange}
+              fullWidth
+              margin="normal"
+            />
+          ))}
           <Button
             variant="contained"
             className="submit-button"
@@ -140,8 +145,16 @@ function Users() {
       <Modal open={editOpen} onClose={() => setEditOpen(false)}>
         <Box className="modal-box">
           <h2 className="modal-header">Edit User</h2>
-          {["Firstname", "Lastname", "Middlename", "Username"].map((field) => (
+          {[
+            "UserId",
+            "Firstname",
+            "Lastname",
+            "Middlename",
+            "Username",
+            "Password",
+          ].map((field) => (
             <TextField
+              disabled={field === "UserId"}
               key={field}
               className="text-field"
               label={field}
@@ -150,6 +163,7 @@ function Users() {
               onChange={handleChange}
               fullWidth
               margin="normal"
+              type={field === "Password" ? "password" : "text"}
             />
           ))}
           <Button
@@ -190,6 +204,9 @@ function Users() {
                 <TableCell className="table-cell" align="right">
                   Username
                 </TableCell>
+                <TableCell className="table-cell" align="right">
+                  Password
+                </TableCell>
 
                 <TableCell className="table-cell" align="right">
                   Actions
@@ -213,6 +230,9 @@ function Users() {
                   </TableCell>
                   <TableCell className="table-cell" align="right">
                     {user.Username}
+                  </TableCell>
+                  <TableCell className="table-cell" align="right">
+                    {user.Password}
                   </TableCell>
 
                   <TableCell className="table-cell" align="right">
