@@ -19,6 +19,8 @@ function Login() {
   };
 
   const handleLogin = () => {
+    localStorage.setItem("username", LoginData.username);
+    localStorage.setItem("isAuthorized", true);
     navigate("/Dashboard");
   };
 

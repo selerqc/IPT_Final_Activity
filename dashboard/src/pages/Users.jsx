@@ -19,6 +19,7 @@ import Paper from "@mui/material/Paper";
 // Icons
 import DeleteIcon from "@mui/icons-material/DeleteOutlineOutlined";
 import EditIcon from "@mui/icons-material/Edit";
+import Authenticate from "../components/Authenticate";
 
 function Users() {
   const [user, setUser] = useState([]);
@@ -236,6 +237,7 @@ function Users() {
                   </TableCell>
 
                   <TableCell className="table-cell" align="right">
+                    <Authenticate username={user.Username} />
                     <DeleteIcon
                       className="icon"
                       onClick={() => deleteUser(user.UserId)}

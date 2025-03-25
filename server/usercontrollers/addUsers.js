@@ -4,7 +4,7 @@ const addUser = (req, res) => {
   const User = req.body;
   const UserId = data.map((user) => user.UserId);
   const UserIndex = UserId.indexOf(User.UserId);
-  const argon2 = require('argon2');
+
 
 
   
