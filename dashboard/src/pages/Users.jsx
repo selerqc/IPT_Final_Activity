@@ -182,77 +182,83 @@ function Users() {
           Add New User
         </Button>
         <h1>User Management</h1>
-
-        <TableContainer className="table-container" component={Paper}>
-          <Table
-            sx={{ minWidth: 1000 }}
-            size="small"
-            aria-label="a dense table">
-            <TableHead className="table-head">
-              <TableRow>
-                <TableCell className="table-cell">User Id</TableCell>
-                <TableCell className="table-cell" align="right">
-                  First Name
-                </TableCell>
-                <TableCell className="table-cell" align="right">
-                  Middle Name
-                </TableCell>
-                <TableCell className="table-cell" align="right">
-                  Last Name
-                </TableCell>
-                <TableCell className="table-cell" align="right">
-                  Username
-                </TableCell>
-                <TableCell className="table-cell" align="right">
-                  Password
-                </TableCell>
-
-                <TableCell className="table-cell" align="right">
-                  Actions
-                </TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {user.map((user) => (
-                <TableRow className="table-row" key={user.UserId}>
-                  <TableCell className="table-cell" component="th" scope="row">
-                    {user.UserId}
+        {user.length === 0 ? (
+          <h2>No Users Found</h2>
+        ) : (
+          <TableContainer className="table-container" component={Paper}>
+            <Table
+              sx={{ minWidth: 1000 }}
+              size="small"
+              aria-label="a dense table">
+              <TableHead className="table-head">
+                <TableRow>
+                  <TableCell className="table-cell">User Id</TableCell>
+                  <TableCell className="table-cell" align="right">
+                    First Name
                   </TableCell>
                   <TableCell className="table-cell" align="right">
-                    {user.Firstname}
+                    Middle Name
                   </TableCell>
                   <TableCell className="table-cell" align="right">
-                    {user.Middlename}
-                  </TableCell>
-                  <TableCell className="table-cell" align="</TableCell>right">
-                    {user.Lastname}
+                    Last Name
                   </TableCell>
                   <TableCell className="table-cell" align="right">
-                    {user.Username}
+                    Username
                   </TableCell>
                   <TableCell className="table-cell" align="right">
-                    {user.Password}
+                    Password
                   </TableCell>
 
                   <TableCell className="table-cell" align="right">
-                    <DeleteIcon
-                      className="icon"
-                      onClick={() => deleteUser(user.UserId)}
-                      style={{
-                        marginRight: "10px",
-                        color: "red",
-                      }}
-                    />
-                    <EditIcon
-                      className="icon"
-                      onClick={() => handleEditClick(user)}
-                    />
+                    Actions
                   </TableCell>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
+              </TableHead>
+              <TableBody>
+                {user.map((user) => (
+                  <TableRow className="table-row" key={user.UserId}>
+                    <TableCell
+                      className="table-cell"
+                      component="th"
+                      scope="row">
+                      {user.UserId}
+                    </TableCell>
+                    <TableCell className="table-cell" align="right">
+                      {user.Firstname}
+                    </TableCell>
+                    <TableCell className="table-cell" align="right">
+                      {user.Middlename}
+                    </TableCell>
+                    <TableCell className="table-cell" align="right">
+                      {user.Lastname}
+                    </TableCell>
+                    <TableCell className="table-cell" align="right">
+                      {user.Username}
+                    </TableCell>
+                    <TableCell className="table-cell" align="right">
+                      {user.Password}
+                    </TableCell>
+
+                    <TableCell className="table-cell" align="right">
+                      <DeleteIcon
+                        className="icon"
+                        onClick={() => deleteUser(user.UserId)}
+                        style={{
+                          marginRight: "10px",
+                          color: "red",
+                        }}
+                      />
+                      <EditIcon
+                        className="icon"
+                        onClick={() => handleEditClick(user)}
+                      />
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        )}
       </div>
 
       <Sidebar />

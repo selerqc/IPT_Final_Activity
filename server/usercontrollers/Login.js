@@ -6,11 +6,13 @@ const Login = (req, res) => {
     return user.Username === username && user.Password === password;
   });
 
-  if (!user) throw new Error("Invalid Username or Password");
+  if (!username || !password)
+    throw new Error("Please provide username and password");
 
+  if (!user) throw new Error("Invalid Username or Password");
   res.status(200).json({
     status: `Login Successful, Welcome ${username}`,
-    user: user,
+    user,
   });
 };
 module.exports = Login;

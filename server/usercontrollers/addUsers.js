@@ -6,7 +6,7 @@ const addUser = (req, res) => {
   const UserIndex = UserId.indexOf(User.UserId);
 
   if (UserIndex > -1) throw "User Already Exists";
-
+  if (User.Password.length < 8) throw "Password must be at least 8 characters";
   data.push(User);
 
   fs.writeFileSync("./db/Users.json", JSON.stringify(data, null, 2));
