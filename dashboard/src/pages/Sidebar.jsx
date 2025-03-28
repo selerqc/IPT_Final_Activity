@@ -12,6 +12,7 @@ function Sidebar() {
     { to: "/AddStudent", label: "STUDENTS", icon: <AccessibilityIcon /> },
     { to: "/TaskTracker", label: "TASK TRACKER", icon: <TaskIcon /> },
     { to: "/Users", label: "USERS", icon: <PeopleIcon /> },
+    { to: "/", label: "Logout", icon: <InfoIcon /> },
   ];
   return (
     <div>

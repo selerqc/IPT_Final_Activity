@@ -15,6 +15,7 @@ const addStudent = require("./studentscontrollers/addStudent");
 const getStudents = require("./studentscontrollers/getStudents");
 const updateStudent = require("./studentscontrollers/updateStudent");
 const deleteStudent = require("./studentscontrollers/deleteStudent");
+const Login = require("./usercontrollers/Login");
 app.use(cors());
 app.use(express.json());
 
@@ -25,6 +26,8 @@ app.post("/api/addStudents", addStudent);
 app.patch("/api/updateStudent/:idNumber", updateStudent);
 
 app.delete("/api/deleteStudents/:idNumber", deleteStudent);
+
+app.post("/api/Login", Login);
 
 app.get("/api/getUsers", getUsers);
 
