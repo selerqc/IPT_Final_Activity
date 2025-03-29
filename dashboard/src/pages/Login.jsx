@@ -17,7 +17,12 @@ function Login() {
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
-
+  const handleWithoutLogin = () => {
+    alert("You are logged in as a guest user");
+    window.localStorage.setItem("Usertype", "guest");
+    window.localStorage.setItem("isLoggedin", false);
+    navigate("/Dashboard");
+  };
   const handleLogin = async () => {
     if (!LoginData.username || !LoginData.password) {
       setError("Please fill in all fields");
@@ -26,7 +31,10 @@ function Login() {
     await axios
       .post(`http://localhost:1337/api/Login`, LoginData)
       .then(() => {
+        window.localStorage.setItem("Usertype", "admin");
+        window.localStorage.setItem("isLoggedin", true);
         alert("Login Successful, Welcome " + LoginData.username);
+
         navigate("/Dashboard");
       })
       .catch((err) => {
@@ -80,6 +88,15 @@ function Login() {
             Login
           </button>
         </div>
+        <a
+          className="guest-link"
+          href="#"
+          onClick={(e) => {
+            e.preventDefault();
+            handleWithoutLogin();
+          }}>
+          Continue without Login
+        </a>
       </div>
     </div>
   );

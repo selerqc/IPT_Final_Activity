@@ -84,3 +84,14 @@
 .login-button:hover {
   background-color: #4338ca;
 }
+
+.guest-link {
+  margin-top: 20px;
+  font-size: 14px;
+  color: #4f46e5;
+  text-decoration: none;
+}
+
+.guest-link:hover {
+  text-decoration: underline;
+}
