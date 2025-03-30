@@ -1,1 +1,26 @@
-[]
+[
+  {
+    "idNumber": "1",
+    "Firstname": "asd",
+    "Lastname": "asd",
+    "Middlename": "asd",
+    "course": "asd",
+    "year": "asd"
+  },
+  {
+    "idNumber": "2",
+    "Firstname": "asd",
+    "Lastname": "asd",
+    "Middlename": "a",
+    "course": "sdasd",
+    "year": "2"
+  },
+  {
+    "idNumber": "23",
+    "Firstname": "as",
+    "Lastname": "asd",
+    "Middlename": "asd",
+    "course": "asd",
+    "year": "2"
+  }
+]

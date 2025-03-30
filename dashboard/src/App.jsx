@@ -6,7 +6,7 @@ import "./App.css";
 import TaskTracker from "./pages/TaskTracker";
 import Login from "./pages/Login";
 import Users from "./pages/Users";
-import Sidebar from "./pages/Sidebar";
+
 function App() {
   const isLoggedIn = window.localStorage.getItem("isLoggedin");
   const Usertype = window.localStorage.getItem("Usertype");

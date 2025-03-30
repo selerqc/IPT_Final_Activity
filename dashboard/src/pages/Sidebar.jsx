@@ -20,38 +20,40 @@ function Sidebar() {
   return (
     <div>
       {isLoggedIn && Usertype === "admin" ? (
-        <div className="side">
-          <Link to="/Dashboard">
-            <p>
-              <HomeIcon />
-              Dashboard
-            </p>
-          </Link>
-          <Link to="/AddStudent">
-            <p>
-              <AccessibilityIcon />
-              Add Student
-            </p>
-          </Link>
-          <Link to="/TaskTracker">
-            <p>
-              <TaskIcon />
-              Task Tracker
-            </p>
-          </Link>
-          <Link to="/Users">
-            <p>
-              <PeopleIcon />
-              Users
-            </p>
-          </Link>
-          <Link to="/">
-            <p>
-              <InfoIcon />
-              Logout
-            </p>
-          </Link>
-        </div>
+        <>
+          <div className="side">
+            <Link to="/Dashboard">
+              <p>
+                <HomeIcon />
+                Dashboard
+              </p>
+            </Link>
+            <Link to="/AddStudent">
+              <p>
+                <AccessibilityIcon />
+                Add Student
+              </p>
+            </Link>
+            <Link to="/TaskTracker">
+              <p>
+                <TaskIcon />
+                Task Tracker
+              </p>
+            </Link>
+            <Link to="/Users">
+              <p>
+                <PeopleIcon />
+                Users
+              </p>
+            </Link>
+            <Link to="/">
+              <p>
+                <InfoIcon />
+                Logout
+              </p>
+            </Link>
+          </div>
+        </>
       ) : (
         <div className="side">
           <Link to="/Dashboard">
@@ -74,6 +76,7 @@ function Sidebar() {
           </Link>
         </div>
       )}
+      <Outlet />
     </div>
   );
 }
