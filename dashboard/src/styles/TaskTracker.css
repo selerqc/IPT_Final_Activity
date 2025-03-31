@@ -55,6 +55,9 @@ li.completed span {
   text-decoration: line-through;
   color: gray;
 }
+li.completed {
+  background-color: #d4edda;
+}
 .buttons {
   display: flex;
   justify-content: center;
