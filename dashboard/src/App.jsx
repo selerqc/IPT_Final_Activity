@@ -16,14 +16,15 @@ function App() {
         <Routes>
           <Route path="/" element={<Login />} />
 
-          {isLoggedIn && Usertype === "admin" ? (
+          {isLoggedIn && Usertype === "admin" && (
             <>
               <Route path="/Dashboard" element={<Dashboard />} />
               <Route path="/AddStudent" element={<AddStudent />} />
               <Route path="/TaskTracker" element={<TaskTracker />} />
               <Route path="/Users" element={<Users />} />
             </>
-          ) : (
+          )}
+          {isLoggedIn && Usertype === "guest" && (
             <>
               <Route path="/Dashboard" element={<Dashboard />} />
               <Route path="/TaskTracker" element={<TaskTracker />} />
