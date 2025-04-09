@@ -33,6 +33,7 @@ function Login() {
       .then(() => {
         window.localStorage.setItem("Usertype", "admin");
         window.localStorage.setItem("isLoggedin", true);
+        window.localStorage.setItem("username", LoginData.username);
         alert("Login Successful, Welcome " + LoginData.username);
 
         navigate("/Dashboard");
