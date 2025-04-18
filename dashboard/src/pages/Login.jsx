@@ -9,6 +9,7 @@ function Login() {
   const [LoginData, setLoginData] = useState({
     username: "",
     password: "",
+    isActive: false,
   });
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
@@ -44,54 +45,54 @@ function Login() {
       });
   };
   return (
-    <div className="login-container">
-      <div className="login-box">
-        <h1 className="login-title">Login</h1>
+    <div className='login-container'>
+      <div className='login-box'>
+        <h1 className='login-title'>Login</h1>
 
-        <div className="input-group">
-          {error && <p className="error-message">{error}</p>}
+        <div className='input-group'>
+          {error && <p className='error-message'>{error}</p>}
 
           <input
-            id="username"
-            type="text"
+            id='username'
+            type='text'
             value={LoginData.username}
             onChange={(e) =>
               setLoginData({ ...LoginData, username: e.target.value })
             }
-            placeholder="Username"
-            className="input-field"
+            placeholder='Username'
+            className='input-field'
           />
         </div>
 
-        <div className="input-group">
-          <div className="password-container">
+        <div className='input-group'>
+          <div className='password-container'>
             <input
-              id="password"
+              id='password'
               type={showPassword ? "text" : "password"}
               value={LoginData.password}
               onChange={(e) =>
                 setLoginData({ ...LoginData, password: e.target.value })
               }
-              placeholder="Password"
-              className="input-field password-input"
+              placeholder='Password'
+              className='input-field password-input'
             />
             <button
-              type="button"
-              className="toggle-password"
+              type='button'
+              className='toggle-password'
               onClick={togglePasswordVisibility}>
               {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
             </button>
           </div>
         </div>
 
-        <div className="button-group">
-          <button className="login-button" onClick={handleLogin}>
+        <div className='button-group'>
+          <button className='login-button' onClick={handleLogin}>
             Login
           </button>
         </div>
         <a
-          className="guest-link"
-          href="#"
+          className='guest-link'
+          href='#'
           onClick={(e) => {
             e.preventDefault();
             handleWithoutLogin();

@@ -112,8 +112,8 @@ function Users() {
   return (
     <>
       <Modal open={open} onClose={() => setOpen(false)}>
-        <Box className="modal-box">
-          <h2 className="modal-header">Add User</h2>
+        <Box className='modal-box'>
+          <h2 className='modal-header'>Add User</h2>
           {[
             "UserId",
             "Firstname",
@@ -124,18 +124,18 @@ function Users() {
           ].map((field) => (
             <TextField
               key={field}
-              className="text-field"
+              className='text-field'
               label={field}
               name={field}
               value={data[field]}
               onChange={handleChange}
               fullWidth
-              margin="normal"
+              margin='normal'
             />
           ))}
           <Button
-            variant="contained"
-            className="submit-button"
+            variant='contained'
+            className='submit-button'
             onClick={handleSubmit}>
             Submit
           </Button>
@@ -143,8 +143,8 @@ function Users() {
       </Modal>
 
       <Modal open={editOpen} onClose={() => setEditOpen(false)}>
-        <Box className="modal-box">
-          <h2 className="modal-header">Edit User</h2>
+        <Box className='modal-box'>
+          <h2 className='modal-header'>Edit User</h2>
           {[
             "UserId",
             "Firstname",
@@ -155,28 +155,28 @@ function Users() {
           ].map((field) => (
             <TextField
               key={field}
-              className="text-field"
+              className='text-field'
               label={field}
               name={field}
               value={data[field]}
               onChange={handleChange}
               fullWidth
-              margin="normal"
+              margin='normal'
               disabled={field === "UserId"}
             />
           ))}
           <Button
-            variant="contained"
-            className="submit-button"
+            variant='contained'
+            className='submit-button'
             onClick={handleEditSubmit}>
             Update
           </Button>
         </Box>
       </Modal>
 
-      <div className="addStudentDashboard">
+      <div className='addStudentDashboard'>
         <Button
-          variant="contained"
+          variant='contained'
           onClick={() => setOpen(true)}
           style={{ justifyContent: "center" }}>
           Add New User
@@ -185,60 +185,60 @@ function Users() {
         {user.length === 0 ? (
           <h2>No Users Found</h2>
         ) : (
-          <TableContainer className="table-container" component={Paper}>
+          <TableContainer component={Paper}>
             <Table
               sx={{ minWidth: 1000 }}
-              size="small"
-              aria-label="a dense table">
-              <TableHead className="table-head">
+              size='small'
+              aria-label='a dense table'>
+              <TableHead className='table-head'>
                 <TableRow>
-                  <TableCell className="table-cell">User Id</TableCell>
-                  <TableCell className="table-cell" align="right">
+                  <TableCell className='table-cell'>User Id</TableCell>
+                  <TableCell className='table-cell' align='right'>
                     First Name
                   </TableCell>
-                  <TableCell className="table-cell" align="right">
+                  <TableCell className='table-cell' align='right'>
                     Middle Name
                   </TableCell>
-                  <TableCell className="table-cell" align="right">
+                  <TableCell className='table-cell' align='right'>
                     Last Name
                   </TableCell>
-                  <TableCell className="table-cell" align="right">
+                  <TableCell className='table-cell' align='right'>
                     Username
                   </TableCell>
-                  <TableCell className="table-cell" align="right">
+                  <TableCell className='table-cell' align='right'>
                     Password
                   </TableCell>
 
-                  <TableCell className="table-cell" align="right">
+                  <TableCell className='table-cell' align='right'>
                     Actions
                   </TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
                 {user.map((user) => (
-                  <TableRow className="table-row" key={user.UserId}>
-                    <TableCell className="table-cell" scope="row">
+                  <TableRow className='table-row' key={user.UserId}>
+                    <TableCell className='table-cell' scope='row'>
                       {user.UserId}
                     </TableCell>
-                    <TableCell className="table-cell" align="right">
+                    <TableCell className='table-cell' align='right'>
                       {user.Firstname}
                     </TableCell>
-                    <TableCell className="table-cell" align="right">
+                    <TableCell className='table-cell' align='right'>
                       {user.Middlename}
                     </TableCell>
-                    <TableCell className="table-cell" align="right">
+                    <TableCell className='table-cell' align='right'>
                       {user.Lastname}
                     </TableCell>
-                    <TableCell className="table-cell" align="right">
+                    <TableCell className='table-cell' align='right'>
                       {user.Username}
                     </TableCell>
-                    <TableCell className="table-cell" align="right">
+                    <TableCell className='table-cell' align='right'>
                       {user.Password}
                     </TableCell>
 
-                    <TableCell className="table-cell" align="right">
+                    <TableCell className='table-cell' align='right'>
                       <DeleteIcon
-                        className="icon"
+                        className='icon'
                         onClick={() => deleteUser(user.UserId)}
                         style={{
                           marginRight: "10px",
@@ -246,7 +246,7 @@ function Users() {
                         }}
                       />
                       <EditIcon
-                        className="icon"
+                        className='icon'
                         onClick={() => handleEditClick(user)}
                       />
                     </TableCell>
