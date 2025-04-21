@@ -1,16 +1,21 @@
-import { useEffect, useState } from "react";
-import "../styles/Login.css";
+import { useEffect, useRef, useState } from "react";
+// import "../styles/Login.css";
 import { useNavigate } from "react-router-dom";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import axios from "axios";
-
+import CssBaseline from "@mui/material/CssBaseline";
+import Box from "@mui/material/Box";
+import Container from "@mui/material/Container";
+import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
 function Login() {
   const [LoginData, setLoginData] = useState({
     username: "",
     password: "",
     isActive: false,
   });
+
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
   const navigate = useNavigate();
@@ -45,62 +50,64 @@ function Login() {
       });
   };
   return (
-    <div className='login-container'>
-      <div className='login-box'>
-        <h1 className='login-title'>Login</h1>
+    <Container
+      maxWidth="xs"
+      sx={{
+        width: "100vw",
+        height: "95vh",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+      }}>
+      <Box component="section">
+        <h1 className="login-title">Login</h1>
 
-        <div className='input-group'>
-          {error && <p className='error-message'>{error}</p>}
+        {error && <p className="error-message">{error}</p>}
 
-          <input
-            id='username'
-            type='text'
-            value={LoginData.username}
-            onChange={(e) =>
-              setLoginData({ ...LoginData, username: e.target.value })
-            }
-            placeholder='Username'
-            className='input-field'
-          />
-        </div>
+        <TextField
+          id="username"
+          label="Username"
+          variant="outlined"
+          size="small"
+          value={LoginData.username}
+          onChange={(e) =>
+            setLoginData({ ...LoginData, username: e.target.value })
+          }
+          fullWidth></TextField>
 
-        <div className='input-group'>
-          <div className='password-container'>
-            <input
-              id='password'
-              type={showPassword ? "text" : "password"}
-              value={LoginData.password}
-              onChange={(e) =>
-                setLoginData({ ...LoginData, password: e.target.value })
-              }
-              placeholder='Password'
-              className='input-field password-input'
-            />
-            <button
-              type='button'
-              className='toggle-password'
-              onClick={togglePasswordVisibility}>
-              {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
-            </button>
-          </div>
-        </div>
+        <TextField
+          id="password"
+          label="Password"
+          variant="outlined"
+          value={LoginData.password}
+          size="small"
+          onChange={(e) =>
+            setLoginData({ ...LoginData, password: e.target.value })
+          }
+          type={showPassword ? "text" : "password"}
+          fullWidth
+          margin="normal"></TextField>
 
-        <div className='button-group'>
-          <button className='login-button' onClick={handleLogin}>
-            Login
-          </button>
-        </div>
+        <Button
+          id="login-btn"
+          variant="contained"
+          size="small"
+          fullWidth
+          onClick={handleLogin}>
+          Login
+        </Button>
+
         <a
-          className='guest-link'
-          href='#'
+          className="guest-link"
+          href="#"
           onClick={(e) => {
             e.preventDefault();
             handleWithoutLogin();
           }}>
           Continue without Login
         </a>
-      </div>
-    </div>
+      </Box>
+    </Container>
   );
 }
 

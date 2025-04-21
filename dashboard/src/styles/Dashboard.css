@@ -30,7 +30,7 @@ body {
   gap: 1rem;
 }
 span {
-  border: 1px solid black;
+  
   border-radius: 5px;
   padding: 5px;
   font-weight: bold;
@@ -38,8 +38,6 @@ span {
   font-size: 20px;
   font-family: Arial, sans-serif;
   letter-spacing: 1px;
-
-  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 span:hover{

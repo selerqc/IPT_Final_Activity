@@ -88,8 +88,4 @@ li.completed {
 .buttons button:last-child:hover {
   background-color: #c82333;
 }
-:root {
-  --toastify-container-width: fit-content;
-  --toastify-toast-width: 250px;
-  --toastify-toast-offset: 16px;
-}
+
