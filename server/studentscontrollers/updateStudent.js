@@ -1,19 +1,22 @@
-const fs = require("fs");
+const mongoose = require('mongoose');
 const updateStudent = (req, res) => {
-  const data = JSON.parse(fs.readFileSync("./db/Student.json", "utf-8"));
-  const Student = req.body;
   const { idNumber } = req.params;
-  const index = data.findIndex(
-    (Student) => Student.idNumber.toString() === idNumber.toString()
-  );
+  const {Firstname, Lastname, Middlename, course,year} = req.body;
+  const Student = mongoose.model('Student');
 
-  data[index] = Student;
-
-  fs.writeFileSync("./db/Student.json", JSON.stringify(data, null, 2));
-
+  Student.findOneAndUpdate({
+    idNumber: idNumber
+  }, {
+    Firstname: Firstname,
+    Lastname: Lastname,
+    Middlename: Middlename,
+    course: course,
+    year: year
+  }, { new: true })
+  
   res.status(200).json({
     message: "Student updated successfully",
-    Student,
+  
   });
 };
 module.exports = updateStudent;
