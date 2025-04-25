@@ -72,6 +72,7 @@ function AddStudent() {
       .post("http://localhost:1337/api/addStudents", data)
       .then((res) => {
         alert("New Student Added");
+        setData(res.data.student);
         console.log(res.data.message);
         setOpen(false);
         fetchStudents();

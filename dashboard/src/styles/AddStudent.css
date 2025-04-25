@@ -50,14 +50,16 @@
 }
 
 .table-container th{
-  background-color: #2589fc;
+  
   word-wrap: break-word;
 }
 
 .table-cell {
   font-size: 14px;
 }
-
+.table-cell:hover {
+  background-color: #f0f0f0;
+}
 .icon:hover {
   cursor: pointer;
   border-radius: 50%;

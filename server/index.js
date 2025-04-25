@@ -4,7 +4,7 @@ require("dotenv").config();
 const express = require("express");
 const errorHandler = require("./handlers/errorHandler");
 const cors = require("cors");
-
+const connection = require("./db/connection");
 const app = express();
 
 const getUsers = require("./usercontrollers/getUsers");
@@ -19,6 +19,8 @@ const Login = require("./usercontrollers/Login");
 app.use(cors());
 app.use(express.json());
 
+
+connection();
 app.get("/api/getStudents", getStudents);
 
 app.post("/api/addStudents", addStudent);

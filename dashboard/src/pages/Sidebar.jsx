@@ -21,32 +21,33 @@ function Sidebar() {
     <div>
       {isLoggedIn && Usertype === "admin" ? (
         <>
-          <div className='side'>
-            <Link to='/Dashboard'>
+          <div className="side">
+            <Link to="/Dashboard">
               <p>
                 <HomeIcon />
                 Dashboard
               </p>
             </Link>
-            <Link to='/AddStudent'>
+            <Link to="/AddStudent">
               <p>
                 <AccessibilityIcon />
-                Add Student
+                Student
               </p>
             </Link>
-            <Link to='/TaskTracker'>
-              <p>
-                <TaskIcon />
-                Task Tracker
-              </p>
-            </Link>
-            <Link to='/Users'>
+            <Link to="/Users">
               <p>
                 <PeopleIcon />
                 Users
               </p>
             </Link>
-            <Link to='/'>
+            <Link to="/TaskTracker">
+              <p>
+                <TaskIcon />
+                Task Tracker
+              </p>
+            </Link>
+
+            <Link to="/">
               <p>
                 <InfoIcon />
                 Logout
@@ -56,20 +57,20 @@ function Sidebar() {
         </>
       ) : isLoggedIn && Usertype === "guest" ? (
         <>
-          <div className='side'>
-            <Link to='/Dashboard'>
+          <div className="side">
+            <Link to="/Dashboard">
               <p>
                 <HomeIcon />
                 Dashboard
               </p>
             </Link>
-            <Link to='/TaskTracker'>
+            <Link to="/TaskTracker">
               <p>
                 <TaskIcon />
                 Task Tracker
               </p>
             </Link>
-            <Link to='/'>
+            <Link to="/">
               <p>
                 <InfoIcon />
                 Logout
