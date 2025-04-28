@@ -16,9 +16,11 @@ const getStudents = require("./studentscontrollers/getStudents");
 const updateStudent = require("./studentscontrollers/updateStudent");
 const deleteStudent = require("./studentscontrollers/deleteStudent");
 const Login = require("./usercontrollers/Login");
+
+const mongoose = require("mongoose");
+const userModel = require("./models/userModel");
 app.use(cors());
 app.use(express.json());
-
 
 connection();
 app.get("/api/getStudents", getStudents);
@@ -39,6 +41,20 @@ app.patch("/api/updateUser/:UserId", updateUser);
 
 app.delete("/api/deleteUser/:UserId", deleteUser);
 
+app.put("/api/logout/:UserId", async (req, res) => {
+  const updateUser = await userModel.findOneAndUpdate(
+    {
+      UserId: req.params.UserId,
+    },
+    {
+      isActive: false,
+    }
+  );
+
+  res.status(200).json({
+    updateUser,
+  });
+});
 app.use(errorHandler);
 
 const port = 1337;

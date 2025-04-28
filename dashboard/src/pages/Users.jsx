@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Modal from "@mui/material/Modal";
@@ -209,7 +209,7 @@ function Users() {
                     Password
                   </TableCell>
                   <TableCell className='table-cell' align='right'>
-                    is Active
+                    Is Active
                   </TableCell>
 
                   <TableCell className='table-cell' align='right'>
@@ -239,7 +239,7 @@ function Users() {
                       {user.Password}
                     </TableCell>
                     <TableCell className='table-cell' align='right'>
-                      {user.isActive ? "True" : "False"}
+                      {user.isActive ? "Active" : "Inactive"}
                     </TableCell>
 
                     <TableCell className='table-cell' align='right'>

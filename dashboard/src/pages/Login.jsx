@@ -39,9 +39,9 @@ function Login() {
         username: LoginData.username,
         password: LoginData.password,
       })
-      .then(() => {
+      .then((res) => {
+        window.localStorage.setItem("UserId", res.data.user.UserId);
         window.localStorage.setItem("Usertype", "admin");
-        window.localStorage.setItem("isLoggedin", true);
         window.localStorage.setItem("username", LoginData.username);
         alert("Login Successful, Welcome " + LoginData.username);
 

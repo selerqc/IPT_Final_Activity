@@ -6,7 +6,7 @@ import TaskIcon from "@mui/icons-material/Task";
 import PeopleIcon from "@mui/icons-material/People";
 import "../styles/Sidebar.css";
 import { Outlet, Link } from "react-router-dom";
-
+import axios from "axios";
 function Sidebar() {
   // const links = [
   //   { to: "/Dashboard", label: "HOME", icon: <HomeIcon /> },
@@ -15,7 +15,17 @@ function Sidebar() {
   //   { to: "/Users", label: "USERS", icon: <PeopleIcon /> },
   //   { to: "/", label: "Logout", icon: <InfoIcon /> },
   // ];
-
+  const handleLogout = () => {
+    axios
+      .put(`http://localhost:1337/api/logout/${localStorage.getItem("UserId")}`)
+      .then((res) => {
+        console.log(res);
+        window.localStorage.removeItem("Usertype");
+        window.localStorage.removeItem("UserId");
+        window.localStorage.removeItem("username");
+        window.location.href = "/";
+      });
+  };
   const Usertype = window.localStorage.getItem("Usertype");
   return (
     <div>
@@ -47,12 +57,10 @@ function Sidebar() {
               </p>
             </Link>
 
-            <Link to='/'>
-              <p>
-                <InfoIcon />
-                Logout
-              </p>
-            </Link>
+            <p onClick={handleLogout}>
+              <InfoIcon />
+              Logout
+            </p>
           </div>
         </>
       ) : Usertype === "guest" ? (
@@ -70,12 +78,11 @@ function Sidebar() {
                 Task Tracker
               </p>
             </Link>
-            <Link to='/'>
-              <p>
-                <InfoIcon />
-                Logout
-              </p>
-            </Link>
+
+            <p onClick={handleLogout}>
+              <InfoIcon />
+              Logout
+            </p>
           </div>
         </>
       ) : (

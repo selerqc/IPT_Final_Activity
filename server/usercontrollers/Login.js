@@ -11,7 +11,7 @@ const Login = async (req, res) => {
       isActive: true,
     }
   );
-
+  console.log(user);
   if (!user) throw "User not found";
   res.status(200).json({
     status: `Login Successful, Welcome ${username}`,

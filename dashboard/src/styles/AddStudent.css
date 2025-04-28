@@ -64,11 +64,3 @@
   background-color: #e7e5e5;
   transform: scale(1.1);
 }
-.chip {
-  margin: 5px;
-  padding: 5px 10px;
-  background-color: #e0e0e0;
-  border-radius: 16px;
-  display: inline-block;
-  font-size: 5px;
-}
