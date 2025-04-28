@@ -35,7 +35,10 @@ function Login() {
       return;
     }
     await axios
-      .post(`http://localhost:1337/api/Login`, LoginData)
+      .post(`http://localhost:1337/api/Login`, {
+        username: LoginData.username,
+        password: LoginData.password,
+      })
       .then(() => {
         window.localStorage.setItem("Usertype", "admin");
         window.localStorage.setItem("isLoggedin", true);
@@ -46,12 +49,12 @@ function Login() {
       })
       .catch((err) => {
         console.log(err);
-        setError("Invalid Username or Password");
+        setError(err.response.data.message);
       });
   };
   return (
     <Container
-      maxWidth="xs"
+      maxWidth='xs'
       sx={{
         width: "100vw",
         height: "95vh",
@@ -59,16 +62,16 @@ function Login() {
         flexDirection: "column",
         justifyContent: "center",
       }}>
-      <Box component="section">
-        <h1 className="login-title">Login</h1>
+      <Box component='section'>
+        <h1 className='login-title'>Login</h1>
 
-        {error && <p className="error-message">{error}</p>}
+        {error && <p className='error-message'>{error}</p>}
 
         <TextField
-          id="username"
-          label="Username"
-          variant="outlined"
-          size="small"
+          id='username'
+          label='Username'
+          variant='outlined'
+          size='small'
           value={LoginData.username}
           onChange={(e) =>
             setLoginData({ ...LoginData, username: e.target.value })
@@ -76,30 +79,30 @@ function Login() {
           fullWidth></TextField>
 
         <TextField
-          id="password"
-          label="Password"
-          variant="outlined"
+          id='password'
+          label='Password'
+          variant='outlined'
           value={LoginData.password}
-          size="small"
+          size='small'
           onChange={(e) =>
             setLoginData({ ...LoginData, password: e.target.value })
           }
           type={showPassword ? "text" : "password"}
           fullWidth
-          margin="normal"></TextField>
+          margin='normal'></TextField>
 
         <Button
-          id="login-btn"
-          variant="contained"
-          size="small"
+          id='login-btn'
+          variant='contained'
+          size='small'
           fullWidth
           onClick={handleLogin}>
           Login
         </Button>
 
         <a
-          className="guest-link"
-          href="#"
+          className='guest-link'
+          href='#'
           onClick={(e) => {
             e.preventDefault();
             handleWithoutLogin();

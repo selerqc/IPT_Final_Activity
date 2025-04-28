@@ -46,7 +46,7 @@ function Users() {
         console.table(res.data.users);
       })
       .catch((error) => {
-        alert(error.message);
+        console.log(error);
       });
   };
 
@@ -208,6 +208,9 @@ function Users() {
                   <TableCell className='table-cell' align='right'>
                     Password
                   </TableCell>
+                  <TableCell className='table-cell' align='right'>
+                    is Active
+                  </TableCell>
 
                   <TableCell className='table-cell' align='right'>
                     Actions
@@ -234,6 +237,9 @@ function Users() {
                     </TableCell>
                     <TableCell className='table-cell' align='right'>
                       {user.Password}
+                    </TableCell>
+                    <TableCell className='table-cell' align='right'>
+                      {user.isActive ? "True" : "False"}
                     </TableCell>
 
                     <TableCell className='table-cell' align='right'>

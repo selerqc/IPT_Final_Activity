@@ -1,6 +1,9 @@
-const fs = require("fs");
-const getUsers = (req, res) => {
-  const data = JSON.parse(fs.readFileSync("./db/Users.json", "utf-8"));
+const userModel = require("../models/userModel");
+const getUsers = async (req, res) => {
+  const data = await userModel.find({}).select({
+    _id: 0,
+    __v: 0,
+  });
 
   res.status(200).json({
     message: "Users Data",

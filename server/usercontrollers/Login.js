@@ -1,11 +1,18 @@
 const userModel = require("../models/userModel");
 const Login = async (req, res) => {
-  const { username, password, isActive } = req.body;
+  const { username, password } = req.body;
   const user = await userModel.findOne({
-    username: username,
-    password: password,
-    isActive: isActive,
+    Username: username,
+    Password: password,
   });
+  await userModel.findOneAndUpdate(
+    { Username: username, Password: password },
+    {
+      isActive: true,
+    }
+  );
+
+  if (!user) throw "User not found";
   res.status(200).json({
     status: `Login Successful, Welcome ${username}`,
     user,

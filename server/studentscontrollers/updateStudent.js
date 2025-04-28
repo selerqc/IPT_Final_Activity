@@ -17,9 +17,10 @@ const updateStudent = async (req, res) => {
       year: year,
     },
     { new: true }
-  )
-    .select("-__v")
-    .select("-_id");
+  ).select({
+    _id: 0,
+    __v: 0,
+  });
   res.status(200).json({
     message: "Student updated successfully",
     updatedStudent,
