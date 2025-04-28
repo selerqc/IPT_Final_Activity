@@ -113,8 +113,8 @@ function AddStudent() {
   return (
     <>
       <Modal open={open} onClose={() => setOpen(false)}>
-        <Box className="modal-box">
-          <h2 className="modal-header">Add Student</h2>
+        <Box className='modal-box'>
+          <h2 className='modal-header'>Add Student</h2>
           {[
             "idNumber",
             "Firstname",
@@ -125,18 +125,18 @@ function AddStudent() {
           ].map((field) => (
             <TextField
               key={field}
-              className="text-field"
+              className='text-field'
               label={field}
               name={field}
               value={data[field]}
               onChange={handleChange}
               fullWidth
-              margin="normal"
+              margin='normal'
             />
           ))}
           <Button
-            variant="contained"
-            className="submit-button"
+            variant='contained'
+            className='submit-button'
             onClick={handleSubmit}>
             Submit
           </Button>
@@ -144,89 +144,95 @@ function AddStudent() {
       </Modal>
 
       <Modal open={editOpen} onClose={() => setEditOpen(false)}>
-        <Box className="modal-box">
-          <h2 className="modal-header">Edit Student</h2>
-          {["Firstname", "Lastname", "Middlename", "course", "year"].map(
-            (field) => (
-              <TextField
-                key={field}
-                className="text-field"
-                label={field}
-                name={field}
-                value={data[field]}
-                onChange={handleChange}
-                fullWidth
-                margin="normal"
-              />
-            )
-          )}
+        <Box className='modal-box'>
+          <h2 className='modal-header'>Edit Student</h2>
+          {[
+            "idNumber",
+            "Firstname",
+            "Lastname",
+            "Middlename",
+            "course",
+            "year",
+          ].map((field) => (
+            <TextField
+              key={field}
+              className='text-field'
+              label={field}
+              name={field}
+              value={data[field]}
+              onChange={handleChange}
+              fullWidth
+              disabled={field === "idNumber"}
+              margin='normal'
+            />
+          ))}
           <Button
-            variant="contained"
-            className="submit-button"
+            variant='contained'
+            className='submit-button'
             onClick={handleEditSubmit}>
             Update
           </Button>
         </Box>
       </Modal>
 
-      <div className="addStudentDashboard">
-        <Button variant="contained" onClick={() => setOpen(true)}>
+      <div className='addStudentDashboard'>
+        <Button variant='contained' onClick={() => setOpen(true)}>
           Add Student
         </Button>
         <h1>Student Management</h1>
 
-        <TableContainer className="table-container" component={Paper}>
+        <TableContainer className='table-container' component={Paper}>
           <Table
             sx={{ minWidth: 1000 }}
-            size="small"
-            aria-label="a dense table">
-            <TableHead className="table-head">
+            size='small'
+            aria-label='a dense table'>
+            <TableHead className='table-head'>
               <TableRow>
-                <TableCell className="table-cell">Id Number</TableCell>
-                <TableCell className="table-cell" align="right">
+                <TableCell className='table-cell'>Id Number</TableCell>
+                <TableCell className='table-cell' align='right'>
                   First Name
                 </TableCell>
-                <TableCell className="table-cell" align="right">
+                <TableCell className='table-cell' align='right'>
                   Middle Name
                 </TableCell>
-                <TableCell className="table-cell" align="right">
+                <TableCell className='table-cell' align='right'>
                   Last Name
                 </TableCell>
-                <TableCell className="table-cell" align="right">
+                <TableCell className='table-cell' align='right'>
                   Course
                 </TableCell>
-                <TableCell className="table-cell" align="right">
+                <TableCell className='table-cell' align='right'>
                   Year
                 </TableCell>
-                <TableCell className="table-cell" align="right">
+                <TableCell className='table-cell' align='right'>
                   Actions
                 </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {students.map((student) => (
-                <TableRow className="table-row" key={student.idNumber}>
-                  <TableCell className="table-cell" scope="row">
+                <TableRow className='table-row' key={student.idNumber}>
+                  <TableCell className='table-cell' scope='row'>
                     {student.idNumber}
                   </TableCell>
-                  <TableCell className="table-cell" align="right">
+                  <TableCell className='table-cell' align='right'>
                     {student.Firstname}
                   </TableCell>
-                  <TableCell className="table-cell" align="right">
+                  <TableCell className='table-cell' align='right'>
                     {student.Middlename}
                   </TableCell>
-                  <TableCell className="table-cell" align="right">
+                  <TableCell className='table-cell' align='right'>
                     {student.Lastname}
                   </TableCell>
-                  <TableCell className="table-cell" align="right">
+                  <TableCell className='table-cell' align='right'>
                     {student.course}
                   </TableCell>
-                  <TableCell className="table-cell" align="right">
+                  <TableCell className='table-cell' align='right'>
                     {student.year}
                   </TableCell>
-                  <TableCell className="table-cell" align="right">
+                  <TableCell className='table-cell' align='right'>
                     <DeleteIcon
-                      className="icon"
+                      className='icon'
                       onClick={() => deleteStudent(student.idNumber)}
                       style={{
                         marginRight: "10px",
@@ -234,7 +240,7 @@ function AddStudent() {
                       }}
                     />
                     <EditIcon
-                      className="icon"
+                      className='icon'
                       onClick={() => handleEditClick(student)}
                     />
                   </TableCell>

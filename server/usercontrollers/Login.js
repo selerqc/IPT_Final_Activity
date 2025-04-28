@@ -1,18 +1,11 @@
-const fs = require("fs");
-const Login = (req, res) => {
+const userModel = require("../models/userModel");
+const Login = async (req, res) => {
   const { username, password, isActive } = req.body;
-
-  const users = JSON.parse(fs.readFileSync("./db/Users.json"));
-
-  const user = users.find((user) => {
-    return user.Username === username && user.Password === password;
+  const user = await userModel.findOne({
+    username: username,
+    password: password,
+    isActive: isActive,
   });
-
-  if (!username || !password)
-    throw new Error("Please provide username and password");
-
-  if (!user) throw new Error("Invalid Username or Password");
-
   res.status(200).json({
     status: `Login Successful, Welcome ${username}`,
     user,

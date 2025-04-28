@@ -15,39 +15,39 @@ function Sidebar() {
   //   { to: "/Users", label: "USERS", icon: <PeopleIcon /> },
   //   { to: "/", label: "Logout", icon: <InfoIcon /> },
   // ];
-  const isLoggedIn = window.localStorage.getItem("isLoggedin");
+
   const Usertype = window.localStorage.getItem("Usertype");
   return (
     <div>
-      {isLoggedIn && Usertype === "admin" ? (
+      {Usertype === "admin" ? (
         <>
-          <div className="side">
-            <Link to="/Dashboard">
+          <div className='side'>
+            <Link to='/Dashboard'>
               <p>
                 <HomeIcon />
                 Dashboard
               </p>
             </Link>
-            <Link to="/AddStudent">
+            <Link to='/AddStudent'>
               <p>
                 <AccessibilityIcon />
                 Student
               </p>
             </Link>
-            <Link to="/Users">
+            <Link to='/Users'>
               <p>
                 <PeopleIcon />
                 Users
               </p>
             </Link>
-            <Link to="/TaskTracker">
+            <Link to='/TaskTracker'>
               <p>
                 <TaskIcon />
                 Task Tracker
               </p>
             </Link>
 
-            <Link to="/">
+            <Link to='/'>
               <p>
                 <InfoIcon />
                 Logout
@@ -55,22 +55,22 @@ function Sidebar() {
             </Link>
           </div>
         </>
-      ) : isLoggedIn && Usertype === "guest" ? (
+      ) : Usertype === "guest" ? (
         <>
-          <div className="side">
-            <Link to="/Dashboard">
+          <div className='side'>
+            <Link to='/Dashboard'>
               <p>
                 <HomeIcon />
                 Dashboard
               </p>
             </Link>
-            <Link to="/TaskTracker">
+            <Link to='/TaskTracker'>
               <p>
                 <TaskIcon />
                 Task Tracker
               </p>
             </Link>
-            <Link to="/">
+            <Link to='/'>
               <p>
                 <InfoIcon />
                 Logout

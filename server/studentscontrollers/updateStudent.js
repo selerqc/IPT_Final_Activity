@@ -1,22 +1,28 @@
-const mongoose = require('mongoose');
-const updateStudent = (req, res) => {
+const Student = require("../models/studentModel");
+const updateStudent = async (req, res) => {
   const { idNumber } = req.params;
-  const {Firstname, Lastname, Middlename, course,year} = req.body;
-  const Student = mongoose.model('Student');
+  console.log(idNumber);
+  console.log(req.body);
+  const { Firstname, Lastname, Middlename, course, year } = req.body;
 
-  Student.findOneAndUpdate({
-    idNumber: idNumber
-  }, {
-    Firstname: Firstname,
-    Lastname: Lastname,
-    Middlename: Middlename,
-    course: course,
-    year: year
-  }, { new: true })
-  
+  const updatedStudent = await Student.findOneAndUpdate(
+    {
+      idNumber: idNumber,
+    },
+    {
+      Firstname: Firstname,
+      Lastname: Lastname,
+      Middlename: Middlename,
+      course: course,
+      year: year,
+    },
+    { new: true }
+  )
+    .select("-__v")
+    .select("-_id");
   res.status(200).json({
     message: "Student updated successfully",
-  
+    updatedStudent,
   });
 };
 module.exports = updateStudent;

@@ -8,16 +8,15 @@ import Login from "./pages/Login";
 import Users from "./pages/Users";
 
 function App() {
-  const isLoggedIn = window.localStorage.getItem("isLoggedin");
-  const Usertype = window.localStorage.getItem("Usertype");
   return (
     <>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Dashboard />} />
-          <Route path="/AddStudent" element={<AddStudent />} />
-          <Route path="/TaskTracker" element={<TaskTracker />} />
-          <Route path="/Users" element={<Users />} />
+          <Route path='/' element={<Login />} />
+          <Route path='/Dashboard' element={<Dashboard />} />
+          <Route path='/AddStudent' element={<AddStudent />} />
+          <Route path='/TaskTracker' element={<TaskTracker />} />
+          <Route path='/Users' element={<Users />} />
         </Routes>
       </BrowserRouter>
     </>
