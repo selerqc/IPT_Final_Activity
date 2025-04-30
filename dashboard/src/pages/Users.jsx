@@ -69,6 +69,14 @@ function Users() {
   };
 
   const handleSubmit = async () => {
+    setData({
+      UserId: "",
+      Firstname: "",
+      Lastname: "",
+      Middlename: "",
+      Username: "",
+      Password: "",
+    });
     await axios
       .post("http://localhost:1337/api/addUser", data)
       .then((res) => {

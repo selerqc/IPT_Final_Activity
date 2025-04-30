@@ -1,11 +1,12 @@
 [
   {
     "UserId": "1",
-    "Firstname": "charles",
+    "Firstname": "charlesdddd",
     "Lastname": "Agustin ",
     "Middlename": "Kiang",
     "Username": "selerqc",
-    "Password": "admin"
+    "Password": "admin",
+    "isActive": true
   },
   {
     "UserId": "2",
