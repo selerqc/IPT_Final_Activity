@@ -1,9 +1,13 @@
 import React, { useState } from 'react';
 import { TextField, Button, Box, Typography, Container, Alert } from '@mui/material';
-
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 const Signup = () => {
+    const navigate = useNavigate();
     const [formData, setFormData] = useState({
-        username: '',
+        firstname: '',
+        lastname: '',
+        middlename: '',
         email: '',
         password: '',
         confirmPassword: ''
@@ -12,25 +16,35 @@ const Signup = () => {
     const [error, setError] = useState('');
 
     const handleChange = (e) => {
-        const { name, value } = e.target;
         setFormData({
-            ...formData,
-            [name]: value
+            ...formData, [e.target.name]: e.target.value
         });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
+        console.log(formData)
+        await axios.post('http://localhost:1337/api/Signup', {
+            firstname: formData.firstname,
+            lastname: formData.lastname,
+            middlename: formData.middlename,
+            email: formData.email,
+            password: formData.password,
+            confirmPassword: formData.confirmPassword
+        })
+            .then((res) => {
 
-        if (formData.password !== formData.confirmPassword) {
-            setError('Passwords do not match');
-            return;
-        }
+                setSuccess('Signup successful!');
+                navigate('/dashboard');
+                setError('');
+            })
+            .catch((err) => {
+                console.log(err)
+                setError(err.response.data.message);
+                setSuccess('');
+            });
 
-        // Simulate form submission success
-        setSuccess('Signup successful!');
-        setError('');
-        console.log('Form Data:', formData);
+
     };
 
     return (
@@ -46,12 +60,30 @@ const Signup = () => {
                 <form onSubmit={handleSubmit}>
                     <TextField
                         fullWidth
-                        label="Username"
-                        name="username"
-                        value={formData.username}
+                        label="Firstname"
+                        name="firstname"
+                        value={formData.firstname}
                         onChange={handleChange}
                         margin="normal"
-                        required
+
+                    />
+                    <TextField
+                        fullWidth
+                        label="Middlename"
+                        name="middlename"
+                        value={formData.middlename}
+                        onChange={handleChange}
+                        margin="normal"
+
+                    />
+                    <TextField
+                        fullWidth
+                        label="Lastname"
+                        name="lastname"
+                        value={formData.lastname}
+                        onChange={handleChange}
+                        margin="normal"
+
                     />
                     <TextField
                         fullWidth
@@ -61,7 +93,7 @@ const Signup = () => {
                         value={formData.email}
                         onChange={handleChange}
                         margin="normal"
-                        required
+
                     />
                     <TextField
                         fullWidth
@@ -71,7 +103,7 @@ const Signup = () => {
                         value={formData.password}
                         onChange={handleChange}
                         margin="normal"
-                        required
+
                     />
                     <TextField
                         fullWidth
@@ -81,7 +113,7 @@ const Signup = () => {
                         value={formData.confirmPassword}
                         onChange={handleChange}
                         margin="normal"
-                        required
+
                     />
                     <Button
                         type="submit"

@@ -1,36 +1,37 @@
 const mongoose = require("mongoose");
-
-const UserModel = new mongoose.Schema(
+const AutoIncrement = require("mongoose-sequence")(mongoose);
+const UserSchema = new mongoose.Schema(
   {
-    UserId: {
-      type: String,
-      required: [true, "id is required"],
+    userId: {
+      type: Number,
+      unique: true,
     },
-    Firstname: {
+    firstname: {
       type: String,
       required: [true, "Firstname is required"],
     },
-    Lastname: {
+    lastname: {
       type: String,
       required: [true, "Lastname is required"],
     },
-    Middlename: {
+    middlename: {
       type: String,
     },
-    Email: {
+    email: {
       type: String,
       required: [true, "Email is required"],
     },
 
-    Password: {
+    password: {
       type: String,
       required: [true, "Password is required"],
     },
    
-  },
-  {
-    collection: "user-data",
-  }
+  },{
+    collection:"user-data"
+}
 );
 
-module.exports = mongoose.model("User", UserModel);
+UserSchema.plugin(AutoIncrement, { inc_field: 'userId', start_seq: 1000, increment_by: 1 });
+
+module.exports = mongoose.model("User", UserSchema);

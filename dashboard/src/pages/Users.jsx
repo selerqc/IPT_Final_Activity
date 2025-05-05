@@ -25,14 +25,7 @@ function Users() {
   const [open, setOpen] = useState(false);
   const [editOpen, setEditOpen] = useState(false);
 
-  const [data, setData] = useState({
-    UserId: "",
-    Firstname: "",
-    Lastname: "",
-    Middlename: "",
-    Username: "",
-    Password: "",
-  });
+  const [data, setData] = useState({});
 
   useEffect(() => {
     fetchUsers();
@@ -50,10 +43,10 @@ function Users() {
       });
   };
 
-  const deleteUser = async (UserId) => {
+  const deleteUser = async (userId) => {
     if (confirm("Are you sure you want to delete this User?")) {
       await axios
-        .delete(`http://localhost:1337/api/deleteUser/${UserId}`)
+        .delete(`http://localhost:1337/api/deleteUser/${userId}`)
         .then((res) => {
           console.log(res);
           fetchUsers();
@@ -69,28 +62,14 @@ function Users() {
   };
 
   const handleSubmit = async () => {
-    setData({
-      UserId: "",
-      Firstname: "",
-      Lastname: "",
-      Middlename: "",
-      Username: "",
-      Password: "",
-    });
+    setData({});
     await axios
       .post("http://localhost:1337/api/addUser", data)
       .then((res) => {
         alert(res.data.message);
         setOpen(false);
         fetchUsers();
-        setData({
-          UserId: "",
-          Firstname: "",
-          Lastname: "",
-          Middlename: "",
-          Username: "",
-          Password: "",
-        });
+        setData({});
       })
       .catch((error) => {
         alert(error.response.data.message);
@@ -105,7 +84,7 @@ function Users() {
 
   const handleEditSubmit = async () => {
     await axios
-      .patch(`http://localhost:1337/api/updateUser/${data.UserId}`, data)
+      .patch(`http://localhost:1337/api/updateUser/${data.userId}`, data)
       .then((res) => {
         alert(res.data.message);
         setEditOpen(false);
@@ -123,12 +102,12 @@ function Users() {
         <Box className='modal-box'>
           <h2 className='modal-header'>Add User</h2>
           {[
-            "UserId",
-            "Firstname",
-            "Lastname",
-            "Middlename",
-            "Username",
-            "Password",
+
+            "firstname",
+            "lastname",
+            "middlename",
+            "email",
+            "password",
           ].map((field) => (
             <TextField
               key={field}
@@ -154,12 +133,12 @@ function Users() {
         <Box className='modal-box'>
           <h2 className='modal-header'>Edit User</h2>
           {[
-            "UserId",
-            "Firstname",
-            "Lastname",
-            "Middlename",
-            "Username",
-            "Password",
+            "userId",
+            "firstname",
+            "lastname",
+            "middlename",
+            "email",
+            "password",
           ].map((field) => (
             <TextField
               key={field}
@@ -170,7 +149,7 @@ function Users() {
               onChange={handleChange}
               fullWidth
               margin='normal'
-              disabled={field === "UserId"}
+              disabled={field === "userId"}
             />
           ))}
           <Button
@@ -189,6 +168,7 @@ function Users() {
           style={{ justifyContent: "center" }}>
           Add New User
         </Button>
+
         <h1>User Management</h1>
         {user.length === 0 ? (
           <h2>No Users Found</h2>
@@ -201,55 +181,57 @@ function Users() {
               <TableHead className='table-head'>
                 <TableRow>
                   <TableCell className='table-cell'>User Id</TableCell>
-                  <TableCell className='table-cell' align='right'>
+                  <TableCell className='table-cell' align='left'>
                     First Name
                   </TableCell>
-                  <TableCell className='table-cell' align='right'>
+                  <TableCell className='table-cell' align='left'>
                     Middle Name
                   </TableCell>
-                  <TableCell className='table-cell' align='right'>
+                  <TableCell className='table-cell' align='left'>
                     Last Name
                   </TableCell>
-                  <TableCell className='table-cell' align='right'>
-                    Username
+                  <TableCell className='table-cell' align='left'>
+                    Email
                   </TableCell>
-                  <TableCell className='table-cell' align='right'>
+
+                  <TableCell className='table-cell' align='left'>
                     Password
                   </TableCell>
 
 
-                  <TableCell className='table-cell' align='right'>
+                  <TableCell className='table-cell' align='left'>
                     Actions
                   </TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
                 {user.map((user) => (
-                  <TableRow className='table-row' key={user.UserId}>
+                  <TableRow className='table-row' key={user.userId}>
                     <TableCell className='table-cell' scope='row'>
-                      {user.UserId}
+                      {user.userId}
                     </TableCell>
-                    <TableCell className='table-cell' align='right'>
-                      {user.Firstname}
+                    <TableCell className='table-cell' align='left'>
+                      {user.firstname}
                     </TableCell>
-                    <TableCell className='table-cell' align='right'>
-                      {user.Middlename}
+                    <TableCell className='table-cell' align='left'>
+                      {user.middlename}
                     </TableCell>
-                    <TableCell className='table-cell' align='right'>
-                      {user.Lastname}
+                    <TableCell className='table-cell' align='left'>
+                      {user.lastname}
                     </TableCell>
-                    <TableCell className='table-cell' align='right'>
-                      {user.Username}
+                    <TableCell className='table-cell' align='left'>
+                      {user.email}
                     </TableCell>
-                    <TableCell className='table-cell' align='right'>
-                      {user.Password}
+
+                    <TableCell className='table-cell' align='left'>
+                      {user.password}
                     </TableCell>
 
 
-                    <TableCell className='table-cell' align='right'>
+                    <TableCell className='table-cell' align='left'>
                       <DeleteIcon
                         className='icon'
-                        onClick={() => deleteUser(user.UserId)}
+                        onClick={() => deleteUser(user.userId)}
                         style={{
                           marginRight: "10px",
                           color: "red",

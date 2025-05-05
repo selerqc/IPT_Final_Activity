@@ -1,19 +1,32 @@
-const fs = require("fs");
-const updateUser = (req, res) => {
-  const data = JSON.parse(fs.readFileSync("./db/Users.json", "utf-8"));
-  const UserId = req.params.UserId;
-  const User = req.body;
+const userModel = require("../models/userModel");
 
-  let index = data.findIndex((user) => user.UserId === UserId);
+const updateUser =async (req, res) => {
+  const {  firstname, lastname, middlename, email, password } = req.body;
+  const {userId} = req.params;
+  if (!firstname || !lastname || !email || !password) throw ("Please fill in all fields");
+  console.log(userId)
+  
 
-  if (index !== -1) {
-    data[index] = { ...data[index], ...User };
-    fs.writeFileSync("./db/Users.json", JSON.stringify(data, null, 2));
-  }
+ const updatedUser = await userModel.findOneAndUpdate(
+    { 
+      userId: userId,
+    },
+    {
+      firstname: firstname,
+      lastname: lastname,
+      middlename: middlename,
+      email: email,
+      password: password,
+    },
+    { new: true } 
+  )
 
+  if (!updatedUser) throw ("User not found");
+
+  console.log(updatedUser);
   res.status(200).json({
     message: "User Updated",
-    User: data[index],
+    user: updatedUser,
   });
 };
 

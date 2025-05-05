@@ -5,13 +5,15 @@ const Login = async (req, res) => {
   if (!email || !password) throw "Please fill in all fields";
   
   const user = await userModel.findOne({ email });
-  if (!user) throw "User not found";
-  if (user.Email !== email) throw "Incorrect email";
 
-  if (user.Password !== password) throw "Incorrect password";
+  if (!user) throw "User not found";
+
+  if (user.email !== email) throw "Incorrect email";
+
+  if (user.password !== password) throw "Incorrect password";
 
   res.status(200).json({
-    status: `Login Successful, Welcome ${user.Username}`,
+    status: `Login Successful, Welcome ${user.firstname}`,
     user,
   });
 };

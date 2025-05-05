@@ -15,10 +15,9 @@ const addStudent = require("./studentscontrollers/addStudent");
 const getStudents = require("./studentscontrollers/getStudents");
 const updateStudent = require("./studentscontrollers/updateStudent");
 const deleteStudent = require("./studentscontrollers/deleteStudent");
-const Login = require("./usercontrollers/Login");
+const Login = require("./auth/Login");
 
-const mongoose = require("mongoose");
-const userModel = require("./models/userModel");
+const Signup = require("./auth/Signup");
 app.use(cors());
 app.use(express.json());
 
@@ -37,24 +36,11 @@ app.get("/api/getUsers", getUsers);
 
 app.post("/api/addUser", addUser);
 
-app.patch("/api/updateUser/:UserId", updateUser);
+app.patch("/api/updateUser/:userId", updateUser);
 
-app.delete("/api/deleteUser/:UserId", deleteUser);
+app.delete("/api/deleteUser/:userId", deleteUser);
 
-app.put("/api/logout/:UserId", async (req, res) => {
-  const updateUser = await userModel.findOneAndUpdate(
-    {
-      UserId: req.params.UserId,
-    },
-    {
-      isActive: false,
-    }
-  );
-
-  res.status(200).json({
-    updateUser,
-  });
-});
+app.post("/api/Signup", Signup)
 app.use(errorHandler);
 
 const port = 1337;

@@ -4,7 +4,7 @@ const getUsers = async (req, res) => {
     _id: 0,
     __v: 0,
   });
-
+  console.log(data);
   res.status(200).json({
     message: "Users Data",
     users: data,

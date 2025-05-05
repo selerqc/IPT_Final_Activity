@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import {
@@ -11,12 +11,12 @@ import {
 } from "@mui/material";
 
 function Login() {
-  const [loginData, setLoginData] = React.useState({
+  const [loginData, setLoginData] = useState({
     email: "",
     password: "",
   });
-  const [success, setSuccess] = React.useState("");
-  const [error, setError] = React.useState("");
+  const [success, setSuccess] = useState("");
+  const [error, setError] = useState("");
   const navigate = useNavigate();
 
   const handleLogin = async () => {
