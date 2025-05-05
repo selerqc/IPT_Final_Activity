@@ -5,7 +5,6 @@ import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import axios from "axios";
 import Sidebar from "./Sidebar";
-import "../styles/AddStudent.css";
 
 // Table components
 import Table from "@mui/material/Table";
@@ -84,7 +83,7 @@ function Users() {
 
   const handleEditSubmit = async () => {
     await axios
-      .patch(`http://localhost:1337/api/updateUser/${data.userId}`, data)
+      .patch(`http://localhost:1337/api/updateUser/${data.userId}`, data) // Corrected serId to userId
       .then((res) => {
         alert(res.data.message);
         setEditOpen(false);

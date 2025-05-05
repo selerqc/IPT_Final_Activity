@@ -5,7 +5,6 @@ import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import axios from "axios";
 import Sidebar from "./Sidebar";
-import "../styles/AddStudent.css";
 
 // Table components
 import Table from "@mui/material/Table";
@@ -19,6 +18,16 @@ import Paper from "@mui/material/Paper";
 // Icons
 import DeleteIcon from "@mui/icons-material/DeleteOutlineOutlined";
 import EditIcon from "@mui/icons-material/Edit";
+
+// Enhanced UI components
+import Grid from "@mui/material/Grid";
+import Typography from "@mui/material/Typography";
+import Container from "@mui/material/Container";
+
+// Card components
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import CardHeader from "@mui/material/CardHeader";
 
 function AddStudent() {
   const [students, setStudents] = useState([]);
@@ -69,7 +78,13 @@ function AddStudent() {
 
   const handleSubmit = async () => {
     await axios
-      .post("http://localhost:1337/api/addStudents", data)
+      .post("http://localhost:1337/api/addStudents", {
+        Firstname: data.Firstname,
+        Lastname: data.Lastname,
+        Middlename: data.Middlename,
+        course: data.course,
+        year: data.year,
+      })
       .then((res) => {
         alert("New Student Added");
         setData(res.data.student);
@@ -113,135 +128,130 @@ function AddStudent() {
   return (
     <>
       <Modal open={open} onClose={() => setOpen(false)}>
-        <Box className='modal-box'>
-          <h2 className='modal-header'>Add Student</h2>
-          {[
-            "idNumber",
-            "Firstname",
-            "Lastname",
-            "Middlename",
-            "course",
-            "year",
-          ].map((field) => (
-            <TextField
-              key={field}
-              className='text-field'
-              label={field}
-              name={field}
-              value={data[field]}
-              onChange={handleChange}
-              fullWidth
-              margin='normal'
-            />
-          ))}
+        <Box className="modal-box" sx={{ p: 4, bgcolor: 'background.paper', borderRadius: 2, boxShadow: 24 }}>
+          <Typography variant="h6" component="h2" gutterBottom>
+            Add Student
+          </Typography>
+          <Grid container spacing={2}>
+            {["Firstname", "Lastname", "Middlename", "course", "year"].map((field) => (
+              <Grid item xs={12} key={field}>
+                <TextField
+                  label={field}
+                  name={field}
+                  value={data[field]}
+                  onChange={handleChange}
+                  fullWidth
+                  variant="outlined"
+                />
+              </Grid>
+            ))}
+          </Grid>
           <Button
-            variant='contained'
-            className='submit-button'
-            onClick={handleSubmit}>
+            variant="contained"
+            color="primary"
+            sx={{ mt: 2 }}
+            onClick={handleSubmit}
+          >
             Submit
           </Button>
         </Box>
       </Modal>
 
       <Modal open={editOpen} onClose={() => setEditOpen(false)}>
-        <Box className='modal-box'>
-          <h2 className='modal-header'>Edit Student</h2>
-          {[
-            "idNumber",
-            "Firstname",
-            "Lastname",
-            "Middlename",
-            "course",
-            "year",
-          ].map((field) => (
-            <TextField
-              key={field}
-              className='text-field'
-              label={field}
-              name={field}
-              value={data[field]}
-              onChange={handleChange}
-              fullWidth
-              disabled={field === "idNumber"}
-              margin='normal'
-            />
-          ))}
+        <Box className="modal-box" sx={{ p: 4, bgcolor: 'background.paper', borderRadius: 2, boxShadow: 24 }}>
+          <Typography variant="h6" component="h2" gutterBottom>
+            Edit Student
+          </Typography>
+          <Grid container spacing={2}>
+            {["idNumber", "Firstname", "Lastname", "Middlename", "course", "year"].map((field) => (
+              <Grid item xs={12} key={field}>
+                <TextField
+                  label={field}
+                  name={field}
+                  value={data[field]}
+                  onChange={handleChange}
+                  fullWidth
+                  variant="outlined"
+                  disabled={field === "idNumber"}
+                />
+              </Grid>
+            ))}
+          </Grid>
           <Button
-            variant='contained'
-            className='submit-button'
-            onClick={handleEditSubmit}>
+            variant="contained"
+            color="primary"
+            sx={{ mt: 2 }}
+            onClick={handleEditSubmit}
+          >
             Update
           </Button>
         </Box>
       </Modal>
 
-      <div className='addStudentDashboard'>
-        <Button variant='contained' onClick={() => setOpen(true)}>
-          Add Student
-        </Button>
-        <h1>Student Management</h1>
+      <Container maxWidth="lg">
+        <Grid container spacing={3} alignItems="center" justifyContent="space-between" sx={{ mb: 3 }}>
+          <Grid item>
+            <Typography variant="h4" component="h1">
+              Student Management
+            </Typography>
+          </Grid>
+          <Grid item>
+            <Button variant="contained" color="primary" onClick={() => setOpen(true)}>
+              Add Student
+            </Button>
+          </Grid>
+        </Grid>
 
-        <TableContainer className='table-container' component={Paper}>
-          <Table
-            sx={{ minWidth: 1000 }}
-            size='small'
-            aria-label='a dense table'>
-            <TableHead className='table-head'>
+        {/* New Box for Student Count */}
+        <Grid container spacing={3} sx={{ mb: 3 }}>
+          <Grid item xs={12} sm={6} md={4}>
+            <Card>
+              <CardHeader title="Total Students" sx={{ textAlign: "center" }} />
+              <CardContent>
+                <Typography variant="h5" component="p" align="center">
+                  {students.length}
+                </Typography>
+              </CardContent>
+            </Card>
+          </Grid>
+        </Grid>
+
+        <TableContainer component={Paper} sx={{ mt: 3 }}>
+          <Table size="small" aria-label="a dense table">
+            <TableHead>
               <TableRow>
-                <TableCell className='table-cell'>Id Number</TableCell>
-                <TableCell className='table-cell' align='right'>
-                  First Name
-                </TableCell>
-                <TableCell className='table-cell' align='right'>
-                  Middle Name
-                </TableCell>
-                <TableCell className='table-cell' align='right'>
-                  Last Name
-                </TableCell>
-                <TableCell className='table-cell' align='right'>
-                  Course
-                </TableCell>
-                <TableCell className='table-cell' align='right'>
-                  Year
-                </TableCell>
-                <TableCell className='table-cell' align='right'>
-                  Actions
-                </TableCell>
+                {[
+                  "Id Number",
+                  "First Name",
+                  "Middle Name",
+                  "Last Name",
+                  "Course",
+                  "Year",
+                  "Actions",
+                ].map((header) => (
+                  <TableCell key={header} align="center">
+                    {header}
+                  </TableCell>
+                ))}
               </TableRow>
             </TableHead>
             <TableBody>
               {students.map((student) => (
-                <TableRow className='table-row' key={student.idNumber}>
-                  <TableCell className='table-cell' scope='row'>
-                    {student.idNumber}
-                  </TableCell>
-                  <TableCell className='table-cell' align='right'>
-                    {student.Firstname}
-                  </TableCell>
-                  <TableCell className='table-cell' align='right'>
-                    {student.Middlename}
-                  </TableCell>
-                  <TableCell className='table-cell' align='right'>
-                    {student.Lastname}
-                  </TableCell>
-                  <TableCell className='table-cell' align='right'>
-                    {student.course}
-                  </TableCell>
-                  <TableCell className='table-cell' align='right'>
-                    {student.year}
-                  </TableCell>
-                  <TableCell className='table-cell' align='right'>
+                <TableRow key={student.idNumber} hover>
+                  <TableCell align="center">{student.idNumber}</TableCell>
+                  <TableCell align="center">{student.Firstname}</TableCell>
+                  <TableCell align="center">{student.Middlename}</TableCell>
+                  <TableCell align="center">{student.Lastname}</TableCell>
+                  <TableCell align="center">{student.course}</TableCell>
+                  <TableCell align="center">{student.year}</TableCell>
+                  <TableCell align="center">
                     <DeleteIcon
-                      className='icon'
                       onClick={() => deleteStudent(student.idNumber)}
-                      style={{
-                        marginRight: "10px",
-                        color: "red",
-                      }}
+                      sx={{ cursor: "pointer", color: "error.main", mr: 1 }}
                     />
                     <EditIcon
-                      className='icon'
                       onClick={() => handleEditClick(student)}
+                      sx={{ cursor: "pointer", color: "primary.main" }}
                     />
                   </TableCell>
                 </TableRow>
@@ -249,7 +259,7 @@ function AddStudent() {
             </TableBody>
           </Table>
         </TableContainer>
-      </div>
+      </Container>
 
       <Sidebar />
     </>

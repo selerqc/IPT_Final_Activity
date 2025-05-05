@@ -63,6 +63,8 @@ function Login() {
             label="Email"
             variant="outlined"
             margin="normal"
+            type="email"
+
             value={loginData.email}
 
             onChange={(e) => setLoginData({ ...loginData, email: e.target.value })}
