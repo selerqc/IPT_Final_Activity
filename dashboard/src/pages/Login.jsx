@@ -1,114 +1,97 @@
-import { useEffect, useRef, useState } from "react";
-// import "../styles/Login.css";
+import React from "react";
 import { useNavigate } from "react-router-dom";
-import VisibilityIcon from "@mui/icons-material/Visibility";
-import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import axios from "axios";
-import CssBaseline from "@mui/material/CssBaseline";
-import Box from "@mui/material/Box";
-import Container from "@mui/material/Container";
-import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
-function Login() {
-  const [LoginData, setLoginData] = useState({
-    username: "",
-    password: "",
-    isActive: false,
-  });
+import {
+  Box,
+  Button,
+  Container,
+  TextField,
+  Typography,
+  Alert,
+} from "@mui/material";
 
-  const [showPassword, setShowPassword] = useState(false);
-  const [error, setError] = useState("");
+function Login() {
+  const [loginData, setLoginData] = React.useState({
+    email: "",
+    password: "",
+  });
+  const [success, setSuccess] = React.useState("");
+  const [error, setError] = React.useState("");
   const navigate = useNavigate();
 
-  const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
-  };
-  const handleWithoutLogin = () => {
-    alert("You are logged in as a guest user");
-    window.localStorage.setItem("Usertype", "guest");
-    window.localStorage.setItem("isLoggedin", false);
-    navigate("/Dashboard");
-  };
   const handleLogin = async () => {
-    if (!LoginData.username || !LoginData.password) {
+    if (!loginData.email || !loginData.password) {
       setError("Please fill in all fields");
       return;
     }
-    await axios
-      .post(`http://localhost:1337/api/Login`, {
-        username: LoginData.username,
-        password: LoginData.password,
-      })
-      .then((res) => {
-        window.localStorage.setItem("UserId", res.data.user.UserId);
-        window.localStorage.setItem("Usertype", "admin");
-        window.localStorage.setItem("username", LoginData.username);
-        alert("Login Successful, Welcome " + LoginData.username);
-
-        navigate("/Dashboard");
-      })
-      .catch((err) => {
-        console.log(err);
-        setError(err.response.data.message);
+    try {
+      const res = await axios.post(`http://localhost:1337/api/Login`, {
+        email: loginData.email,
+        password: loginData.password,
       });
+      setSuccess(res.data.status);
+      setTimeout(() => navigate("/Dashboard"), 3000);
+    } catch (err) {
+      setError(err.response?.data?.message || "An error occurred");
+    }
   };
+
   return (
-    <Container
-      maxWidth='xs'
-      sx={{
-        width: "100vw",
-        height: "95vh",
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-      }}>
-      <Box component='section'>
-        <h1 className='login-title'>Login</h1>
-
-        {error && <p className='error-message'>{error}</p>}
-
-        <TextField
-          id='username'
-          label='Username'
-          variant='outlined'
-          size='small'
-          value={LoginData.username}
-          onChange={(e) =>
-            setLoginData({ ...LoginData, username: e.target.value })
-          }
-          fullWidth></TextField>
-
-        <TextField
-          id='password'
-          label='Password'
-          variant='outlined'
-          value={LoginData.password}
-          size='small'
-          onChange={(e) =>
-            setLoginData({ ...LoginData, password: e.target.value })
-          }
-          type={showPassword ? "text" : "password"}
-          fullWidth
-          margin='normal'></TextField>
-
-        <Button
-          id='login-btn'
-          variant='contained'
-          size='small'
-          fullWidth
-          onClick={handleLogin}>
+    <Container maxWidth="xs" sx={{ height: "100vh", display: "flex", alignItems: "center" }}>
+      <Box
+        sx={{
+          width: "100%",
+          padding: 3,
+          boxShadow: 3,
+          borderRadius: 2,
+          textAlign: "center",
+        }}
+      >
+        <Typography variant="h4" gutterBottom>
           Login
-        </Button>
+        </Typography>
 
-        <a
-          className='guest-link'
-          href='#'
-          onClick={(e) => {
-            e.preventDefault();
-            handleWithoutLogin();
-          }}>
-          Continue without Login
-        </a>
+        {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
+        {success && <Alert severity="success" sx={{ mb: 2 }}>{success}</Alert>}
+
+
+
+        <form onSubmit={(e) => { e.preventDefault(); handleLogin(); }}>
+          <TextField
+
+            fullWidth
+            label="Email"
+            variant="outlined"
+            margin="normal"
+            value={loginData.email}
+
+            onChange={(e) => setLoginData({ ...loginData, email: e.target.value })}
+          />
+          <TextField
+            fullWidth
+            label="Password"
+            variant="outlined"
+            margin="normal"
+            type="password"
+
+            value={loginData.password}
+            onChange={(e) => setLoginData({ ...loginData, password: e.target.value })}
+          />
+
+
+          <Button
+            fullWidth
+            variant="contained"
+            color="primary"
+            sx={{ mt: 2 }}
+            type="submit"
+          >
+            Login
+          </Button>
+        </form>
+        <Typography variant="body2" sx={{ mt: 2 }}>
+          Don&apos;t have an account? <a href="/Signup">Signup</a>
+        </Typography>
       </Box>
     </Container>
   );

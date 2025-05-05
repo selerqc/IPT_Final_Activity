@@ -2,6 +2,11 @@ const userModel = require("../models/userModel");
 const addUser = (req, res) => {
   const { UserId, Firstname, Lastname, Middlename, Username, Password } =
     req.body;
+
+
+  userModel.findOne({ UserId }).then((user) => {
+    if (user) throw ("User already exists");
+  });
   const User = new userModel({
     UserId,
     Firstname,

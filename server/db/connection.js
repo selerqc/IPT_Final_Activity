@@ -1,9 +1,7 @@
 const mongoose = require("mongoose");
 const connection = () => {
   mongoose
-    .connect(
-      "mongodb+srv://mrcharlesagustin:selerqc@mydbdata.iod8q.mongodb.net/SIS?retryWrites=true&w=majority&appName=mydbdata"
-    )
+    .connect("mongodb://localhost:27017/SIS")
     .then(() => {
       console.log("Connected to MongoDB");
     })

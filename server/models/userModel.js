@@ -4,31 +4,29 @@ const UserModel = new mongoose.Schema(
   {
     UserId: {
       type: String,
-      required: true,
+      required: [true, "id is required"],
     },
     Firstname: {
       type: String,
-      required: [true, "id is required"],
+      required: [true, "Firstname is required"],
     },
     Lastname: {
       type: String,
-      required: true,
+      required: [true, "Lastname is required"],
     },
     Middlename: {
       type: String,
     },
-    Username: {
+    Email: {
       type: String,
-      required: true,
+      required: [true, "Email is required"],
     },
+
     Password: {
       type: String,
-      required: true,
+      required: [true, "Password is required"],
     },
-    isActive: {
-      type: Boolean,
-      default: false,
-    },
+   
   },
   {
     collection: "user-data",

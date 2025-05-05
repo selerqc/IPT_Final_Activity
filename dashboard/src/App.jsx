@@ -6,6 +6,7 @@ import "./App.css";
 import TaskTracker from "./pages/TaskTracker";
 import Login from "./pages/Login";
 import Users from "./pages/Users";
+import Signup from "./pages/Signup";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path='/' element={<Login />} />
+          <Route path='/Signup' element={<Signup />} />
           <Route path='/Dashboard' element={<Dashboard />} />
           <Route path='/AddStudent' element={<AddStudent />} />
           <Route path='/TaskTracker' element={<TaskTracker />} />

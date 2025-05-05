@@ -1,20 +1,17 @@
 const userModel = require("../models/userModel");
 const Login = async (req, res) => {
-  const { username, password } = req.body;
-  const user = await userModel.findOne({
-    Username: username,
-    Password: password,
-  });
-  await userModel.findOneAndUpdate(
-    { Username: username, Password: password },
-    {
-      isActive: true,
-    }
-  );
-  console.log(user);
+  const { email, password } = req.body;
+ 
+  if (!email || !password) throw "Please fill in all fields";
+  
+  const user = await userModel.findOne({ email });
   if (!user) throw "User not found";
+  if (user.Email !== email) throw "Incorrect email";
+
+  if (user.Password !== password) throw "Incorrect password";
+
   res.status(200).json({
-    status: `Login Successful, Welcome ${username}`,
+    status: `Login Successful, Welcome ${user.Username}`,
     user,
   });
 };

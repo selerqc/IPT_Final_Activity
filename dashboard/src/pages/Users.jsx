@@ -216,9 +216,7 @@ function Users() {
                   <TableCell className='table-cell' align='right'>
                     Password
                   </TableCell>
-                  <TableCell className='table-cell' align='right'>
-                    Is Active
-                  </TableCell>
+
 
                   <TableCell className='table-cell' align='right'>
                     Actions
@@ -246,9 +244,7 @@ function Users() {
                     <TableCell className='table-cell' align='right'>
                       {user.Password}
                     </TableCell>
-                    <TableCell className='table-cell' align='right'>
-                      {user.isActive ? "Active" : "Inactive"}
-                    </TableCell>
+
 
                     <TableCell className='table-cell' align='right'>
                       <DeleteIcon

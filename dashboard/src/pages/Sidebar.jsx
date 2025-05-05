@@ -5,9 +5,10 @@ import AccessibilityIcon from "@mui/icons-material/Accessibility";
 import TaskIcon from "@mui/icons-material/Task";
 import PeopleIcon from "@mui/icons-material/People";
 import "../styles/Sidebar.css";
-import { Outlet, Link } from "react-router-dom";
+import { Outlet, Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 function Sidebar() {
+  const Navigate = useNavigate();
   // const links = [
   //   { to: "/Dashboard", label: "HOME", icon: <HomeIcon /> },
   //   { to: "/AddStudent", label: "STUDENTS", icon: <AccessibilityIcon /> },
@@ -16,78 +17,46 @@ function Sidebar() {
   //   { to: "/", label: "Logout", icon: <InfoIcon /> },
   // ];
   const handleLogout = () => {
-    axios
-      .put(`http://localhost:1337/api/logout/${localStorage.getItem("UserId")}`)
-      .then((res) => {
-        console.log(res);
-        window.localStorage.removeItem("Usertype");
-        window.localStorage.removeItem("UserId");
-        window.localStorage.removeItem("username");
-        window.location.href = "/";
-      });
+    Navigate("/");
   };
-  const Usertype = window.localStorage.getItem("Usertype");
+
   return (
     <div>
-      {Usertype === "admin" ? (
-        <>
-          <div className='side'>
-            <Link to='/Dashboard'>
-              <p>
-                <HomeIcon />
-                Dashboard
-              </p>
-            </Link>
-            <Link to='/AddStudent'>
-              <p>
-                <AccessibilityIcon />
-                Student
-              </p>
-            </Link>
-            <Link to='/Users'>
-              <p>
-                <PeopleIcon />
-                Users
-              </p>
-            </Link>
-            <Link to='/TaskTracker'>
-              <p>
-                <TaskIcon />
-                Task Tracker
-              </p>
-            </Link>
 
-            <p onClick={handleLogout}>
-              <InfoIcon />
-              Logout
+      <>
+        <div className='side'>
+          <Link to='/Dashboard'>
+            <p>
+              <HomeIcon />
+              Dashboard
             </p>
-          </div>
-        </>
-      ) : Usertype === "guest" ? (
-        <>
-          <div className='side'>
-            <Link to='/Dashboard'>
-              <p>
-                <HomeIcon />
-                Dashboard
-              </p>
-            </Link>
-            <Link to='/TaskTracker'>
-              <p>
-                <TaskIcon />
-                Task Tracker
-              </p>
-            </Link>
+          </Link>
+          <Link to='/AddStudent'>
+            <p>
+              <AccessibilityIcon />
+              Student
+            </p>
+          </Link>
+          <Link to='/Users'>
+            <p>
+              <PeopleIcon />
+              Users
+            </p>
+          </Link>
+          <Link to='/TaskTracker'>
+            <p>
+              <TaskIcon />
+              Task Tracker
+            </p>
+          </Link>
 
-            <p onClick={handleLogout}>
-              <InfoIcon />
-              Logout
-            </p>
-          </div>
-        </>
-      ) : (
-        ""
-      )}
+          <p onClick={handleLogout}>
+            <InfoIcon />
+            Logout
+          </p>
+        </div>
+      </>
+
       <Outlet />
     </div>
   );
