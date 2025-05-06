@@ -40,7 +40,14 @@ const Users = () => {
   };
 
   const handleSubmit = () => {
-    console.log('Submitting data:', data);
+    setData({
+      userId: '',
+      firstname: '',
+      lastname: '',
+      middlename: '',
+      email: '',
+      password: ''
+    });
     axios.post('http://localhost:1337/api/addUser', {
       firstname: data.firstname,
       lastname: data.lastname,
@@ -67,12 +74,29 @@ const Users = () => {
   };
 
   const handleEdit = (user) => {
+
     setData(user);
     setEditOpen(true);
   };
-
+  const handleDelete = (userId) => {
+    axios.delete(`http://localhost:1337/api/deleteUser/${userId}`)
+      .then((response) => {
+        toast.success('User deleted successfully!');
+        fetchUsers();
+      })
+      .catch((error) => {
+        console.error('Error deleting user:', error);
+      });
+  };
   const handleEditSubmit = () => {
-    console.log('Updated data:', data);
+    setData({
+      userId: '',
+      firstname: '',
+      lastname: '',
+      middlename: '',
+      email: '',
+      password: ''
+    });
     axios.patch(`http://localhost:1337/api/updateUser/${data.userId}`, {
       firstname: data.firstname,
       lastname: data.lastname,
@@ -88,6 +112,7 @@ const Users = () => {
         console.error('Error updating user:', error);
       });
     setEditOpen(false);
+
   };
 
   return (
@@ -102,12 +127,13 @@ const Users = () => {
           </Typography>
         </div>
 
-        <Button variant="contained" color="primary" onClick={() => setOpen(true)} sx={{ height: '45px', width: '130px' }}>
-          Add User
-        </Button>
+
       </Box>
 
       <div style={{ padding: '20px', textAlign: 'right' }}>
+        <Button variant="contained" color="primary" onClick={() => setOpen(true)}>
+          Add User
+        </Button>
         <ReusableModal
           open={open}
           onClose={() => setOpen(false)}
@@ -150,7 +176,7 @@ const Users = () => {
                   <TableCell>{user.password}</TableCell>
                   <TableCell>
                     <Button variant="contained" color="primary" onClick={() => handleEdit(user)}>Edit</Button>
-                    <Button variant="contained" color="secondary" onClick={() => console.log('Delete', user)}>Delete</Button>
+                    <Button variant="contained" color="secondary" onClick={() => handleDelete}>Delete</Button>
                   </TableCell>
                 </TableRow>
               ))}

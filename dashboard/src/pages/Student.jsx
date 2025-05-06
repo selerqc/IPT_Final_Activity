@@ -74,9 +74,7 @@ const Student = () => {
           </Typography>
         </div>
 
-        <Button variant="contained" color="primary" onClick={() => setOpen(true)} sx={{ height: '45px', width: '130px' }}>
-          Add Student
-        </Button>
+
       </Box>
       <div style={{ padding: '20px', textAlign: 'right' }}>
         <Sidebar />
