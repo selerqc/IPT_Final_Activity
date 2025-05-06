@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import {
   Box,
@@ -30,9 +30,11 @@ function Login() {
         password: loginData.password,
       });
       setSuccess(res.data.status);
+      setError("");
       setTimeout(() => navigate("/Dashboard"), 3000);
     } catch (err) {
       setError(err.response?.data?.message || "An error occurred");
+      setSuccess('');
     }
   };
 
@@ -50,9 +52,9 @@ function Login() {
         <Typography variant="h4" gutterBottom>
           Login
         </Typography>
-
         {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
         {success && <Alert severity="success" sx={{ mb: 2 }}>{success}</Alert>}
+
 
 
 
@@ -92,7 +94,7 @@ function Login() {
           </Button>
         </form>
         <Typography variant="body2" sx={{ mt: 2 }}>
-          Don&apos;t have an account? <a href="/Signup">Signup</a>
+          Don&apos;t have an account? <Link to="/Signup" style={{ color: "blue" }}>Signup</Link>
         </Typography>
       </Box>
     </Container>

@@ -1,9 +1,8 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Dashboard from "./pages/Dashboard";
-import AddStudent from "./pages/AddStudent";
+import Student from "./pages/Student";
 
 import "./App.css";
-import TaskTracker from "./pages/TaskTracker";
 import Login from "./pages/Login";
 import Users from "./pages/Users";
 import Signup from "./pages/Signup";
@@ -16,8 +15,7 @@ function App() {
           <Route path='/' element={<Login />} />
           <Route path='/Signup' element={<Signup />} />
           <Route path='/Dashboard' element={<Dashboard />} />
-          <Route path='/AddStudent' element={<AddStudent />} />
-          <Route path='/TaskTracker' element={<TaskTracker />} />
+          <Route path='/Students' element={<Student />} />
           <Route path='/Users' element={<Users />} />
         </Routes>
       </BrowserRouter>

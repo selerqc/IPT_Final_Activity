@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { TextField, Button, Box, Typography, Container, Alert } from '@mui/material';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 const Signup = () => {
     const navigate = useNavigate();
     const [formData, setFormData] = useState({
@@ -127,9 +127,9 @@ const Signup = () => {
                 </form>
                 <Typography variant="body2" sx={{ mt: 2 }} align="center">
                     Already have an account?{' '}
-                    <a href="/" style={{ color: 'blue' }}>
+                    <Link to="/" style={{ color: 'blue' }}>
                         Login
-                    </a>
+                    </Link>
                 </Typography>
             </Box>
         </Container>
