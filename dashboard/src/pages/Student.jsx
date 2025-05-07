@@ -16,16 +16,21 @@ const Student = () => {
     year: ''
   });
   const [editData, setEditData] = useState({
-    studentId: '',
+    idNumber: '',
     firstname: '',
     lastname: '',
     middlename: '',
-    email: '',
     course: '',
+    year: '',
   });
   const [students, setStudents] = useState([]);
 
   useEffect(() => {
+
+    fetchStudents();
+  }, []);
+
+  const fetchStudents = () => {
     axios.get('http://localhost:1337/api/getStudents')
       .then((response) => {
         setStudents(response.data.students);
@@ -33,7 +38,7 @@ const Student = () => {
       .catch((error) => {
         console.error('Error fetching students:', error);
       });
-  }, []);
+  };
 
   const handleChange = (e) => {
     setData({ ...data, [e.target.name]: e.target.value });
@@ -61,10 +66,24 @@ const Student = () => {
     console.log('Updated data:', editData);
     setEditOpen(false);
   };
-
+  const handleDelete = (id) => {
+    axios.delete(`http://localhost:1337/api/deleteStudents/${id}`)
+      .then((response) => {
+        alert('Student deleted successfully!');
+        fetchStudents();
+      })
+      .catch((error) => {
+        console.error('Error deleting student:', error);
+      });
+  };
   return (
     <>
-      <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'left', padding: '20px', boxShadow: 2 }}>
+      <Box sx={{
+        flexGrow: 1,
+        bgcolor: "background.paper",
+        boxShadow: 3,
+        p: 3,
+      }}>
         <div className="user-header">
           <Typography variant="h4" gutterBottom>
             Manage Students
@@ -97,12 +116,13 @@ const Student = () => {
           handleChange={handleEditChange}
           handleSubmit={handleEditSubmit}
           title="Edit Student"
-          fields={["studentId", "firstname", "lastname", "middlename", "email", "course"]}
+          fields={["studentId", "firstname", "lastname", "middlename", "course", "year"]}
         />
         <TableContainer component={Paper} sx={{ mt: 4 }}>
           <Table>
             <TableHead>
               <TableRow>
+                <TableCell>Id Number</TableCell>
                 <TableCell>Firstname</TableCell>
                 <TableCell>Lastname</TableCell>
                 <TableCell>Middlename</TableCell>
@@ -114,26 +134,31 @@ const Student = () => {
             <TableBody>
               {students.map((student, index) => (
                 <TableRow key={index}>
+                  <TableCell>{student.idNumber}</TableCell>
                   <TableCell>{student.Firstname}</TableCell>
                   <TableCell>{student.Lastname}</TableCell>
                   <TableCell>{student.Middlename}</TableCell>
                   <TableCell>{student.course}</TableCell>
                   <TableCell>{student.year}</TableCell>
                   <TableCell>
-                    <Button variant="contained" color="secondary" onClick={() => {
+                    <Button variant="contained" color="primary" onClick={() => {
                       setEditData({
-                        studentId: student.id,
+                        studentId: student.idNumber,
                         firstname: student.Firstname,
                         lastname: student.Lastname,
                         middlename: student.Middlename,
-                        email: student.email,
                         course: student.course,
+                        year: student.year,
                       });
                       setEditOpen(true);
                     }}>
                       Edit
                     </Button>
+                    <Button variant="contained" color="error" onClick={() => handleDelete(student.idNumber)}>
+                      Delete
+                    </Button>
                   </TableCell>
+
                 </TableRow>
               ))}
             </TableBody>

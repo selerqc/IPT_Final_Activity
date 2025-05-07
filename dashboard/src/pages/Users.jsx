@@ -5,7 +5,6 @@ import EditModal from '../components/EditModal';
 import Sidebar from './Sidebar';
 import axios from 'axios';
 import Box from '@mui/material/Box';
-import { Toaster, toast } from 'sonner';
 const Users = () => {
   const [open, setOpen] = useState(false);
   const [editOpen, setEditOpen] = useState(false);
@@ -56,7 +55,7 @@ const Users = () => {
       password: data.password
     })
       .then((response) => {
-        toast.success('User added successfully!');
+        alert('User added successfully!');
         fetchUsers();
       })
       .catch((error) => {
@@ -81,7 +80,7 @@ const Users = () => {
   const handleDelete = (userId) => {
     axios.delete(`http://localhost:1337/api/deleteUser/${userId}`)
       .then((response) => {
-        toast.success('User deleted successfully!');
+        alert('User deleted successfully!');
         fetchUsers();
       })
       .catch((error) => {
@@ -117,7 +116,12 @@ const Users = () => {
 
   return (
     <>
-      <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'left', padding: '20px', boxShadow: 2 }}>
+      <Box sx={{
+        flexGrow: 1,
+        bgcolor: "background.paper",
+        boxShadow: 3,
+        p: 3
+      }}>
         <div className="user-header">
           <Typography variant="h4" gutterBottom>
             Manage Users
@@ -176,7 +180,7 @@ const Users = () => {
                   <TableCell>{user.password}</TableCell>
                   <TableCell>
                     <Button variant="contained" color="primary" onClick={() => handleEdit(user)}>Edit</Button>
-                    <Button variant="contained" color="secondary" onClick={() => handleDelete}>Delete</Button>
+                    <Button variant="contained" color="error" onClick={() => handleDelete}>Delete</Button>
                   </TableCell>
                 </TableRow>
               ))}

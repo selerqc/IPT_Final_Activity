@@ -35,7 +35,7 @@ const Signup = () => {
             .then((res) => {
 
                 setSuccess('Signup successful!');
-                navigate('/dashboard');
+                setTimeout(() => navigate("/Dashboard"), 3000);
                 setError('');
             })
             .catch((err) => {
@@ -50,7 +50,7 @@ const Signup = () => {
     return (
         <Container maxWidth="xs" sx={{ height: '100vh', display: 'flex', alignItems: 'center' }}>
             <Box sx={{ mt: 4, p: 3, boxShadow: 3, borderRadius: 2 }}>
-                <Typography variant="h4" component="h1" gutterBottom>
+                <Typography variant="h4" component="h1" gutterBottom align="center">
                     Signup
                 </Typography>
 

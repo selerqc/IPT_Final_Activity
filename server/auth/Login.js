@@ -1,9 +1,9 @@
 const userModel = require("../models/userModel");
 const Login = async (req, res) => {
   const { email, password } = req.body;
- 
+
   if (!email || !password) throw "Please fill in all fields";
-  
+
   const user = await userModel.findOne({ email });
 
   if (!user) throw "User not found";

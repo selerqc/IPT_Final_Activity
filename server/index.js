@@ -7,40 +7,21 @@ const cors = require("cors");
 const connection = require("./db/connection");
 const app = express();
 
-const getUsers = require("./usercontrollers/getUsers");
-const addUser = require("./usercontrollers/addUsers");
-const updateUser = require("./usercontrollers/updateUser");
-const deleteUser = require("./usercontrollers/deleteUser");
-const addStudent = require("./studentscontrollers/addStudent");
-const getStudents = require("./studentscontrollers/getStudents");
-const updateStudent = require("./studentscontrollers/updateStudent");
-const deleteStudent = require("./studentscontrollers/deleteStudent");
 const Login = require("./auth/Login");
 
 const Signup = require("./auth/Signup");
+const userRoute = require("./routes/user.route");
+const studentRoute = require("./routes/student.route");
 app.use(cors());
 app.use(express.json());
 
 connection();
-app.get("/api/getStudents", getStudents);
-
-app.post("/api/addStudents", addStudent);
-
-app.patch("/api/updateStudent/:idNumber", updateStudent);
-
-app.delete("/api/deleteStudents/:idNumber", deleteStudent);
 
 app.post("/api/Login", Login);
+app.post("/api/Signup", Signup);
 
-app.get("/api/getUsers", getUsers);
-
-app.post("/api/addUser", addUser);
-
-app.patch("/api/updateUser/:userId", updateUser);
-
-app.delete("/api/deleteUser/:userId", deleteUser);
-
-app.post("/api/Signup", Signup)
+app.use("/api",userRoute)
+app.use("/api",studentRoute)
 app.use(errorHandler);
 
 const port = 1337;
