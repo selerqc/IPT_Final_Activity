@@ -178,7 +178,7 @@ const Users = () => {
                   <TableCell>{user.lastname}</TableCell>
                   <TableCell>{user.middlename}</TableCell>
                   <TableCell>{user.email}</TableCell>
-                  <TableCell sx={{}}>Password is Hashed!!!</TableCell>
+                  <TableCell>••••••••</TableCell>
                   <TableCell sx={{ display: 'flex', gap: '10px' }}>
                     <Button variant="contained" color="primary" sx={{ ":hover": { transform: 'translateY(-2px)' } }} onClick={() => handleEdit(user)}>Edit</Button>
                     <Button variant="contained" color="error" sx={{ ":hover": { transform: 'translateY(-2px)' } }} onClick={() => handleDelete(user.userId)}>Delete</Button>

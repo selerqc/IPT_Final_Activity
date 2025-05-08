@@ -52,7 +52,7 @@ const Navbar = () => {
             <List>
                 {NAVIGATION.map((item, index) => (
                     <ListItem key={item.text} disablePadding>
-                        <ListItemButton onClick={() => navigate(item.path)} >
+                        <ListItemButton onClick={() => navigate(item.path)} sx={{ ":hover": { backgroundColor: "#E0E1DD" } }}>
                             <ListItemIcon sx={{ color: 'black' }}>
                                 {item.icon}
                             </ListItemIcon>
