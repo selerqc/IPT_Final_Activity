@@ -5,6 +5,8 @@ import EditModal from '../components/EditModal';
 import Sidebar from './Sidebar';
 import axios from 'axios';
 import Box from '@mui/material/Box';
+import SimpleAlert from '../components/SimpleAlert';
+
 const Users = () => {
   const [open, setOpen] = useState(false);
   const [editOpen, setEditOpen] = useState(false);
@@ -17,18 +19,25 @@ const Users = () => {
     password: ''
   });
   const [users, setUsers] = useState([]);
-
+  const [alert, setAlert] = useState({ message: '', severity: '', visible: false });
   useEffect(() => {
     fetchUsers()
   }, []);
-
+  useEffect(() => {
+    if (alert.visible) {
+      const timer = setTimeout(() => {
+        setAlert({ ...alert, visible: false });
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [alert]);
   const handleChange = (e) => {
     const { name, value } = e.target;
     setData((prevData) => ({ ...prevData, [name]: value }));
   };
 
   const fetchUsers = () => {
-    // Fetch users data from the server
+
     axios.get('http://localhost:1337/api/getUsers')
       .then((response) => {
         setUsers(response.data.users);
@@ -39,14 +48,7 @@ const Users = () => {
   };
 
   const handleSubmit = () => {
-    setData({
-      userId: '',
-      firstname: '',
-      lastname: '',
-      middlename: '',
-      email: '',
-      password: ''
-    });
+
     axios.post('http://localhost:1337/api/addUser', {
       firstname: data.firstname,
       lastname: data.lastname,
@@ -55,11 +57,11 @@ const Users = () => {
       password: data.password
     })
       .then((response) => {
-        alert('User added successfully!');
+        setAlert({ message: 'User added successfully!', severity: 'success', visible: true });
         fetchUsers();
       })
       .catch((error) => {
-        console.error('Error adding user:', error);
+        setAlert({ message: 'Error adding user!', severity: 'error', visible: true });
       });
     setData({
       userId: '',
@@ -80,22 +82,14 @@ const Users = () => {
   const handleDelete = (userId) => {
     axios.delete(`http://localhost:1337/api/deleteUser/${userId}`)
       .then((response) => {
-        alert('User deleted successfully!');
+        setAlert({ message: 'User deleted successfully!', severity: 'success', visible: true });
         fetchUsers();
       })
       .catch((error) => {
-        console.error('Error deleting user:', error);
+        setAlert({ message: 'Error deleting user!', severity: 'error', visible: true });
       });
   };
   const handleEditSubmit = () => {
-    setData({
-      userId: '',
-      firstname: '',
-      lastname: '',
-      middlename: '',
-      email: '',
-      password: ''
-    });
     axios.patch(`http://localhost:1337/api/updateUser/${data.userId}`, {
       firstname: data.firstname,
       lastname: data.lastname,
@@ -104,18 +98,28 @@ const Users = () => {
       password: data.password
     })
       .then((response) => {
-        alert('User updated:', response.data.message);
+        setAlert({ message: 'User updated successfully!', severity: 'success', visible: true });
+        setData({
+          userId: '',
+          firstname: '',
+          lastname: '',
+          middlename: '',
+          email: '',
+          password: ''
+        });
         fetchUsers();
       })
       .catch((error) => {
-        console.error('Error updating user:', error);
+        setAlert({ message: 'Error updating user!', severity: 'error', visible: true });
       });
     setEditOpen(false);
-
   };
 
   return (
     <>
+      {alert.visible && (
+        <SimpleAlert message={alert.message} severity={alert.severity} />
+      )}
       <Box sx={{
         flexGrow: 1,
         bgcolor: "background.paper",

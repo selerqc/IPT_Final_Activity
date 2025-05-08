@@ -6,7 +6,7 @@ const ReusableModal = ({ open, onClose, title, fields, data, handleChange, handl
     return (
         <Modal open={open} onClose={onClose} sx={{ width: "30%", margin: "auto" }}>
             <Box className="modal-box" sx={{ p: 4, bgcolor: 'background.paper', borderRadius: 2, boxShadow: 24 }}>
-                <Typography variant="h6" component="h2" gutterBottom>
+                <Typography variant="h4" component="h2" gutterBottom sx={{ mb: 2, textAlign: 'center', fontWeight: 'bold' }}>
                     {title}
                 </Typography>
                 <Grid container spacing={2}>

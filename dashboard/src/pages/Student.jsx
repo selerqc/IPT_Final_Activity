@@ -4,7 +4,8 @@ import ReusableModal from '../components/AddModal';
 import EditModal from '../components/EditModal';
 import Sidebar from './Sidebar';
 import axios from 'axios';
-
+import SimpleAlert from '../components/SimpleAlert';
+import Alert from '@mui/material/Alert';
 const Student = () => {
   const [open, setOpen] = useState(false);
   const [editOpen, setEditOpen] = useState(false);
@@ -24,12 +25,19 @@ const Student = () => {
     year: '',
   });
   const [students, setStudents] = useState([]);
-
+  const [alert, setAlert] = useState({ message: '', severity: '', visible: false });
   useEffect(() => {
 
     fetchStudents();
   }, []);
-
+  useEffect(() => {
+    if (alert.visible) {
+      const timer = setTimeout(() => {
+        setAlert({ ...alert, visible: false });
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [alert]);
   const fetchStudents = () => {
     axios.get('http://localhost:1337/api/getStudents')
       .then((response) => {
@@ -52,32 +60,45 @@ const Student = () => {
   const handleSubmit = () => {
     axios.post('http://localhost:1337/api/addStudents', data)
       .then((response) => {
-        console.log('Student added:', response.data.student);
+        setAlert({ message: 'Student added successfully!', severity: 'success', visible: true });
         setStudents([...students, response.data.student]);
       })
       .catch((error) => {
-        console.error('Error adding student:', error);
+        setAlert({ message: 'Error adding student!', severity: 'error', visible: true });
       });
     setOpen(false);
   };
 
   const handleEditSubmit = () => {
-    // Add logic to handle form submission
-    console.log('Updated data:', editData);
+
+    axios.patch(`http://localhost:1337/api/updateStudent/${editData.idNumber}`, editData)
+      .then((response) => {
+        setAlert({ message: 'Student updated successfully!', severity: 'success', visible: true });
+        fetchStudents();
+      })
+      .catch((error) => {
+        setAlert({ message: 'Error updating student!', severity: 'error', visible: true });
+      });
     setEditOpen(false);
   };
   const handleDelete = (id) => {
     axios.delete(`http://localhost:1337/api/deleteStudents/${id}`)
       .then((response) => {
-        alert('Student deleted successfully!');
+        setAlert({ message: 'Student deleted successfully!', severity: 'success', visible: true });
         fetchStudents();
       })
       .catch((error) => {
-        console.error('Error deleting student:', error);
+        setAlert({ message: 'Error deleting student!', severity: 'error', visible: true });
       });
   };
   return (
     <>
+      {alert.visible && (
+        <SimpleAlert
+          message={alert.message}
+          severity={alert.severity}
+        />
+      )}
       <Box sx={{
         flexGrow: 1,
         bgcolor: "background.paper",
@@ -116,7 +137,7 @@ const Student = () => {
           handleChange={handleEditChange}
           handleSubmit={handleEditSubmit}
           title="Edit Student"
-          fields={["studentId", "firstname", "lastname", "middlename", "course", "year"]}
+          fields={["idNumber", "firstname", "lastname", "middlename", "course", "year"]}
         />
         <TableContainer component={Paper} sx={{ mt: 4 }}>
           <Table>
@@ -140,10 +161,11 @@ const Student = () => {
                   <TableCell>{student.Middlename}</TableCell>
                   <TableCell>{student.course}</TableCell>
                   <TableCell>{student.year}</TableCell>
+
                   <TableCell>
                     <Button variant="contained" color="primary" onClick={() => {
                       setEditData({
-                        studentId: student.idNumber,
+                        idNumber: student.idNumber,
                         firstname: student.Firstname,
                         lastname: student.Lastname,
                         middlename: student.Middlename,
@@ -154,6 +176,7 @@ const Student = () => {
                     }}>
                       Edit
                     </Button>
+
                     <Button variant="contained" color="error" onClick={() => handleDelete(student.idNumber)}>
                       Delete
                     </Button>

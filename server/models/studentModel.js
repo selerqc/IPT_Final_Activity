@@ -1,40 +1,41 @@
 const mongoose = require('mongoose');
 const AutoIncrement = require('mongoose-sequence')(mongoose);
 const StudentModel = new mongoose.Schema({
-    idNumber:{
+    idNumber: {
         type: Number,
 
         unique: true,
     },
-    Firstname:{
+    Firstname: {
         type: String,
-        required: [true,"Firstname is required"],
+        required: [true, "Firstname is required"],
     },
-    Lastname:{
+    Lastname: {
         type: String,
-        required: [true,"Lastname is required"],
+        required: [true, "Lastname is required"],
     },
-    Middlename:{
+    Middlename: {
         type: String,
 
     },
-    course:{
+    course: {
         type: String,
-        required: [true,"Course is required"],
+        required: [true, "Course is required"],
 
     },
-    year:{
-        
-        type: String,
-        required: [true,"Year is required"],
-    },
-    
+    year: {
 
-},{
-    collection:"student-data"
+        type: String,
+        required: [true, "Year is required"],
+    },
+
+
+}, {
+    collection: "student-data"
 });
 
 
-StudentModel.plugin(AutoIncrement, {inc_field: 'idNumber', start_seq: 5000, increment_by: 1 });
+StudentModel.plugin(AutoIncrement, { inc_field: 'idNumber', start_seq: 5000, increment_by: 1 });
+
 
 module.exports = mongoose.model("Student", StudentModel);

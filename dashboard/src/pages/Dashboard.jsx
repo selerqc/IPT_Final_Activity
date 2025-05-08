@@ -1,6 +1,5 @@
 import { React, useState, useEffect } from "react";
 import Sidebar from "./Sidebar";
-import "../styles/Dashboard.css";
 import { Box, Typography } from "@mui/material";
 import axios from "axios";
 function Dashboard() {
