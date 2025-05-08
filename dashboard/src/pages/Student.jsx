@@ -105,7 +105,7 @@ const Student = () => {
       <Box sx={{
         flexGrow: 1,
         bgcolor: "background.paper",
-        boxShadow: 3,
+
         p: 3,
         mt: 10,
       }}>
@@ -122,7 +122,7 @@ const Student = () => {
       </Box>
       <div style={{ padding: '20px', textAlign: 'right' }}>
 
-        <Button variant="contained" color="primary" onClick={() => setOpen(true)}>
+        <Button variant="contained" color="primary" sx={{ ":hover": { transform: 'translateY(-2px)' } }} onClick={() => setOpen(true)}>
           Add Student
         </Button>
         <ReusableModal
@@ -166,8 +166,8 @@ const Student = () => {
                   <TableCell>{student.course}</TableCell>
                   <TableCell>{student.year}</TableCell>
 
-                  <TableCell>
-                    <Button variant="contained" color="primary" onClick={() => {
+                  <TableCell sx={{ display: 'flex', gap: '10px' }}>
+                    <Button variant="contained" color="primary" sx={{ ":hover": { transform: 'translateY(-2px)' } }} onClick={() => {
                       setEditData({
                         idNumber: student.idNumber,
                         firstname: student.Firstname,
@@ -181,7 +181,7 @@ const Student = () => {
                       Edit
                     </Button>
 
-                    <Button variant="contained" color="error" onClick={() => handleDelete(student.idNumber)}>
+                    <Button variant="contained" color="error" sx={{ ":hover": { transform: 'translateY(-2px)' } }} onClick={() => handleDelete(student.idNumber)}>
                       Delete
                     </Button>
                   </TableCell>

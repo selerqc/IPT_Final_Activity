@@ -66,20 +66,20 @@ const Navbar = () => {
 
     return (
         <>
-            <AppBar position="static" sx={{ p: 1, boxShadow: 0 }}>
+            <AppBar position="static" sx={{ p: 1, boxShadow: 3, bgcolor: 'white' }}>
                 <Container maxWidth="xl">
                     <Toolbar>
                         <IconButton
                             size="large"
                             edge="start"
-                            color="inherit"
+                            color="black"
                             aria-label="menu"
-                            sx={{ ml: -3 }}
+                            sx={{ ml: -5, mr: 2 }}
                             onClick={toggleDrawer(true)}
                         >
                             <MenuIcon />
                         </IconButton>
-                        <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+                        <Typography variant="h6" component="div" sx={{ flexGrow: 1, color: "black" }}>
                             Student Information System
                         </Typography>
                         <Avatar alt="Remy Sharp" src="/smu-emblem.png" sx={{ width: 50, height: 50 }} />

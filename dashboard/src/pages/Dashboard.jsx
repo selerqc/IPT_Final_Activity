@@ -2,6 +2,8 @@ import { React, useState, useEffect } from "react";
 import { Box, Typography } from "@mui/material";
 import axios from "axios";
 import Navbar from "../components/Navbar";
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
 function Dashboard() {
   const [studentCount, setStudentCount] = useState(0);
   const [userCount, setUserCount] = useState(0);
@@ -44,7 +46,7 @@ function Dashboard() {
           sx={{
             flexGrow: 1,
             bgcolor: "background.paper",
-            boxShadow: 3,
+
             p: 3,
             mt: 10,
           }}
@@ -59,14 +61,30 @@ function Dashboard() {
 
 
       </Box >
-      <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', mt: 3 }}>
-        <Typography variant="h5" gutterBottom>
-          Total Students: {studentCount}
-        </Typography>
-        <Typography variant="h5" gutterBottom>
-          Total Users: {userCount}
-        </Typography>
+      <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap', justifyContent: 'left', mt: 3, }}>
+        <Card sx={{ minWidth: 300, ":hover": { boxShadow: 3 } }}>
+          <CardContent>
+            <Typography variant="h5" component="div" sx={{ mb: 2, textAlign: 'left', }}>
+              Student Count
+            </Typography>
+            <Typography variant="h5" component="p" sx={{ mb: 2, textAlign: 'left', }}>
+              {studentCount}
+            </Typography>
+          </CardContent>
+        </Card>
+        <Card sx={{ minWidth: 300, ":hover": { boxShadow: 3 } }}>
+          <CardContent>
+            <Typography variant="h5" component="div" sx={{ mb: 2, textAlign: 'left', }}>
+              User Count
+            </Typography>
+            <Typography variant="h5" component="p" sx={{ mb: 2, textAlign: 'left', }}>
+              {userCount}
+            </Typography>
+          </CardContent>
+        </Card>
       </Box>
+
+
     </>
   );
 }

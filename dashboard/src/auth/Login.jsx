@@ -51,8 +51,6 @@ function Login() {
         {success && <Alert severity="success" sx={{ mb: 2 }}>{success}</Alert>}
 
 
-
-
         <form onSubmit={(e) => { e.preventDefault(); handleLogin(); }}>
           <TextField
             fullWidth
@@ -61,6 +59,7 @@ function Login() {
             margin="normal"
             type="email"
             inputRef={emailRef}
+
           />
           <TextField
             fullWidth
@@ -86,6 +85,7 @@ function Login() {
           Don&apos;t have an account? <Link to="/Signup" style={{ color: "blue" }}>Signup</Link>
         </Typography>
       </Box>
+
     </Container>
   );
 }

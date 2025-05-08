@@ -18,7 +18,11 @@ const EditModal = ({ open, onClose, data, handleChange, handleSubmit, title, fie
                         value={data[field]}
                         onChange={handleChange}
                         fullWidth
-                        disabled={field === 'userId' || field === 'idNumber'}
+                        slotProps={{
+                            input: {
+                                readOnly: field === 'idNumber' || field === "userId" ? true : false,
+                            }
+                        }}
                         margin='normal'
 
                     />

@@ -120,7 +120,6 @@ const Users = () => {
       <Box sx={{
         flexGrow: 1,
         bgcolor: "background.paper",
-        boxShadow: 3,
         p: 3,
         mt: 10
       }}>
@@ -137,7 +136,7 @@ const Users = () => {
       </Box>
 
       <div style={{ padding: '20px', textAlign: 'right' }}>
-        <Button variant="contained" color="primary" onClick={() => setOpen(true)}>
+        <Button variant="contained" color="primary" sx={{ ":hover": { transform: 'translateY(-2px)' } }} onClick={() => setOpen(true)}>
           Add User
         </Button>
         <ReusableModal
@@ -179,17 +178,17 @@ const Users = () => {
                   <TableCell>{user.lastname}</TableCell>
                   <TableCell>{user.middlename}</TableCell>
                   <TableCell>{user.email}</TableCell>
-                  <TableCell sx={{}}>{user.password.slice(0, 6)}</TableCell>
+                  <TableCell sx={{}}>Password is Hashed!!!</TableCell>
                   <TableCell sx={{ display: 'flex', gap: '10px' }}>
-                    <Button variant="contained" color="primary" onClick={() => handleEdit(user)}>Edit</Button>
-                    <Button variant="contained" color="error" onClick={() => handleDelete(user.userId)}>Delete</Button>
+                    <Button variant="contained" color="primary" sx={{ ":hover": { transform: 'translateY(-2px)' } }} onClick={() => handleEdit(user)}>Edit</Button>
+                    <Button variant="contained" color="error" sx={{ ":hover": { transform: 'translateY(-2px)' } }} onClick={() => handleDelete(user.userId)}>Delete</Button>
                   </TableCell>
                 </TableRow>
               ))}
             </TableBody>
           </Table>
         </TableContainer>
-      </div>
+      </div >
 
     </>
   );
