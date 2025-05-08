@@ -1,7 +1,7 @@
 import { React, useState, useEffect } from "react";
-import Sidebar from "./Sidebar";
 import { Box, Typography } from "@mui/material";
 import axios from "axios";
+import Navbar from "../components/Navbar";
 function Dashboard() {
   const [studentCount, setStudentCount] = useState(0);
   const [userCount, setUserCount] = useState(0);
@@ -34,8 +34,11 @@ function Dashboard() {
     , []);
   return (
     <>
+      <Box sx={{ top: 0, left: 0, position: "fixed", width: "100%" }}>
+        <Navbar />
+      </Box>
       <Box sx={{ display: "flex" }}>
-        <Sidebar />
+
         <Box
           component="main"
           sx={{
@@ -43,6 +46,7 @@ function Dashboard() {
             bgcolor: "background.paper",
             boxShadow: 3,
             p: 3,
+            mt: 10,
           }}
         >
           <Typography variant="h4" gutterBottom>

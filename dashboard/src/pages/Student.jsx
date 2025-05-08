@@ -2,10 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button, Typography, Box } from '@mui/material';
 import ReusableModal from '../components/AddModal';
 import EditModal from '../components/EditModal';
-import Sidebar from './Sidebar';
+
 import axios from 'axios';
 import SimpleAlert from '../components/SimpleAlert';
-import Alert from '@mui/material/Alert';
+import Navbar from '../components/Navbar';
 const Student = () => {
   const [open, setOpen] = useState(false);
   const [editOpen, setEditOpen] = useState(false);
@@ -93,6 +93,9 @@ const Student = () => {
   };
   return (
     <>
+      <Box sx={{ top: 0, left: 0, position: "fixed", width: "100%" }}>
+        <Navbar />
+      </Box>
       {alert.visible && (
         <SimpleAlert
           message={alert.message}
@@ -104,6 +107,7 @@ const Student = () => {
         bgcolor: "background.paper",
         boxShadow: 3,
         p: 3,
+        mt: 10,
       }}>
         <div className="user-header">
           <Typography variant="h4" gutterBottom>
@@ -117,7 +121,7 @@ const Student = () => {
 
       </Box>
       <div style={{ padding: '20px', textAlign: 'right' }}>
-        <Sidebar />
+
         <Button variant="contained" color="primary" onClick={() => setOpen(true)}>
           Add Student
         </Button>

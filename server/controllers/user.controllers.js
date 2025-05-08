@@ -1,5 +1,6 @@
 const UserModel = require('../models/userModel');
 const validator = require('validator');
+const argon2 = require('argon2');
 const UserControllers = {
 
   addUser: async (req, res) => {
@@ -10,6 +11,11 @@ const UserControllers = {
     if (containsDuplicate) throw ("User already exists");
 
     if (!validator.isEmail(email)) throw ("Invalid email address");
+    if (!validator.isEmail(email)) throw "Invalid email address";
+    if (password.length < 8) throw "Password must be at least 8 characters long";
+    if (!validator.isStrongPassword(password)) throw "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character";
+
+    const hashedPassword = await argon2.hash(password);
 
 
     UserModel.create({
@@ -17,7 +23,7 @@ const UserControllers = {
       lastname: lastname,
       middlename: middlename,
       email: email,
-      password: password,
+      password: hashedPassword,
     });
 
     res.status(200).json({

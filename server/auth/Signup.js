@@ -1,5 +1,6 @@
 const userModel = require("../models/userModel");
 const validator = require("validator");
+const argon2 = require('argon2');
 const Signup = async (req, res) => {
     const { firstname, lastname, middlename, email, password, confirmPassword } = req.body;
     console.log(req.body);
@@ -12,14 +13,14 @@ const Signup = async (req, res) => {
     if (password.length < 8) throw "Password must be at least 8 characters long";
     if (!validator.isStrongPassword(password)) throw "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character";
 
-
+    const hashedPassword = await argon2.hash(password);
 
     const newUser = await userModel.create({
         firstname: firstname,
         lastname: lastname,
         middlename: middlename,
         email: email,
-        password: password,
+        password: hashedPassword,
     });
     res.status(200).json({
         message: `Signup Successful, Welcome ${newUser.Firstname}`,

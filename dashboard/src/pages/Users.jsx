@@ -2,11 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button, Typography } from '@mui/material';
 import ReusableModal from '../components/AddModal';
 import EditModal from '../components/EditModal';
-import Sidebar from './Sidebar';
 import axios from 'axios';
 import Box from '@mui/material/Box';
 import SimpleAlert from '../components/SimpleAlert';
-
+import Navbar from '../components/Navbar';
 const Users = () => {
   const [open, setOpen] = useState(false);
   const [editOpen, setEditOpen] = useState(false);
@@ -48,7 +47,6 @@ const Users = () => {
   };
 
   const handleSubmit = () => {
-
     axios.post('http://localhost:1337/api/addUser', {
       firstname: data.firstname,
       lastname: data.lastname,
@@ -57,21 +55,17 @@ const Users = () => {
       password: data.password
     })
       .then((response) => {
-        setAlert({ message: 'User added successfully!', severity: 'success', visible: true });
         fetchUsers();
+        setAlert({ message: 'User added successfully!', severity: 'success', visible: true });
+
+        setOpen(false);
       })
       .catch((error) => {
-        setAlert({ message: 'Error adding user!', severity: 'error', visible: true });
+        setAlert({ message: error.response.data.message, severity: 'error', visible: true });
+        console.log(error)
       });
-    setData({
-      userId: '',
-      firstname: '',
-      lastname: '',
-      middlename: '',
-      email: '',
-      password: ''
-    });
-    setOpen(false);
+
+
   };
 
   const handleEdit = (user) => {
@@ -117,6 +111,9 @@ const Users = () => {
 
   return (
     <>
+      <Box sx={{ top: 0, left: 0, position: "fixed", width: "100%" }}>
+        <Navbar />
+      </Box>
       {alert.visible && (
         <SimpleAlert message={alert.message} severity={alert.severity} />
       )}
@@ -124,7 +121,8 @@ const Users = () => {
         flexGrow: 1,
         bgcolor: "background.paper",
         boxShadow: 3,
-        p: 3
+        p: 3,
+        mt: 10
       }}>
         <div className="user-header">
           <Typography variant="h4" gutterBottom>
@@ -158,7 +156,7 @@ const Users = () => {
           handleChange={handleChange}
           handleSubmit={handleEditSubmit}
           title="Edit User"
-          fields={["userId", "firstname", "lastname", "middlename", "email", "password"]}
+          fields={["userId", "firstname", "lastname", "middlename", "email",]}
         />
         <TableContainer component={Paper} sx={{ mt: 4 }}>
           <Table>
@@ -181,10 +179,10 @@ const Users = () => {
                   <TableCell>{user.lastname}</TableCell>
                   <TableCell>{user.middlename}</TableCell>
                   <TableCell>{user.email}</TableCell>
-                  <TableCell>{user.password}</TableCell>
-                  <TableCell>
+                  <TableCell sx={{}}>{user.password.slice(0, 6)}</TableCell>
+                  <TableCell sx={{ display: 'flex', gap: '10px' }}>
                     <Button variant="contained" color="primary" onClick={() => handleEdit(user)}>Edit</Button>
-                    <Button variant="contained" color="error" onClick={() => handleDelete}>Delete</Button>
+                    <Button variant="contained" color="error" onClick={() => handleDelete(user.userId)}>Delete</Button>
                   </TableCell>
                 </TableRow>
               ))}
@@ -192,7 +190,7 @@ const Users = () => {
           </Table>
         </TableContainer>
       </div>
-      <Sidebar />
+
     </>
   );
 };

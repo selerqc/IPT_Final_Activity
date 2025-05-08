@@ -1,36 +1,32 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { TextField, Button, Box, Typography, Container, Alert } from '@mui/material';
 import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
 const Signup = () => {
     const navigate = useNavigate();
-    const [formData, setFormData] = useState({
-        firstname: '',
-        lastname: '',
-        middlename: '',
-        email: '',
-        password: '',
-        confirmPassword: ''
-    });
+
+    const firstnameRef = useRef(null);
+    const lastnameRef = useRef(null);
+    const middlenameRef = useRef(null);
+    const emailRef = useRef(null);
+    const passwordRef = useRef(null);
+    const confirmPasswordRef = useRef(null);
+
     const [success, setSuccess] = useState('');
     const [error, setError] = useState('');
 
-    const handleChange = (e) => {
-        setFormData({
-            ...formData, [e.target.name]: e.target.value
-        });
-    };
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(formData)
+
         await axios.post('http://localhost:1337/api/Signup', {
-            firstname: formData.firstname,
-            lastname: formData.lastname,
-            middlename: formData.middlename,
-            email: formData.email,
-            password: formData.password,
-            confirmPassword: formData.confirmPassword
+            firstname: firstnameRef.current.value,
+            lastname: lastnameRef.current.value,
+            middlename: middlenameRef.current.value,
+            email: emailRef.current.value,
+            password: passwordRef.current.value,
+            confirmPassword: confirmPasswordRef.current.value
         })
             .then((res) => {
 
@@ -62,17 +58,14 @@ const Signup = () => {
                         fullWidth
                         label="Firstname"
                         name="firstname"
-                        value={formData.firstname}
-                        onChange={handleChange}
+                        inputRef={firstnameRef}
                         margin="normal"
-
                     />
                     <TextField
                         fullWidth
                         label="Middlename"
                         name="middlename"
-                        value={formData.middlename}
-                        onChange={handleChange}
+                        inputRef={middlenameRef}
                         margin="normal"
 
                     />
@@ -80,18 +73,16 @@ const Signup = () => {
                         fullWidth
                         label="Lastname"
                         name="lastname"
-                        value={formData.lastname}
-                        onChange={handleChange}
+                        inputRef={lastnameRef}
                         margin="normal"
 
                     />
                     <TextField
                         fullWidth
-                        label="Email"
+                        label="your@email.com"
                         name="email"
                         type="email"
-                        value={formData.email}
-                        onChange={handleChange}
+                        inputRef={emailRef}
                         margin="normal"
 
                     />
@@ -100,8 +91,7 @@ const Signup = () => {
                         label="Password"
                         name="password"
                         type="password"
-                        value={formData.password}
-                        onChange={handleChange}
+                        inputRef={passwordRef}
                         margin="normal"
 
                     />
@@ -110,8 +100,7 @@ const Signup = () => {
                         label="Confirm Password"
                         name="confirmPassword"
                         type="password"
-                        value={formData.confirmPassword}
-                        onChange={handleChange}
+                        inputRef={confirmPasswordRef}
                         margin="normal"
 
                     />

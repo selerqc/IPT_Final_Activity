@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import {
@@ -11,23 +11,18 @@ import {
 } from "@mui/material";
 
 function Login() {
-  const [loginData, setLoginData] = useState({
-    email: "",
-    password: "",
-  });
+  const emailRef = useRef(null);
+  const passwordRef = useRef(null);
   const [success, setSuccess] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
   const handleLogin = async () => {
-    if (!loginData.email || !loginData.password) {
-      setError("Please fill in all fields");
-      return;
-    }
+
     try {
       const res = await axios.post(`http://localhost:1337/api/Login`, {
-        email: loginData.email,
-        password: loginData.password,
+        email: emailRef.current.value,
+        password: passwordRef.current.value,
       });
       setSuccess(res.data.status);
       setError("");
@@ -60,16 +55,12 @@ function Login() {
 
         <form onSubmit={(e) => { e.preventDefault(); handleLogin(); }}>
           <TextField
-
             fullWidth
             label="Email"
             variant="outlined"
             margin="normal"
             type="email"
-
-            value={loginData.email}
-
-            onChange={(e) => setLoginData({ ...loginData, email: e.target.value })}
+            inputRef={emailRef}
           />
           <TextField
             fullWidth
@@ -77,9 +68,7 @@ function Login() {
             variant="outlined"
             margin="normal"
             type="password"
-
-            value={loginData.password}
-            onChange={(e) => setLoginData({ ...loginData, password: e.target.value })}
+            inputRef={passwordRef}
           />
 
 
