@@ -28,7 +28,10 @@ const StudentModel = new mongoose.Schema({
         type: String,
         required: [true, "Year is required"],
     },
-
+    isDeleted: {
+        type: Boolean,
+        default: false,
+    },
 
 }, {
     collection: "student-data"

@@ -26,9 +26,13 @@ const UserSchema = new mongoose.Schema(
       type: String,
       required: [true, "Password is required"],
     },
-   
-  },{
-    collection:"user-data"
+    isDeleted: {
+      type: Boolean,
+      default: false,
+    },
+
+  }, {
+  collection: "user-data"
 }
 );
 

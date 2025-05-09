@@ -24,6 +24,7 @@ const UserControllers = {
       middlename: middlename,
       email: email,
       password: hashedPassword,
+      isDeleted: false,
     });
 
     res.status(200).json({
@@ -35,8 +36,10 @@ const UserControllers = {
     let { userId } = req.params;
     if (!userId) throw ("Please provide a userId");
 
-    await UserModel.findOneAndDelete({
+    await UserModel.findOneAndUpdate({
       userId: userId,
+    }, {
+      isDeleted: true,
     });
 
     res.status(200).json({
@@ -45,11 +48,15 @@ const UserControllers = {
     })
   },
   getUsers: async (req, res) => {
-    const data = await UserModel.find({}).select({
+    const data = await UserModel.find({
+      isDeleted: false,
+    }).select({
       _id: 0,
       __v: 0,
     });
-    const userCount = await UserModel.countDocuments({});
+    const userCount = await UserModel.countDocuments({
+      isDeleted: false,
+    });
     console.log(data);
     res.status(200).json({
       message: "Users Data",

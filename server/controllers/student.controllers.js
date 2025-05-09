@@ -13,6 +13,7 @@ const StudentControllers = {
         Middlename,
         course,
         year,
+        isDeleted: false,
       });
       res.status(200).json({
         message: "New Student Added",
@@ -30,8 +31,11 @@ const StudentControllers = {
   deleteStudent: async (req, res) => {
     const { idNumber } = req.params;
     if (!idNumber) throw ("Please provide a student idNumber");
-    await StudentModel.findOneAndDelete({
-      idNumber: idNumber
+    await StudentModel.findOneAndUpdate({
+      idNumber: idNumber,
+
+    }, {
+      isDeleted: true,
     })
     res.status(200).json({
       message: "Student deleted successfully"
@@ -39,8 +43,11 @@ const StudentControllers = {
   },
   getStudents: async (req, res) => {
 
-    const data = await StudentModel.find({});
-    const studentCount = await StudentModel.countDocuments({});
+    const data = await StudentModel.find({
+      isDeleted: false,
+    });
+
+    const studentCount = await StudentModel.countDocuments({ isDeleted: false });
 
     res.status(200).json({
       message: "Students Data",
