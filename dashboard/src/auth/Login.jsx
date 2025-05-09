@@ -8,18 +8,22 @@ import {
   TextField,
   Typography,
   Alert,
-
+  InputAdornment,
 } from "@mui/material";
-import InputAdornment from '@mui/material/InputAdornment';
-import LockOpenIcon from '@mui/icons-material/LockOpen';
-import MailIcon from '@mui/icons-material/Mail';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import LockOpenIcon from "@mui/icons-material/LockOpen";
+import MailIcon from "@mui/icons-material/Mail";
+
 function Login() {
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
   const [success, setSuccess] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  const [showPassword, setShowPassword] = useState(false);
 
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
   const handleLogin = async () => {
 
     try {
@@ -46,11 +50,9 @@ function Login() {
           borderRadius: 2,
           textAlign: "center",
         }}
-
       >
-        <Typography variant="h4" gutterBottom >
+        <Typography variant="h4" gutterBottom>
           Welcome Back
-
         </Typography>
         <Typography variant="body1" gutterBottom sx={{ mb: 2 }}>
           Please login to your account
@@ -58,62 +60,67 @@ function Login() {
         {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
         {success && <Alert severity="success" sx={{ mb: 2 }}>{success}</Alert>}
 
+        <Box sx={{ mt: 2 }}>
+          <form onSubmit={(e) => { e.preventDefault(); handleLogin(); }} method="POST">
+            <TextField
+              fullWidth
+              label="Email"
+              variant="standard"
+              margin="normal"
+              type="email"
+              inputRef={emailRef}
+              slotProps={{
+                input: {
 
-        <form onSubmit={(e) => { e.preventDefault(); handleLogin(); }} method="POST">
-          <TextField
-            fullWidth
-            label="Email"
-            variant="standard"
-            margin="normal"
-            type="email"
-            inputRef={emailRef}
-
-
-            slotProps={{
-              input: {
-
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <MailIcon />
-                  </InputAdornment>
-                ),
-              }
-            }}
-          />
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <MailIcon />
+                    </InputAdornment>
+                  ),
+                }
+              }}
+            />
 
 
 
-          <TextField
-            fullWidth
-            label="Password"
-            variant="standard"
-            margin="normal"
-            type="password"
-            inputRef={passwordRef}
+            <TextField
+              fullWidth
+              label="Password"
+              variant="standard"
+              margin="normal"
+              type="password"
+              inputRef={passwordRef}
+              slotProps={{
 
-            slotProps={{
-              input: {
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <LockOpenIcon />
-                  </InputAdornment>
-                ),
-              }
-            }}
-          />
+                input: {
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <LockOpenIcon />
+                    </InputAdornment>
+                  ),
+                  type: showPassword ? 'text' : 'password',
+                  endAdornment: (
+                    <InputAdornment position="end" onClick={handleClickShowPassword}>
+                      {showPassword ? <VisibilityOff /> : <Visibility />}
+                    </InputAdornment>
+                  ),
+                }
+              }}
+            />
 
 
 
-          <Button
-            fullWidth
-            variant="contained"
-            color="primary"
-            sx={{ mt: 2 }}
-            type="submit"
-          >
-            Login
-          </Button>
-        </form>
+            <Button
+              fullWidth
+              variant="contained"
+              color="primary"
+              sx={{ mt: 2 }}
+              type="submit"
+            >
+              Login
+            </Button>
+          </form>
+        </Box>
         <Typography variant="body2" sx={{ mt: 2 }}>
           Don&apos;t have an account? <Link to="/Signup" style={{ color: "blue" }}>Signup</Link>
         </Typography>

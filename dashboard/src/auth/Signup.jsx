@@ -4,10 +4,14 @@ import InputAdornment from '@mui/material/InputAdornment';
 import MailIcon from '@mui/icons-material/Mail';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
-
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
 const Signup = () => {
+    const [showPassword, setShowPassword] = useState(false);
+
+    const handleClickShowPassword = () => setShowPassword((show) => !show);
     const navigate = useNavigate();
 
     const firstnameRef = useRef(null);
@@ -146,6 +150,12 @@ const Signup = () => {
                                         <LockOpenIcon />
                                     </InputAdornment>
                                 ),
+                                type: showPassword ? 'text' : 'password',
+                                endAdornment: (
+                                    <InputAdornment position="end" onClick={handleClickShowPassword}>
+                                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                                    </InputAdornment>
+                                ),
                             },
                         }}
 
@@ -163,6 +173,12 @@ const Signup = () => {
                                 startAdornment: (
                                     <InputAdornment position="start">
                                         <LockOpenIcon />
+                                    </InputAdornment>
+                                ),
+                                type: showPassword ? 'text' : 'password',
+                                endAdornment: (
+                                    <InputAdornment position="end" onClick={handleClickShowPassword}>
+                                        {showPassword ? <VisibilityOff /> : <Visibility />}
                                     </InputAdornment>
                                 ),
                             },
