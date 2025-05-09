@@ -1,5 +1,10 @@
 import React, { useState, useRef } from 'react';
 import { TextField, Button, Box, Typography, Container, Alert } from '@mui/material';
+import InputAdornment from '@mui/material/InputAdornment';
+import MailIcon from '@mui/icons-material/Mail';
+import AccountBoxIcon from '@mui/icons-material/AccountBox';
+import LockOpenIcon from '@mui/icons-material/LockOpen';
+
 import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
 const Signup = () => {
@@ -53,13 +58,23 @@ const Signup = () => {
                 {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
                 {success && <Alert severity="success" sx={{ mb: 2 }}>{success}</Alert>}
 
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={handleSubmit} method="POST">
                     <TextField
                         fullWidth
                         label="Firstname"
                         name="firstname"
                         inputRef={firstnameRef}
                         margin="normal"
+                        variant="standard"
+                        slotProps={{
+                            input: {
+                                startAdornment: (
+                                    <InputAdornment position="start">
+                                        <AccountBoxIcon />
+                                    </InputAdornment>
+                                ),
+                            },
+                        }}
                     />
                     <TextField
                         fullWidth
@@ -67,6 +82,16 @@ const Signup = () => {
                         name="middlename"
                         inputRef={middlenameRef}
                         margin="normal"
+                        variant="standard"
+                        slotProps={{
+                            input: {
+                                startAdornment: (
+                                    <InputAdornment position="start">
+                                        <AccountBoxIcon />
+                                    </InputAdornment>
+                                ),
+                            },
+                        }}
 
                     />
                     <TextField
@@ -75,15 +100,35 @@ const Signup = () => {
                         name="lastname"
                         inputRef={lastnameRef}
                         margin="normal"
+                        variant="standard"
+                        slotProps={{
+                            input: {
+                                startAdornment: (
+                                    <InputAdornment position="start">
+                                        <AccountBoxIcon />
+                                    </InputAdornment>
+                                ),
+                            },
+                        }}
 
                     />
                     <TextField
                         fullWidth
-                        label="your@email.com"
+                        label="Email"
                         name="email"
                         type="email"
                         inputRef={emailRef}
                         margin="normal"
+                        variant="standard"
+                        slotProps={{
+                            input: {
+                                startAdornment: (
+                                    <InputAdornment position="start">
+                                        <MailIcon />
+                                    </InputAdornment>
+                                ),
+                            },
+                        }}
 
                     />
                     <TextField
@@ -93,6 +138,16 @@ const Signup = () => {
                         type="password"
                         inputRef={passwordRef}
                         margin="normal"
+                        variant="standard"
+                        slotProps={{
+                            input: {
+                                startAdornment: (
+                                    <InputAdornment position="start">
+                                        <LockOpenIcon />
+                                    </InputAdornment>
+                                ),
+                            },
+                        }}
 
                     />
                     <TextField
@@ -102,6 +157,16 @@ const Signup = () => {
                         type="password"
                         inputRef={confirmPasswordRef}
                         margin="normal"
+                        variant="standard"
+                        slotProps={{
+                            input: {
+                                startAdornment: (
+                                    <InputAdornment position="start">
+                                        <LockOpenIcon />
+                                    </InputAdornment>
+                                ),
+                            },
+                        }}
 
                     />
                     <Button

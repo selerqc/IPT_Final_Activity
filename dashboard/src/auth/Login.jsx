@@ -8,8 +8,11 @@ import {
   TextField,
   Typography,
   Alert,
-} from "@mui/material";
 
+} from "@mui/material";
+import InputAdornment from '@mui/material/InputAdornment';
+import LockOpenIcon from '@mui/icons-material/LockOpen';
+import MailIcon from '@mui/icons-material/Mail';
 function Login() {
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
@@ -43,32 +46,62 @@ function Login() {
           borderRadius: 2,
           textAlign: "center",
         }}
+
       >
-        <Typography variant="h4" gutterBottom>
-          Login
+        <Typography variant="h4" gutterBottom >
+          Welcome Back
+
+        </Typography>
+        <Typography variant="body1" gutterBottom sx={{ mb: 2 }}>
+          Please login to your account
         </Typography>
         {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
         {success && <Alert severity="success" sx={{ mb: 2 }}>{success}</Alert>}
 
 
-        <form onSubmit={(e) => { e.preventDefault(); handleLogin(); }}>
+        <form onSubmit={(e) => { e.preventDefault(); handleLogin(); }} method="POST">
           <TextField
             fullWidth
             label="Email"
-            variant="outlined"
+            variant="standard"
             margin="normal"
             type="email"
             inputRef={emailRef}
 
+
+            slotProps={{
+              input: {
+
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <MailIcon />
+                  </InputAdornment>
+                ),
+              }
+            }}
           />
+
+
+
           <TextField
             fullWidth
             label="Password"
-            variant="outlined"
+            variant="standard"
             margin="normal"
             type="password"
             inputRef={passwordRef}
+
+            slotProps={{
+              input: {
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <LockOpenIcon />
+                  </InputAdornment>
+                ),
+              }
+            }}
           />
+
 
 
           <Button
@@ -86,7 +119,7 @@ function Login() {
         </Typography>
       </Box>
 
-    </Container>
+    </Container >
   );
 }
 
