@@ -159,16 +159,7 @@ function Login() {
                 }
                 label={<Typography variant="body2">Remember me</Typography>}
               />
-              <Link
-                to="/forgot-password"
-                style={{
-                  color: "primary.main",
-                  textDecoration: 'none',
-                  fontSize: '0.875rem'
-                }}
-              >
-                Forgot password?
-              </Link>
+
             </Box>
 
             <Button
@@ -185,21 +176,18 @@ function Login() {
                   transform: 'translateY(-1px)',
                   boxShadow: 2,
                 },
-                transition: 'all 0.2s'
+
               }}
             >
-              {loading ? (
-                <CircularProgress size={24} color="inherit" />
-              ) : (
-                'Login'
-              )}
+              Login
             </Button>
-          </Box>          <Typography variant="body2" sx={{ mt: 3, textAlign: "center" }}>
+          </Box>
+          <Typography variant="body2" sx={{ mt: 3, textAlign: "left" }}>
             Don&apos;t have an account?{' '}
             <Link
               to="/Signup"
               style={{
-                color: "primary.main",
+                color: "blue",
                 textDecoration: 'none',
                 fontWeight: 500
               }}

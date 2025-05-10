@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import Drawer from '@mui/material/Drawer';
@@ -52,8 +51,8 @@ const Navbar = () => {
             <List>
                 {NAVIGATION.map((item, index) => (
                     <ListItem key={item.text} disablePadding>
-                        <ListItemButton onClick={() => navigate(item.path)} sx={{ ":hover": { backgroundColor: "#E0E1DD" } }}>
-                            <ListItemIcon sx={{ color: 'black' }}>
+                        <ListItemButton onClick={() => navigate(item.path)} sx={{ ":hover": { backgroundColor: "#E0E1DD" }, }}>
+                            <ListItemIcon sx={{ color: 'black', }}>
                                 {item.icon}
                             </ListItemIcon>
                             <ListItemText primary={item.text} />
