@@ -14,7 +14,7 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import LockOpenIcon from "@mui/icons-material/LockOpen";
 import MailIcon from "@mui/icons-material/Mail";
-
+import AccountCircle from '@mui/icons-material/AccountCircle';
 function Login() {
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
@@ -60,56 +60,38 @@ function Login() {
         {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
         {success && <Alert severity="success" sx={{ mb: 2 }}>{success}</Alert>}
 
-        <Box sx={{ mt: 2 }}>
+        <Box >
           <form onSubmit={(e) => { e.preventDefault(); handleLogin(); }} method="POST">
-            <TextField
-              fullWidth
-              label="Email"
-              variant="standard"
-              margin="normal"
-              type="email"
-              inputRef={emailRef}
-              slotProps={{
-                input: {
+            <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
+              <MailIcon sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
+              <TextField
+                label="Email"
+                variant="standard"
 
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <MailIcon />
-                    </InputAdornment>
-                  ),
-                }
-              }}
-            />
-
-
-
-            <TextField
-              fullWidth
-              label="Password"
-              variant="standard"
-              margin="normal"
-              type="password"
-              inputRef={passwordRef}
-              slotProps={{
-
-                input: {
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <LockOpenIcon />
-                    </InputAdornment>
-                  ),
-                  type: showPassword ? 'text' : 'password',
-                  endAdornment: (
-                    <InputAdornment position="end" onClick={handleClickShowPassword}>
-                      {showPassword ? <VisibilityOff /> : <Visibility />}
-                    </InputAdornment>
-                  ),
-                }
-              }}
-            />
-
-
-
+                fullWidth
+                type="email"
+                inputRef={emailRef} />
+            </Box>
+            <Box sx={{ display: 'flex', alignItems: 'flex-end', mt: 2 }}>
+              <LockOpenIcon sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
+              <TextField
+                fullWidth
+                label="Password"
+                variant="standard"
+                type="password"
+                inputRef={passwordRef}
+                slotProps={{
+                  input: {
+                    type: showPassword ? 'text' : 'password',
+                    endAdornment: (
+                      <InputAdornment position="end" onClick={handleClickShowPassword} sx={{ cursor: 'pointer' }}>
+                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                      </InputAdornment>
+                    ),
+                  }
+                }}
+              />
+            </Box>
             <Button
               fullWidth
               variant="contained"
@@ -121,7 +103,7 @@ function Login() {
             </Button>
           </form>
         </Box>
-        <Typography variant="body2" sx={{ mt: 2 }}>
+        <Typography variant="body2" sx={{ mt: 2, textAlign: "left" }}>
           Don&apos;t have an account? <Link to="/Signup" style={{ color: "blue" }}>Signup</Link>
         </Typography>
       </Box>

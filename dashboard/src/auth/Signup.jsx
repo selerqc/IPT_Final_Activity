@@ -62,139 +62,113 @@ const Signup = () => {
                 {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
                 {success && <Alert severity="success" sx={{ mb: 2 }}>{success}</Alert>}
 
-                <form onSubmit={handleSubmit} method="POST">
-                    <TextField
-                        fullWidth
-                        label="Firstname"
-                        name="firstname"
-                        inputRef={firstnameRef}
-                        margin="normal"
-                        variant="standard"
-                        slotProps={{
-                            input: {
-                                startAdornment: (
-                                    <InputAdornment position="start">
-                                        <AccountBoxIcon />
-                                    </InputAdornment>
-                                ),
-                            },
-                        }}
-                    />
-                    <TextField
-                        fullWidth
-                        label="Middlename"
-                        name="middlename"
-                        inputRef={middlenameRef}
-                        margin="normal"
-                        variant="standard"
-                        slotProps={{
-                            input: {
-                                startAdornment: (
-                                    <InputAdornment position="start">
-                                        <AccountBoxIcon />
-                                    </InputAdornment>
-                                ),
-                            },
-                        }}
+                <Box>
+                    <form onSubmit={handleSubmit} method="POST" >
+                        <Box sx={{ display: 'flex', alignItems: 'flex-end', mt: 2 }}>
+                            <AccountBoxIcon sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
+                            <TextField
+                                fullWidth
+                                label="Firstname"
+                                name="firstname"
+                                inputRef={firstnameRef}
+                                variant="standard"
+                            />
+                        </Box>
+                        <Box sx={{ display: 'flex', alignItems: 'flex-end', mt: 2 }}>
+                            <AccountBoxIcon sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
 
-                    />
-                    <TextField
-                        fullWidth
-                        label="Lastname"
-                        name="lastname"
-                        inputRef={lastnameRef}
-                        margin="normal"
-                        variant="standard"
-                        slotProps={{
-                            input: {
-                                startAdornment: (
-                                    <InputAdornment position="start">
-                                        <AccountBoxIcon />
-                                    </InputAdornment>
-                                ),
-                            },
-                        }}
+                            <TextField
+                                fullWidth
+                                label="Middlename"
+                                name="middlename"
+                                inputRef={middlenameRef}
 
-                    />
-                    <TextField
-                        fullWidth
-                        label="Email"
-                        name="email"
-                        type="email"
-                        inputRef={emailRef}
-                        margin="normal"
-                        variant="standard"
-                        slotProps={{
-                            input: {
-                                startAdornment: (
-                                    <InputAdornment position="start">
-                                        <MailIcon />
-                                    </InputAdornment>
-                                ),
-                            },
-                        }}
+                                variant="standard"
+                            />
+                        </Box>
+                        <Box sx={{ display: 'flex', alignItems: 'flex-end', mt: 2 }}>
+                            <AccountBoxIcon sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
+                            <TextField
+                                fullWidth
+                                label="Lastname"
+                                name="lastname"
+                                inputRef={lastnameRef}
+                                variant="standard"
 
-                    />
-                    <TextField
-                        fullWidth
-                        label="Password"
-                        name="password"
-                        type="password"
-                        inputRef={passwordRef}
-                        margin="normal"
-                        variant="standard"
-                        slotProps={{
-                            input: {
-                                startAdornment: (
-                                    <InputAdornment position="start">
-                                        <LockOpenIcon />
-                                    </InputAdornment>
-                                ),
-                                type: showPassword ? 'text' : 'password',
-                                endAdornment: (
-                                    <InputAdornment position="end" onClick={handleClickShowPassword}>
-                                        {showPassword ? <VisibilityOff /> : <Visibility />}
-                                    </InputAdornment>
-                                ),
-                            },
-                        }}
 
-                    />
-                    <TextField
-                        fullWidth
-                        label="Confirm Password"
-                        name="confirmPassword"
-                        type="password"
-                        inputRef={confirmPasswordRef}
-                        margin="normal"
-                        variant="standard"
-                        slotProps={{
-                            input: {
-                                startAdornment: (
-                                    <InputAdornment position="start">
-                                        <LockOpenIcon />
-                                    </InputAdornment>
-                                ),
-                                type: showPassword ? 'text' : 'password',
-                                endAdornment: (
-                                    <InputAdornment position="end" onClick={handleClickShowPassword}>
-                                        {showPassword ? <VisibilityOff /> : <Visibility />}
-                                    </InputAdornment>
-                                ),
-                            },
-                        }}
+                            />
+                        </Box>
+                        <Box sx={{ display: 'flex', alignItems: 'flex-end', mt: 2 }}>
+                            <MailIcon sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
 
-                    />
-                    <Button
-                        type="submit"
-                        variant="contained"
-                        color="primary"
-                        fullWidth
-                        sx={{ mt: 2 }}
-                    >
-                        Signup
-                    </Button>
-                </form>
+                            <TextField
+                                fullWidth
+                                label="Email"
+                                name="email"
+                                type="email"
+                                inputRef={emailRef}
+                                variant="standard"
+                            />
+                        </Box>
+                        <Box sx={{ display: 'flex', alignItems: 'flex-end', mt: 2 }}>
+                            <LockOpenIcon sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
+
+                            <TextField
+                                fullWidth
+                                label="Password"
+                                name="password"
+                                type="password"
+                                inputRef={passwordRef}
+                                variant="standard"
+                                slotProps={{
+                                    input: {
+
+                                        type: showPassword ? 'text' : 'password',
+                                        endAdornment: (
+                                            <InputAdornment position="end" onClick={handleClickShowPassword} sx={{ cursor: "pointer" }}>
+                                                {showPassword ? <VisibilityOff /> : <Visibility />}
+                                            </InputAdornment>
+                                        ),
+                                    },
+                                }}
+
+                            />
+                        </Box>
+                        <Box sx={{ display: 'flex', alignItems: 'flex-end', mt: 2 }}>
+                            <LockOpenIcon sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
+
+                            <TextField
+                                fullWidth
+                                label="Confirm Password"
+                                name="confirmPassword"
+                                type="password"
+                                inputRef={confirmPasswordRef}
+                                variant="standard"
+                                slotProps={{
+                                    input: {
+
+                                        type: showPassword ? 'text' : 'password',
+                                        endAdornment: (
+                                            <InputAdornment position="end" onClick={handleClickShowPassword} sx={{ cursor: "pointer" }}>
+                                                {showPassword ? <VisibilityOff /> : <Visibility />}
+                                            </InputAdornment>
+                                        ),
+                                    },
+                                }}
+
+                            />
+                        </Box>
+                        <Button
+                            type="submit"
+                            variant="contained"
+                            color="primary"
+                            fullWidth
+                            sx={{ mt: 2 }}
+                        >
+                            Signup
+                        </Button>
+                    </form>
+                </Box>
                 <Typography variant="body2" sx={{ mt: 2 }} align="center">
                     Already have an account?{' '}
                     <Link to="/" style={{ color: 'blue' }}>
