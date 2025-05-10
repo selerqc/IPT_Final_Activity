@@ -1,14 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button, Typography, Box } from '@mui/material';
+import {
+  Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper,
+  Button, Typography, Box, Grid2
+} from '@mui/material';
 import ReusableModal from '../components/AddModal';
 import EditModal from '../components/EditModal';
 
 import axios from 'axios';
 import SimpleAlert from '../components/SimpleAlert';
 import Navbar from '../components/Navbar';
+
 const Student = () => {
   const [open, setOpen] = useState(false);
   const [editOpen, setEditOpen] = useState(false);
+
   const [data, setData] = useState({
     Firstname: '',
     Lastname: '',
@@ -26,9 +31,10 @@ const Student = () => {
   });
   const [students, setStudents] = useState([]);
   const [alert, setAlert] = useState({ message: '', severity: '', visible: false });
-  useEffect(() => {
 
+  useEffect(() => {
     fetchStudents();
+
   }, []);
   useEffect(() => {
     if (alert.visible) {
@@ -38,14 +44,15 @@ const Student = () => {
       return () => clearTimeout(timer);
     }
   }, [alert]);
-  const fetchStudents = () => {
-    axios.get('http://localhost:1337/api/getStudents')
-      .then((response) => {
-        setStudents(response.data.students);
-      })
-      .catch((error) => {
-        console.error('Error fetching students:', error);
-      });
+  const fetchStudents = async () => {
+
+    try {
+      const response = await axios.get('http://localhost:1337/api/getStudents');
+      setStudents(response.data.students);
+    } catch (error) {
+      console.error('Error fetching students:', error);
+      setAlert({ message: 'Error fetching students!', severity: 'error', visible: true });
+    }
   };
 
   const handleChange = (e) => {
@@ -57,40 +64,53 @@ const Student = () => {
     setEditData((prevData) => ({ ...prevData, [name]: value }));
   };
 
-  const handleSubmit = () => {
-    axios.post('http://localhost:1337/api/addStudents', data)
-      .then((response) => {
-        setAlert({ message: 'Student added successfully!', severity: 'success', visible: true });
-        setStudents([...students, response.data.student]);
-      })
-      .catch((error) => {
-        setAlert({ message: 'Error adding student!', severity: 'error', visible: true });
-      });
-    setOpen(false);
+  const handleSubmit = async () => {
+    try {
+      const response = await axios.post('http://localhost:1337/api/addStudents', data);
+      setAlert({ message: 'Student added successfully!', severity: 'success', visible: true });
+      setStudents([...students, response.data.student]);
+      setOpen(false);
+      clearForm();
+    } catch (error) {
+      setAlert({ message: 'Error adding student!', severity: 'error', visible: true });
+    }
   };
 
-  const handleEditSubmit = () => {
+  const handleEditSubmit = async () => {
+    try {
+      await axios.patch(`http://localhost:1337/api/updateStudent/${editData.idNumber}`, editData);
+      setAlert({ message: 'Student updated successfully!', severity: 'success', visible: true });
+      await fetchStudents();
+      setEditOpen(false);
+    } catch (error) {
+      setAlert({ message: 'Error updating student!', severity: 'error', visible: true });
+    }
+  };
 
-    axios.patch(`http://localhost:1337/api/updateStudent/${editData.idNumber}`, editData)
-      .then((response) => {
-        setAlert({ message: 'Student updated successfully!', severity: 'success', visible: true });
-        fetchStudents();
-      })
-      .catch((error) => {
-        setAlert({ message: 'Error updating student!', severity: 'error', visible: true });
-      });
-    setEditOpen(false);
+  const handleDelete = async (id) => {
+    try {
+      await axios.delete(`http://localhost:1337/api/deleteStudents/${id}`);
+      setAlert({ message: 'Student deleted successfully!', severity: 'success', visible: true });
+      await fetchStudents();
+    } catch (error) {
+      setAlert({ message: 'Error deleting student!', severity: 'error', visible: true });
+    }
   };
-  const handleDelete = (id) => {
-    axios.delete(`http://localhost:1337/api/deleteStudents/${id}`)
-      .then((response) => {
-        setAlert({ message: 'Student deleted successfully!', severity: 'success', visible: true });
-        fetchStudents();
-      })
-      .catch((error) => {
-        setAlert({ message: 'Error deleting student!', severity: 'error', visible: true });
-      });
+
+  const clearForm = () => {
+    setData({
+      Firstname: '',
+      Lastname: '',
+      Middlename: '',
+      course: '',
+      year: ''
+    });
   };
+
+
+
+
+
   return (
     <>
       <Box sx={{ top: 0, left: 0, position: "fixed", width: "100%" }}>
@@ -105,26 +125,31 @@ const Student = () => {
       <Box sx={{
         flexGrow: 1,
         bgcolor: "background.paper",
-
         p: 3,
         mt: 10,
       }}>
         <div className="user-header">
-          <Typography variant="h4" gutterBottom>
+          <Typography variant="h4" gutterBottom sx={{ fontWeight: "bold" }}>
             Manage Students
           </Typography>
-          <Typography variant="body1">
-            List of Students
+          <Typography variant="body1" color="text.secondary" gutterBottom>
+            Manage student records
           </Typography>
         </div>
 
 
-      </Box>
-      <div style={{ padding: '20px', textAlign: 'right' }}>
+        <Grid2 item xs={12} md={4} sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2, mb: 2 }}>
+          <Button
+            variant="contained"
+            color="primary"
+            sx={{ ":hover": { transform: 'translateY(-2px)' } }}
+            onClick={() => setOpen(true)}
+          >
+            Add User
+          </Button>
+        </Grid2>
 
-        <Button variant="contained" color="primary" sx={{ ":hover": { transform: 'translateY(-2px)' } }} onClick={() => setOpen(true)}>
-          Add Student
-        </Button>
+
         <ReusableModal
           open={open}
           onClose={() => setOpen(false)}
@@ -143,17 +168,22 @@ const Student = () => {
           title="Edit Student"
           fields={["idNumber", "firstname", "lastname", "middlename", "course", "year"]}
         />
-        <TableContainer component={Paper} sx={{ mt: 4 }}>
+
+        <TableContainer component={Paper} sx={{
+          mt: 2,
+          boxShadow: 2,
+
+        }}>
           <Table>
             <TableHead>
-              <TableRow>
-                <TableCell>Id Number</TableCell>
-                <TableCell>Firstname</TableCell>
-                <TableCell>Lastname</TableCell>
-                <TableCell>Middlename</TableCell>
-                <TableCell>Course</TableCell>
-                <TableCell>Year</TableCell>
-                <TableCell>Actions</TableCell>
+              <TableRow sx={{ backgroundColor: "primary.main" }}>
+                <TableCell sx={{ color: "white", fontWeight: "bold" }}>Id Number</TableCell>
+                <TableCell sx={{ color: "white", fontWeight: "bold" }}>Firstname</TableCell>
+                <TableCell sx={{ color: "white", fontWeight: "bold" }}>Lastname</TableCell>
+                <TableCell sx={{ color: "white", fontWeight: "bold" }}>Middlename</TableCell>
+                <TableCell sx={{ color: "white", fontWeight: "bold" }}>Course</TableCell>
+                <TableCell sx={{ color: "white", fontWeight: "bold" }}>Year</TableCell>
+                <TableCell sx={{ color: "white", fontWeight: "bold" }}>Actions</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -165,33 +195,49 @@ const Student = () => {
                   <TableCell>{student.Middlename}</TableCell>
                   <TableCell>{student.course}</TableCell>
                   <TableCell>{student.year}</TableCell>
-
                   <TableCell sx={{ display: 'flex', gap: '10px' }}>
-                    <Button variant="contained" color="primary" sx={{ ":hover": { transform: 'translateY(-2px)' } }} onClick={() => {
-                      setEditData({
-                        idNumber: student.idNumber,
-                        firstname: student.Firstname,
-                        lastname: student.Lastname,
-                        middlename: student.Middlename,
-                        course: student.course,
-                        year: student.year,
-                      });
-                      setEditOpen(true);
-                    }}>
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      sx={{ ":hover": { transform: 'translateY(-2px)' } }}
+                      onClick={() => {
+                        setEditData({
+                          idNumber: student.idNumber,
+                          firstname: student.Firstname,
+                          lastname: student.Lastname,
+                          middlename: student.Middlename,
+                          course: student.course,
+                          year: student.year,
+                        });
+                        setEditOpen(true);
+                      }}
+                    >
                       Edit
                     </Button>
-
-                    <Button variant="contained" color="error" sx={{ ":hover": { transform: 'translateY(-2px)' } }} onClick={() => handleDelete(student.idNumber)}>
+                    <Button
+                      variant="contained"
+                      color="error"
+                      sx={{ ":hover": { transform: 'translateY(-2px)' } }}
+                      onClick={() => handleDelete(student.idNumber)}
+                    >
                       Delete
                     </Button>
                   </TableCell>
-
                 </TableRow>
               ))}
+              {students.length === 0 && (
+                <TableRow>
+                  <TableCell colSpan={7} sx={{ textAlign: 'center', py: 3 }}>
+                    <Typography variant="body1" color="text.secondary">
+                      No students found
+                    </Typography>
+                  </TableCell>
+                </TableRow>
+              )}
             </TableBody>
           </Table>
         </TableContainer>
-      </div>
+      </Box>
     </>
   );
 };
